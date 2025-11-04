@@ -1,0 +1,27 @@
+{
+    "name": "robotmk-bridge-plugin",
+    "author": "Simon Meggle, ELABIT GmbH",
+    "description": "Robot-Bridge acts as a universal adapter that converts results from any test tool into Robot Framework XML for seamless integration with Robotmk and Checkmk.",
+    "download_url": "https://github.com/elabit/robotmk-bridge-plugin/releases",
+    "title": "Robotmk Bridge Plugin",
+    "files": {
+        "agents": [
+            "plugins/robotmk-bridge-plugin.py"
+        ],
+        "cmk_addons_plugins": [
+            "robotmk/agent_based/robotmk-bridge-plugin.py",
+            "robotmk/graphing/graphing_robotmk-bridge-plugin.py"
+        ],
+        "lib": [
+            "check_mk/base/cee/plugins/bakery/robotmk-bridge-plugin.py"
+        ],
+        "web": [
+            "plugins/wato/robotmk_wato_params_bakery.py",
+            "plugins/wato/robotmk_wato_params_check.py",
+            "plugins/wato/robotmk_wato_params_discovery.py"
+        ]
+    },
+    "version.packaged": "2.4.0",
+    "version.min_required": "2.3.0p1",
+    "version.usable_until": "2.4.20"
+}

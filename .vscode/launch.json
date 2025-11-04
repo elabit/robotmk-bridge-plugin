@@ -1,0 +1,59 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "CMK2.4 bakery (af63b05c2f4d)",
+            "type": "python",
+            "request": "launch",
+            "program": "/omd/sites/cmk/bin/cmk",
+            "args": [
+                "-A",
+                "-v",
+                "-f",
+                "af63b05c2f4d"
+            ],
+            "console": "integratedTerminal",
+            "python": "/omd/sites/cmk/bin/python3",
+            "justMyCode": false
+        },
+        {
+            "name": "CMK2.4 Inventory (af63b05c2f4d)",
+            "type": "python",
+            "request": "launch",
+            "program": "/omd/sites/cmk/bin/cmk",
+            "args": [
+                "-v",
+                "-II",
+                "--debug",
+                "af63b05c2f4d"
+            ],
+            "console": "integratedTerminal",
+            "python": "/omd/sites/cmk/bin/python3",
+            "justMyCode": false
+        },
+        {
+            "name": "CMK2.4 check (af63b05c2f4d)",
+            "type": "python",
+            "request": "launch",
+            "program": "/omd/sites/cmk/bin/cmk",
+            "args": [
+                "-v",
+                "-n",
+                "-p",
+                "af63b05c2f4d"
+            ],
+            "console": "integratedTerminal",
+            "python": "/omd/sites/cmk/bin/python3",
+            "justMyCode": false
+        },
+        {
+            "name": "Python: Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "",
+            "console": "integratedTerminal",
+            "python": "/omd/sites/cmk/bin/python3",
+            "justMyCode": false
+        }
+    ]
+}

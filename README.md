@@ -33,7 +33,6 @@ The following directories in this repo are getting mapped into the Checkmk site.
 
 ### Local
 
-To build the package hit `Crtl`+`Shift`+`B` to execute the build task in VSCode.
 
 `pytest` can be executed from the terminal or the test ui.
 

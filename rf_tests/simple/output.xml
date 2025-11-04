@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.2.2 (Python 3.10.12 on linux)" generated="2025-03-28T16:10:02.359799" rpa="false" schemaversion="5">
+<suite id="s1" name="Globetrack App" source="/workspaces/robotmk/rf_tests/globetrack_tests/globetrack_app.robot">
+<test id="s1-t1" name="Successful Login" line="10">
+<kw name="CPU Random Sleep">
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-03-28T16:10:03.391693" level="INFO">${cpu_load} = 42.2</msg>
+<var>${cpu_load}</var>
+<arg>psutil.cpu_percent(interval=1)</arg>
+<arg>psutil</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-03-28T16:10:02.378367" elapsed="1.013374"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-03-28T16:10:03.392162" level="INFO">${base_sleep} = 4.220000000000001</msg>
+<var>${base_sleep}</var>
+<arg>${cpu_load} / 10</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-03-28T16:10:03.391901" elapsed="0.000287"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-03-28T16:10:03.392532" level="INFO">${random_addition} = 1.10764384621867</msg>
+<var>${random_addition}</var>
+<arg>random.uniform(${sec1},${sec2})</arg>
+<arg>random</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-03-28T16:10:03.392283" elapsed="0.000274"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-03-28T16:10:03.392803" level="INFO">${total_sleep} = 5.32764384621867</msg>
+<var>${total_sleep}</var>
+<arg>${base_sleep} + ${random_addition}</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-03-28T16:10:03.392641" elapsed="0.000179"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2025-03-28T16:10:08.721192" level="INFO">Slept 5 seconds 328 milliseconds.</msg>
+<arg>${total_sleep}</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2025-03-28T16:10:03.392881" elapsed="5.328571"/>
+</kw>
+<arg>1</arg>
+<arg>3</arg>
+<status status="PASS" start="2025-03-28T16:10:02.377967" elapsed="6.343711"/>
+</kw>
+<status status="PASS" start="2025-03-28T16:10:02.377471" elapsed="6.344604"/>
+</test>
+<test id="s1-t2" name="Validate Expense Submission" line="13">
+<kw name="CPU Random Sleep">
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-03-28T16:10:09.726562" level="INFO">${cpu_load} = 5.6</msg>
+<var>${cpu_load}</var>
+<arg>psutil.cpu_percent(interval=1)</arg>
+<arg>psutil</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-03-28T16:10:08.724162" elapsed="1.002512"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-03-28T16:10:09.727684" level="INFO">${base_sleep} = 0.5599999999999999</msg>
+<var>${base_sleep}</var>
+<arg>${cpu_load} / 10</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-03-28T16:10:09.727046" elapsed="0.000709"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-03-28T16:10:09.728710" level="INFO">${random_addition} = 2.179821466276401</msg>
+<var>${random_addition}</var>
+<arg>random.uniform(${sec1},${sec2})</arg>
+<arg>random</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-03-28T16:10:09.728015" elapsed="0.000762"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-03-28T16:10:09.729575" level="INFO">${total_sleep} = 2.739821466276401</msg>
+<var>${total_sleep}</var>
+<arg>${base_sleep} + ${random_addition}</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-03-28T16:10:09.729032" elapsed="0.000600"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2025-03-28T16:10:12.470348" level="INFO">Slept 2 seconds 740 milliseconds.</msg>
+<arg>${total_sleep}</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2025-03-28T16:10:09.729835" elapsed="2.740779"/>
+</kw>
+<arg>2</arg>
+<arg>3</arg>
+<status status="PASS" start="2025-03-28T16:10:08.723476" elapsed="3.747358"/>
+</kw>
+<status status="PASS" start="2025-03-28T16:10:08.722623" elapsed="3.748682"/>
+</test>
+<test id="s1-t3" name="Flight Booking Functionality" line="16">
+<kw name="CPU Random Sleep">
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-03-28T16:10:13.475723" level="INFO">${cpu_load} = 4.3</msg>
+<var>${cpu_load}</var>
+<arg>psutil.cpu_percent(interval=1)</arg>
+<arg>psutil</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-03-28T16:10:12.473853" elapsed="1.001924"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-03-28T16:10:13.476306" level="INFO">${base_sleep} = 0.43</msg>
+<var>${base_sleep}</var>
+<arg>${cpu_load} / 10</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-03-28T16:10:13.475967" elapsed="0.000389"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-03-28T16:10:13.476766" level="INFO">${random_addition} = 5.633009040092205</msg>
+<var>${random_addition}</var>
+<arg>random.uniform(${sec1},${sec2})</arg>
+<arg>random</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-03-28T16:10:13.476477" elapsed="0.000321"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-03-28T16:10:13.477137" level="INFO">${total_sleep} = 6.063009040092204</msg>
+<var>${total_sleep}</var>
+<arg>${base_sleep} + ${random_addition}</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-03-28T16:10:13.476905" elapsed="0.000259"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2025-03-28T16:10:19.540660" level="INFO">Slept 6 seconds 63 milliseconds.</msg>
+<arg>${total_sleep}</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2025-03-28T16:10:13.477263" elapsed="6.063641"/>
+</kw>
+<arg>4</arg>
+<arg>8</arg>
+<status status="PASS" start="2025-03-28T16:10:12.472916" elapsed="7.068184"/>
+</kw>
+<status status="PASS" start="2025-03-28T16:10:12.471905" elapsed="7.069651"/>
+</test>
+<test id="s1-t4" name="Password Reset Form" line="19">
+<kw name="CPU Random Sleep">
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-03-28T16:10:20.546011" level="INFO">${cpu_load} = 14.8</msg>
+<var>${cpu_load}</var>
+<arg>psutil.cpu_percent(interval=1)</arg>
+<arg>psutil</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-03-28T16:10:19.543643" elapsed="1.002471"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-03-28T16:10:20.547305" level="INFO">${base_sleep} = 1.48</msg>
+<var>${base_sleep}</var>
+<arg>${cpu_load} / 10</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-03-28T16:10:20.546480" elapsed="0.000905"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-03-28T16:10:20.548260" level="INFO">${random_addition} = 3.8509368878418044</msg>
+<var>${random_addition}</var>
+<arg>random.uniform(${sec1},${sec2})</arg>
+<arg>random</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-03-28T16:10:20.547633" elapsed="0.000702"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-03-28T16:10:20.549131" level="INFO">${total_sleep} = 5.330936887841805</msg>
+<var>${total_sleep}</var>
+<arg>${base_sleep} + ${random_addition}</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-03-28T16:10:20.548602" elapsed="0.000589"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2025-03-28T16:10:25.880878" level="INFO">Slept 5 seconds 331 milliseconds.</msg>
+<arg>${total_sleep}</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2025-03-28T16:10:20.549420" elapsed="5.331677"/>
+</kw>
+<arg>3</arg>
+<arg>6</arg>
+<status status="PASS" start="2025-03-28T16:10:19.542913" elapsed="6.338366"/>
+</kw>
+<status status="PASS" start="2025-03-28T16:10:19.542076" elapsed="6.339780"/>
+</test>
+<test id="s1-t5" name="Multi-Currency Expense Reporting" line="22">
+<kw name="CPU Random Sleep">
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-03-28T16:10:26.886427" level="INFO">${cpu_load} = 6.6</msg>
+<var>${cpu_load}</var>
+<arg>psutil.cpu_percent(interval=1)</arg>
+<arg>psutil</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-03-28T16:10:25.884070" elapsed="1.002460"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-03-28T16:10:26.887469" level="INFO">${base_sleep} = 0.6599999999999999</msg>
+<var>${base_sleep}</var>
+<arg>${cpu_load} / 10</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-03-28T16:10:26.886875" elapsed="0.000659"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-03-28T16:10:26.888465" level="INFO">${random_addition} = 2.1124258986208853</msg>
+<var>${random_addition}</var>
+<arg>random.uniform(${sec1},${sec2})</arg>
+<arg>random</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-03-28T16:10:26.887769" elapsed="0.000782"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-03-28T16:10:26.889348" level="INFO">${total_sleep} = 2.7724258986208854</msg>
+<var>${total_sleep}</var>
+<arg>${base_sleep} + ${random_addition}</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-03-28T16:10:26.888798" elapsed="0.000622"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2025-03-28T16:10:29.662386" level="INFO">Slept 2 seconds 772 milliseconds.</msg>
+<arg>${total_sleep}</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2025-03-28T16:10:26.889651" elapsed="2.772927"/>
+</kw>
+<arg>2</arg>
+<arg>3</arg>
+<status status="PASS" start="2025-03-28T16:10:25.883392" elapsed="3.779326"/>
+</kw>
+<status status="PASS" start="2025-03-28T16:10:25.882438" elapsed="3.780491"/>
+</test>
+<test id="s1-t6" name="Travel Itinerary Generation" line="25">
+<kw name="CPU Random Sleep">
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-03-28T16:10:30.665123" level="INFO">${cpu_load} = 35.8</msg>
+<var>${cpu_load}</var>
+<arg>psutil.cpu_percent(interval=1)</arg>
+<arg>psutil</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-03-28T16:10:29.663791" elapsed="1.001487"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-03-28T16:10:30.666524" level="INFO">${base_sleep} = 3.5799999999999996</msg>
+<var>${base_sleep}</var>
+<arg>${cpu_load} / 10</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-03-28T16:10:30.665731" elapsed="0.000870"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-03-28T16:10:30.667568" level="INFO">${random_addition} = 7.760553346819087</msg>
+<var>${random_addition}</var>
+<arg>random.uniform(${sec1},${sec2})</arg>
+<arg>random</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-03-28T16:10:30.666879" elapsed="0.000757"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-03-28T16:10:30.668164" level="INFO">${total_sleep} = 11.340553346819087</msg>
+<var>${total_sleep}</var>
+<arg>${base_sleep} + ${random_addition}</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-03-28T16:10:30.667888" elapsed="0.000293"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2025-03-28T16:10:42.009494" level="INFO">Slept 11 seconds 341 milliseconds.</msg>
+<arg>${total_sleep}</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2025-03-28T16:10:30.668245" elapsed="11.341378"/>
+</kw>
+<arg>6</arg>
+<arg>8</arg>
+<status status="PASS" start="2025-03-28T16:10:29.663537" elapsed="12.346183"/>
+</kw>
+<status status="PASS" start="2025-03-28T16:10:29.663159" elapsed="12.346794"/>
+</test>
+<test id="s1-t7" name="User Role Access Control" line="28">
+<kw name="CPU Random Sleep">
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-03-28T16:10:43.011630" level="INFO">${cpu_load} = 17.0</msg>
+<var>${cpu_load}</var>
+<arg>psutil.cpu_percent(interval=1)</arg>
+<arg>psutil</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-03-28T16:10:42.010906" elapsed="1.000764"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-03-28T16:10:43.012025" level="INFO">${base_sleep} = 1.7</msg>
+<var>${base_sleep}</var>
+<arg>${cpu_load} / 10</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-03-28T16:10:43.011804" elapsed="0.000244"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-03-28T16:10:43.012347" level="INFO">${random_addition} = 3.014779882064772</msg>
+<var>${random_addition}</var>
+<arg>random.uniform(${sec1},${sec2})</arg>
+<arg>random</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-03-28T16:10:43.012127" elapsed="0.000245"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-03-28T16:10:43.012605" level="INFO">${total_sleep} = 4.714779882064772</msg>
+<var>${total_sleep}</var>
+<arg>${base_sleep} + ${random_addition}</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-03-28T16:10:43.012449" elapsed="0.000173"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2025-03-28T16:10:47.727998" level="INFO">Slept 4 seconds 715 milliseconds.</msg>
+<arg>${total_sleep}</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2025-03-28T16:10:43.012685" elapsed="4.715544"/>
+</kw>
+<arg>3</arg>
+<arg>5</arg>
+<status status="PASS" start="2025-03-28T16:10:42.010576" elapsed="5.717833"/>
+</kw>
+<status status="PASS" start="2025-03-28T16:10:42.010185" elapsed="5.718559"/>
+</test>
+<doc>GlobeTrack is a fake application. This suite just produces
+a lot of services in Checkmk.</doc>
+<status status="PASS" start="2025-03-28T16:10:02.360540" elapsed="45.369041"/>
+</suite>
+<statistics>
+<total>
+<stat pass="7" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat name="Globetrack App" id="s1" pass="7" fail="0" skip="0">Globetrack App</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>

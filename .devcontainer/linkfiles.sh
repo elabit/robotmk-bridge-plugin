@@ -44,8 +44,8 @@ fi
 function main {
     print_workspace
     print_cmk_variables
-    symlink_robotmk
-    symlink_files
+    symlink_project_files
+    symlink_common_files
     echo "linkfiles.sh finished."
     echo "===================="
 }
@@ -75,32 +75,32 @@ function print_cmk_variables {
     echo "CMK_DIR_IMAGES: $OMD_ROOT/$CMK_DIR_IMAGES"
 }
 
-function symlink_robotmk {
+function symlink_project_files {
     if [ "$ARG1" == "full" ]; then
         echo "===================="
-        echo "Linking robotmk MKP files"
+        echo "Linking Project files"
         echo "===================="
 
-        # Robotmk CHECK PLUGIN 
+        # CHECK PLUGIN 
         create_symlink checks $CMK_DIR_CHECKS
 
-        # Robotmk Metrics
+        # Metrics
         create_symlink web_plugins/metrics $CMK_DIR_GRAPHING
 
-        # Robotmk checkman
+        # checkman
         create_symlink checkman $CMK_DIR_CHECKMAN
 
         # stable paths across 2.2-2.4
-        # Robotmk Agent plugins
+        # Agent plugins
         create_symlink agents_plugins $CMK_DIR_AGENT_PLUGINS
 
-        # Robotmk BAKERY
+        # BAKERY
         create_symlink bakery $CMK_DIR_BAKERY
 
         # WATO Rules
         create_symlink web_plugins/wato $CMK_DIR_WATO
 
-        # Robotmk Images & icons
+        # Images & icons
         create_symlink images $CMK_DIR_IMAGES
         
         
@@ -111,22 +111,22 @@ function symlink_robotmk {
     fi
 }
 
-function symlink_files {
+function symlink_common_files {
     echo "===================="
     echo "Linking CMK common files"
     echo "===================="
 
     # Bash aliases
-    create_symlink .site_bash_aliases $OMD_ROOT/.bash_aliases
+    create_symlink .devcontainer/.site_bash_aliases $OMD_ROOT/.bash_aliases
     
 
 
     # # RF test suites
-    create_symlink rf_tests /usr/lib/check_mk_agent/robot
+    create_symlink rf_tests /usr/lib/check_mk_agent/robots
     # Folder where agent output can be sourced with rule
     # "Datasource Programs > Individual program call instead of agent access"
     # (folder gets created in postCreateCommand.sh)
-    create_symlink agent_output var/check_mk/agent_output
+    #create_symlink agent_output var/check_mk/agent_output
 
 }
 
