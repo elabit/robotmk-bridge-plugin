@@ -1,7 +1,7 @@
 {
-    'author': u'Marius Rieder <marius.rieder@durchmesser.ch>',
-    'description': u'Vector agent plugin and checks.',
-    'download_url': 'https://github.com/jiuka/checkmk_vector/releases',
+    'author': u'Simon Meggle <simon.meggle@elabit.de>',
+    'description': u'Robotmk Bridge agent plugin.',
+    'download_url': 'https://github.com/elabit/robotmk-bridge-plugin/releases',
     'files': {
         'agents': ['plugins/vector.py'],
         'cmk_addons_plugins': [

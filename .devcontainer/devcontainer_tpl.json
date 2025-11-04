@@ -1,9 +1,9 @@
 {
-	"name": "rmkbridge-devc-cmk2.4",
+	"name": "$CONTAINER_NAME",
 	"build": {
 		"dockerfile": "Dockerfile",
 		"args": {
-			"VARIANT": "2.4.0p12"
+			"VARIANT": "$VERSION"
 		}
 	},
 	"containerEnv": {
@@ -31,8 +31,8 @@
 		"OMD_ROOT": "/omd/sites/cmk",
 		"OMD_SITE": "cmk",
 		"CMK_SITE_ID": "cmk",
-		"WORKSPACE": "${containerWorkspaceFolder}",
-		"CMK_VERSION_MM": "2.4"
+		"WORKSPACE": "###{containerWorkspaceFolder}",
+		"CMK_VERSION_MM": "$CMK_VERSION_MM"
 	},
 	"mounts": [
 		"source=/etc/timezone,target=/etc/timezone,type=bind,readonly"

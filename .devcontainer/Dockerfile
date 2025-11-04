@@ -1,18 +1,20 @@
 # See here for image contents: https://github.com/microsoft/vscode-dev-containers/tree/v0.155.1/containers/ubuntu/.devcontainer/base.Dockerfile
 
-# [Choice] CheckMK version: 2.4.0-latest
-ARG VARIANT="2.4.0-latest"
-FROM checkmk/check-mk-raw:${VARIANT}
+ARG VARIANT
+# Build the dev images with .devcontainer/build-devcontainer.sh !
+# See https://stackoverflow.com/a/69798220 to run the image on Apple M1
+# FROM --platform=linux/amd64 cmk-python3-dev:2.4.0p12
+# FROM --platform=linux/amd64 cmk-python-dev:${VARIANT}
+FROM cmk-python3-dev:${VARIANT}
 
+
+ENV CMK_PASSWORD="cmk"
+
+# Creates the OMD site, executes post-start hook and halts before site start
+COPY docker-entrypoint.d /docker-entrypoint.d
 RUN /docker-entrypoint.sh /bin/true
 
-# [Optional] Uncomment this section to install additional OS packages.
-RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
-    && apt-get -y install --no-install-recommends nodejs gcc
-
-ADD requirements.txt /tmp/requirements.txt
-RUN PATH="/omd/sites/cmk/bin:${PATH}" \
-    OMD_ROOT="/omd/sites/cmk" \
-    /omd/sites/cmk/bin/pip3 install -r /tmp/requirements.txt
+# make the agent dir writeable from the CMK site (to link RF example tests) 
+RUN chgrp -R cmk /usr/lib/check_mk_agent && chmod g+w /usr/lib/check_mk_agent
 
 ENTRYPOINT ["/bin/bash"]
