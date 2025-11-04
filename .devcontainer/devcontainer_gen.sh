@@ -16,15 +16,16 @@ DEVC_FILE=".devcontainer/devcontainer.json"
 DEVC_LOCAL_FILE=".devcontainer/devcontainer_local.json"
 
 
-# project.env contains some generic useful variables
-source project.env
 
 
 function main() {
+    SCRIPTDIR=$(folder_of $0)
+    # project.env contains some generic useful variables
+    source $SCRIPTDIR/../project.env
+
     # If version is unset, offer interactive selection from devcontainer_img_versions.env
     if [ -z "$VERSION" ]; then
-        PWD=$(folder_of $0)
-        VERS_FILE="$PWD/../devcontainer_img_versions.env"
+        VERS_FILE="$SCRIPTDIR/devcontainer_img_versions.env"
         if [ ! -f "$VERS_FILE" ]; then
             echo "No cmk version (arg1) specified and $VERS_FILE not found."
             exit 1
@@ -60,19 +61,15 @@ function main() {
     # Ref LeP3qq
     DEVC_TPL_FILE=".devcontainer/devcontainer_tpl.json"
     # Always use absolute paths for temp and target files to avoid confusion
-    TMP_FILE="$PWD/devcontainer.json.tmp"
-    TARGET_FILE="$PWD/../devcontainer.json"
+    TMP_FILE="$SCRIPTDIR/devcontainer.json.tmp"
+    TARGET_FILE="$SCRIPTDIR/devcontainer.json"
 
     envsubst < "$DEVC_TPL_FILE" > "$TMP_FILE"
     # devcontainer.json contains a VS Code Variable ${containerWorkspaceFolder}, which would also 
     # be processed by envsubst. To avoid this, the template files contain ###{containerWorkspaceFolder}.
-    # The three hashes are replaced with $ _after_ envsusbt has done its work.
-    
-    if [[ "$OSTYPE" == "darwin"* ]]; then
-        sed -i '' 's/###/$/' "$TMP_FILE"
-    else
-        sed -i 's/###/$/' "$TMP_FILE"
-    fi
+    # The three hashes are replaced with $ _after_ envsusbt has done its work. 
+    # Mac-only sed... 
+    sed -i 's/###/$/' "$TMP_FILE"
 
     # If a local devcontainer file exists, merge it, else just move the tmp file
     if [ -f "$DEVC_LOCAL_FILE" ]; then

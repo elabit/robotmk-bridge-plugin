@@ -24,7 +24,7 @@
 			"littlefoxteam.vscode-python-test-adapter"
 		]
 	},
-	"postCreateCommand": ".devcontainer/scripts/postCreateCommand.sh full",
+	"postCreateCommand": ".devcontainer/postCreateCommand.sh full",
 	"remoteUser": "cmk",
 	"remoteEnv": {
 		"PATH": "/omd/sites/cmk/bin:/omd/sites/cmk/local/lib/python3/bin/:${containerEnv:PATH}",

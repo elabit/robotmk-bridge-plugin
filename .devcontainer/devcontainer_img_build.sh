@@ -30,6 +30,9 @@ DOCKERFILE_CMK_PY3_DEV=Dockerfile_cmk_py3_dev
 . $ROOTDIR/devcontainer_img_versions.env
 
 function main() {
+    SCRIPTDIR=$(folder_of $0)
+    # project.env contains some generic useful variables
+    source $SCRIPTDIR/../project.env    
     build_images
 }
 
@@ -73,5 +76,11 @@ function build_images() {
         echo "----"
     done
 }
+
+function folder_of() {
+  DIR="${1%/*}"
+  (cd "$DIR" && echo "$(pwd -P)")
+}
+
 
 main $@

@@ -18,7 +18,7 @@ fi
 echo "▹ WORKSPACE: $WORKSPACE"
 # This step ties the workspace files with the Devcontainer. lsyncd is used to synchronize files. 
 echo "▹ Linking the project files into the container (linkfiles.sh $LINKTYPE)..."
-/workspaces/robotmk/.devcontainer/scripts/linkfiles.sh $LINKTYPE
+/workspaces/robotmk/.devcontainer/linkfiles.sh $LINKTYPE
 
 # Tell bash to load aliases and functions
 echo "▹ Loading aliases and functions..."
@@ -56,7 +56,7 @@ if [ -z "${GITHUB_WORKSPACE-}" ]; then
     echo "■ Creating a dummyhost"
     echo "Create NOW an automation user with administrator rights / store the secret in clear text. Then press ENTER to continue."
     read -p "Press ENTER to continue..."
-    bash $WORKSPACE/.devcontainer/scripts/create_dummyhost_${CMK_VERSION_MM}.sh
+    bash $WORKSPACE/.devcontainer/create_dummyhost_${CMK_VERSION_MM}.sh
     echo "✅ Dummyhost created."
     echo "■ Baking the agent"
     echo "Baking agent for $HOSTNAME ... "
@@ -69,7 +69,7 @@ if [ -z "${GITHUB_WORKSPACE-}" ]; then
     echo "Reloading CMK config ... "
     cmk -R
     echo "■ Generating VS Code launch file ..."
-    bash $WORKSPACE/.devcontainer/scripts/launch_gen.sh
+    bash $WORKSPACE/.devcontainer/launch_gen.sh
 
 fi
 echo "✅ postCreateCommand.sh finished."

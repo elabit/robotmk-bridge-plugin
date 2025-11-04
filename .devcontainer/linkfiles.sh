@@ -4,11 +4,11 @@
 
 
 # This script gets called from postcreateCommand.sh directly after the devcontainer
-# has been started. Its job is to make the Robotmk project files available to the CMK site.
+# has been started. Its job is to make the project files available to the CMK site.
 
 # The script can be run in two modes: 
 # ./linkfiles.sh cmkonly => link only the CMK relevant files (bash aliases etc)
-# ./linkfiles.sh full => link the robotmk files as well as additional files
+# ./linkfiles.sh full => link the files as well as additional files
 
 L_SHARE_CMK="local/share/check_mk"
 L_LIB_CMK_BASE="local/lib/check_mk/base"
@@ -117,7 +117,7 @@ function symlink_files {
     echo "===================="
 
     # Bash aliases
-    create_symlink scripts/.site_bash_aliases $OMD_ROOT/.bash_aliases
+    create_symlink .site_bash_aliases $OMD_ROOT/.bash_aliases
     
 
 
