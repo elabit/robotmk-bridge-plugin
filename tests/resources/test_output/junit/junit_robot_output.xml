@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 6.1.1 (Python 3.10.12 on linux)" generated="20251105 15:23:03.421" rpa="false" schemaversion="4">
+<suite id="s1" name="JUnit Execution">
+<suite id="s1-s1" name="suite1">
+<suite id="s1-s1-s1" name="suite2">
+<test id="s1-s1-s1-t1" name="casea">
+<kw name="Pass Execution" library="BuiltIn">
+<arg>Test passed :D</arg>
+<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
+<msg timestamp="20251105 15:23:03.439" level="INFO">Execution passed with message:
+Test passed :D</msg>
+<status status="PASS" starttime="20251105 15:23:03.439" endtime="20251105 15:23:03.439"/>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="PASS" starttime="20251105 15:23:03.439" endtime="20251105 15:23:03.440">Test passed :D</status>
+</test>
+<test id="s1-s1-s1-t2" name="caseb">
+<kw name="Pass Execution" library="BuiltIn">
+<arg>Test passed :D</arg>
+<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
+<msg timestamp="20251105 15:23:03.440" level="INFO">Execution passed with message:
+Test passed :D</msg>
+<status status="PASS" starttime="20251105 15:23:03.440" endtime="20251105 15:23:03.440"/>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="PASS" starttime="20251105 15:23:03.440" endtime="20251105 15:23:03.440">Test passed :D</status>
+</test>
+<status status="PASS" starttime="20251105 15:23:03.438" endtime="20251105 15:23:03.441"/>
+</suite>
+<test id="s1-s1-t1" name="case1">
+<kw name="Pass Execution" library="BuiltIn">
+<arg>Test passed :D</arg>
+<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
+<msg timestamp="20251105 15:23:03.442" level="INFO">Execution passed with message:
+Test passed :D</msg>
+<status status="PASS" starttime="20251105 15:23:03.441" endtime="20251105 15:23:03.442"/>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="PASS" starttime="20251105 15:23:03.441" endtime="20251105 15:23:03.442">Test passed :D</status>
+</test>
+<test id="s1-s1-t2" name="case2">
+<kw name="Fail" library="BuiltIn">
+<arg>ERROR: Example error message (the_error_type)</arg>
+<doc>Fails the test with the given message and optionally alters its tags.</doc>
+<msg timestamp="20251105 15:23:03.442" level="FAIL">ERROR: Example error message (the_error_type)</msg>
+<status status="FAIL" starttime="20251105 15:23:03.442" endtime="20251105 15:23:03.442"/>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="FAIL" starttime="20251105 15:23:03.442" endtime="20251105 15:23:03.442">ERROR: Example error message (the_error_type)</status>
+</test>
+<test id="s1-s1-t3" name="case3">
+<kw name="Fail" library="BuiltIn">
+<arg>FAIL: Example failure message (the_failure_type)</arg>
+<doc>Fails the test with the given message and optionally alters its tags.</doc>
+<msg timestamp="20251105 15:23:03.443" level="FAIL">FAIL: Example failure message (the_failure_type)</msg>
+<status status="FAIL" starttime="20251105 15:23:03.443" endtime="20251105 15:23:03.443"/>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="FAIL" starttime="20251105 15:23:03.443" endtime="20251105 15:23:03.443">FAIL: Example failure message (the_failure_type)</status>
+</test>
+<status status="FAIL" starttime="20251105 15:23:03.437" endtime="20251105 15:23:03.444"/>
+</suite>
+<status status="FAIL" starttime="20251105 15:23:03.422" endtime="20251105 15:23:03.444"/>
+</suite>
+<statistics>
+<total>
+<stat pass="3" fail="2" skip="0">All Tests</stat>
+</total>
+<tag>
+<stat pass="3" fail="2" skip="0">oxygen-junit-unknown-execution-time</stat>
+</tag>
+<suite>
+<stat pass="3" fail="2" skip="0" id="s1" name="JUnit Execution">JUnit Execution</stat>
+<stat pass="3" fail="2" skip="0" id="s1-s1" name="suite1">JUnit Execution.suite1</stat>
+<stat pass="2" fail="0" skip="0" id="s1-s1-s1" name="suite2">JUnit Execution.suite1.suite2</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>

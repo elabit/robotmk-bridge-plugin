@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 3.2.1 (Python 3.7.7 on darwin)" generated="20200506 17:39:27.933" rpa="false">
+<suite id="s1" name="Atest" source="/Users/tkairi/Coding/oxygen/tests/atest">
+<suite id="s1-s1" name="Test" source="/Users/tkairi/Coding/oxygen/tests/atest/test.robot">
+<test id="s1-s1-t1" name="My First Test">
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>Junit Setup Here 1</arg>
+</arguments>
+<msg timestamp="20200506 17:39:28.028" level="INFO">Junit Setup Here 1</msg>
+<status status="PASS" starttime="20200506 17:39:28.028" endtime="20200506 17:39:28.029"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>Junit Setup Here 2</arg>
+</arguments>
+<msg timestamp="20200506 17:39:28.029" level="INFO">Junit Setup Here 2</msg>
+<status status="PASS" starttime="20200506 17:39:28.029" endtime="20200506 17:39:28.029"></status>
+</kw>
+<kw name="Run Junit" library="oxygen.OxygenLibrary">
+<doc>Run JUnit tool specified with ``command``.</doc>
+<arguments>
+<arg>${RESOURCES}/junit.xml</arg>
+<arg>echo</arg>
+<arg>JUNIT_TEST_STRING</arg>
+</arguments>
+<msg timestamp="20200506 17:39:28.041" level="INFO">JUNIT_TEST_STRING
+</msg>
+<msg timestamp="20200506 17:39:28.041" level="INFO">Result file: /Users/tkairi/Coding/oxygen/tests/atest/../resources/junit.xml</msg>
+<status status="PASS" starttime="20200506 17:39:28.029" endtime="20200506 17:39:28.041"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>Junit Teardown Here 1</arg>
+</arguments>
+<msg timestamp="20200506 17:39:28.042" level="INFO">Junit Teardown Here 1</msg>
+<status status="PASS" starttime="20200506 17:39:28.042" endtime="20200506 17:39:28.042"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>Junit Teardown Here 2</arg>
+</arguments>
+<msg timestamp="20200506 17:39:28.043" level="INFO">Junit Teardown Here 2</msg>
+<status status="PASS" starttime="20200506 17:39:28.043" endtime="20200506 17:39:28.043"></status>
+</kw>
+<tags>
+<tag>JUNIT_ROBOT_TAG</tag>
+</tags>
+<status status="PASS" starttime="20200506 17:39:28.028" endtime="20200506 17:39:28.043" critical="yes"></status>
+</test>
+<test id="s1-s1-t2" name="My First Test Director's Cut">
+<kw name="Sleep" library="BuiltIn">
+<doc>Pauses the test executed for the given time.</doc>
+<arguments>
+<arg>2</arg>
+</arguments>
+<msg timestamp="20200506 17:39:30.046" level="INFO">Slept 2 seconds</msg>
+<status status="PASS" starttime="20200506 17:39:28.045" endtime="20200506 17:39:30.046"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>Junit Setup Here 2</arg>
+</arguments>
+<msg timestamp="20200506 17:39:30.046" level="INFO">Junit Setup Here 2</msg>
+<status status="PASS" starttime="20200506 17:39:30.046" endtime="20200506 17:39:30.046"></status>
+</kw>
+<kw name="Run Junit" library="oxygen.OxygenLibrary">
+<doc>Run JUnit tool specified with ``command``.</doc>
+<arguments>
+<arg>${RESOURCES}/big.xml</arg>
+<arg>echo</arg>
+<arg>JUNIT_TEST_STRING_BIG</arg>
+</arguments>
+<msg timestamp="20200506 17:39:30.059" level="INFO">JUNIT_TEST_STRING_BIG
+</msg>
+<msg timestamp="20200506 17:39:30.059" level="INFO">Result file: /Users/tkairi/Coding/oxygen/tests/atest/../resources/big.xml</msg>
+<status status="PASS" starttime="20200506 17:39:30.047" endtime="20200506 17:39:30.060"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>Junit Teardown Here 1</arg>
+</arguments>
+<msg timestamp="20200506 17:39:30.061" level="INFO">Junit Teardown Here 1</msg>
+<status status="PASS" starttime="20200506 17:39:30.061" endtime="20200506 17:39:30.061"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>Junit Teardown Here 2</arg>
+</arguments>
+<msg timestamp="20200506 17:39:30.062" level="INFO">Junit Teardown Here 2</msg>
+<status status="PASS" starttime="20200506 17:39:30.061" endtime="20200506 17:39:30.062"></status>
+</kw>
+<tags>
+<tag>JUNIT_ROBOT_TAG</tag>
+</tags>
+<status status="PASS" starttime="20200506 17:39:28.044" endtime="20200506 17:39:30.062" critical="yes"></status>
+</test>
+<test id="s1-s1-t3" name="My Second Test">
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>Gatling Setup Here 1</arg>
+</arguments>
+<msg timestamp="20200506 17:39:30.070" level="INFO">Gatling Setup Here 1</msg>
+<status status="PASS" starttime="20200506 17:39:30.068" endtime="20200506 17:39:30.072"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>Gatling Setup Here 2</arg>
+</arguments>
+<msg timestamp="20200506 17:39:30.074" level="INFO">Gatling Setup Here 2</msg>
+<status status="PASS" starttime="20200506 17:39:30.073" endtime="20200506 17:39:30.075"></status>
+</kw>
+<kw name="Run Gatling" library="oxygen.OxygenLibrary">
+<doc>Run Gatling tool specified with ``command``.</doc>
+<arguments>
+<arg>${RESOURCES}/gatling-example-simulation.log</arg>
+<arg>echo</arg>
+<arg>GATLING TEST STRING</arg>
+</arguments>
+<msg timestamp="20200506 17:39:30.091" level="INFO">GATLING TEST STRING
+</msg>
+<msg timestamp="20200506 17:39:30.092" level="INFO">Result file: /Users/tkairi/Coding/oxygen/tests/atest/../resources/gatling-example-simulation.log</msg>
+<status status="PASS" starttime="20200506 17:39:30.076" endtime="20200506 17:39:30.092"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>Gatling Teardown Here 2</arg>
+</arguments>
+<msg timestamp="20200506 17:39:30.094" level="INFO">Gatling Teardown Here 2</msg>
+<status status="PASS" starttime="20200506 17:39:30.093" endtime="20200506 17:39:30.094"></status>
+</kw>
+<tags>
+<tag>GATLING_ROBOT_TAG</tag>
+</tags>
+<status status="PASS" starttime="20200506 17:39:30.064" endtime="20200506 17:39:30.095" critical="yes"></status>
+</test>
+<test id="s1-s1-t4" name="My Third Test">
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>ZAP Setup Here 1</arg>
+</arguments>
+<msg timestamp="20200506 17:39:30.098" level="INFO">ZAP Setup Here 1</msg>
+<status status="PASS" starttime="20200506 17:39:30.097" endtime="20200506 17:39:30.098"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>ZAP Setup Here 2</arg>
+</arguments>
+<msg timestamp="20200506 17:39:30.099" level="INFO">ZAP Setup Here 2</msg>
+<status status="PASS" starttime="20200506 17:39:30.098" endtime="20200506 17:39:30.099"></status>
+</kw>
+<kw name="Run Zap" library="oxygen.OxygenLibrary">
+<doc>Run Zed Attack Proxy tool specified with ``command``.</doc>
+<arguments>
+<arg>${RESOURCES}/zap/zap.xml.lol</arg>
+<arg>echo</arg>
+<arg>ZAP TEST STRING 2</arg>
+</arguments>
+<msg timestamp="20200506 17:39:30.112" level="INFO">ZAP TEST STRING 2
+</msg>
+<msg timestamp="20200506 17:39:30.112" level="INFO">Result file: /Users/tkairi/Coding/oxygen/tests/atest/../resources/zap/zap.xml.lol</msg>
+<status status="PASS" starttime="20200506 17:39:30.100" endtime="20200506 17:39:30.113"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>ZAP Teardown Here 1</arg>
+</arguments>
+<msg timestamp="20200506 17:39:30.115" level="INFO">ZAP Teardown Here 1</msg>
+<status status="PASS" starttime="20200506 17:39:30.115" endtime="20200506 17:39:30.116"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>ZAP Teardown Here 2</arg>
+</arguments>
+<msg timestamp="20200506 17:39:30.117" level="INFO">ZAP Teardown Here 2</msg>
+<status status="PASS" starttime="20200506 17:39:30.116" endtime="20200506 17:39:30.117"></status>
+</kw>
+<tags>
+<tag>ZAP_ROBOT_TAG</tag>
+</tags>
+<status status="PASS" starttime="20200506 17:39:30.096" endtime="20200506 17:39:30.117" critical="yes"></status>
+</test>
+<test id="s1-s1-t5" name="My Three Point Fifth Test">
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>ZAP Setup Here 1</arg>
+</arguments>
+<msg timestamp="20200506 17:39:30.121" level="INFO">ZAP Setup Here 1</msg>
+<status status="PASS" starttime="20200506 17:39:30.120" endtime="20200506 17:39:30.121"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>ZAP Setup Here 2</arg>
+</arguments>
+<msg timestamp="20200506 17:39:30.121" level="INFO">ZAP Setup Here 2</msg>
+<status status="PASS" starttime="20200506 17:39:30.121" endtime="20200506 17:39:30.121"></status>
+</kw>
+<kw name="Run Zap" library="oxygen.OxygenLibrary">
+<doc>Run Zed Attack Proxy tool specified with ``command``.</doc>
+<arguments>
+<arg>${RESOURCES}/zap/zap_pp.json</arg>
+<arg>echo</arg>
+<arg>ZAP TEST STRING 3</arg>
+</arguments>
+<msg timestamp="20200506 17:39:30.134" level="INFO">ZAP TEST STRING 3
+</msg>
+<msg timestamp="20200506 17:39:30.134" level="INFO">Result file: /Users/tkairi/Coding/oxygen/tests/atest/../resources/zap/zap_pp.json</msg>
+<status status="PASS" starttime="20200506 17:39:30.122" endtime="20200506 17:39:30.135"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>ZAP Teardown Here 1</arg>
+</arguments>
+<msg timestamp="20200506 17:39:30.137" level="INFO">ZAP Teardown Here 1</msg>
+<status status="PASS" starttime="20200506 17:39:30.137" endtime="20200506 17:39:30.138"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>ZAP Teardown Here 2</arg>
+</arguments>
+<msg timestamp="20200506 17:39:30.138" level="INFO">ZAP Teardown Here 2</msg>
+<status status="PASS" starttime="20200506 17:39:30.138" endtime="20200506 17:39:30.138"></status>
+</kw>
+<tags>
+<tag>ZAP_ROBOT_TAG</tag>
+</tags>
+<status status="PASS" starttime="20200506 17:39:30.119" endtime="20200506 17:39:30.139" critical="yes"></status>
+</test>
+<test id="s1-s1-t6" name="My Fourth Test">
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>Just a normal test</arg>
+</arguments>
+<msg timestamp="20200506 17:39:30.141" level="INFO">Just a normal test</msg>
+<status status="PASS" starttime="20200506 17:39:30.141" endtime="20200506 17:39:30.141"></status>
+</kw>
+<tags>
+<tag>NO_OXYGEN_HERE</tag>
+</tags>
+<status status="PASS" starttime="20200506 17:39:30.140" endtime="20200506 17:39:30.142" critical="yes"></status>
+</test>
+<test id="s1-s1-t7" name="My Fifth Test">
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>My Dummy Handler Setup Here 1</arg>
+</arguments>
+<msg timestamp="20200506 17:39:28.028" level="INFO">My Dummy Handler Setup Here 1</msg>
+<status status="PASS" starttime="20200506 17:39:28.028" endtime="20200506 17:39:28.029"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>My Dummy Handler Setup Here 2</arg>
+</arguments>
+<msg timestamp="20200506 17:39:28.029" level="INFO">My Dummy Handler Setup Here 2</msg>
+<status status="PASS" starttime="20200506 17:39:28.029" endtime="20200506 17:39:28.029"></status>
+</kw>
+<kw name="Run My Dummy Handler" library="oxygen.OxygenLibrary">
+<doc>Run My Dummy Handler tool specified with ``command``.</doc>
+<arguments>
+<arg>${RESOURCES}/my_dummy_handler.xml</arg>
+<arg>echo</arg>
+<arg>MY_DUMMY_HANDLER_TEST_STRING</arg>
+</arguments>
+<msg timestamp="20200506 17:39:28.041" level="INFO">MY_DUMMY_HANDLER_TEST_STRING
+</msg>
+<msg timestamp="20200506 17:39:28.041" level="INFO">Result file: /Users/tkairi/Coding/oxygen/tests/atest/../resources/my_dummy_handler.xml</msg>
+<status status="PASS" starttime="20200506 17:39:28.029" endtime="20200506 17:39:28.041"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>My Dummy Handler Teardown Here 1</arg>
+</arguments>
+<msg timestamp="20200506 17:39:28.042" level="INFO">My Dummy Handler Teardown Here 1</msg>
+<status status="PASS" starttime="20200506 17:39:28.042" endtime="20200506 17:39:28.042"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>My Dummy Handler Teardown Here 2</arg>
+</arguments>
+<msg timestamp="20200506 17:39:28.043" level="INFO">My Dummy Handler Teardown Here 2</msg>
+<status status="PASS" starttime="20200506 17:39:28.043" endtime="20200506 17:39:28.043"></status>
+</kw>
+<tags>
+<tag>MY_DUMMY_HANDLER_ROBOT_TAG</tag>
+</tags>
+<status status="PASS" starttime="20200506 17:39:28.028" endtime="20200506 17:39:28.043" critical="yes"></status>
+</test>
+<status status="PASS" starttime="20200506 17:39:27.974" endtime="20200506 17:39:30.143"></status>
+</suite>
+<status status="PASS" starttime="20200506 17:39:27.937" endtime="20200506 17:39:30.146"></status>
+</suite>
+<statistics>
+<total>
+<stat pass="6" fail="0">Critical Tests</stat>
+<stat pass="6" fail="0">All Tests</stat>
+</total>
+<tag>
+<stat pass="1" fail="0">GATLING_ROBOT_TAG</stat>
+<stat pass="2" fail="0">JUNIT_ROBOT_TAG</stat>
+<stat pass="1" fail="0">NO_OXYGEN_HERE</stat>
+<stat pass="2" fail="0">ZAP_ROBOT_TAG</stat>
+<stat pass="2" fail="0">MY_DUMMY_HANDLER_ROBOT_TAG</stat>
+</tag>
+<suite>
+<stat pass="6" fail="0" id="s1" name="Atest">Atest</stat>
+<stat pass="6" fail="0" id="s1-s1" name="Test">Atest.Test</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>

@@ -1,0 +1,28 @@
+{
+    "paths": [
+        {
+            "path": "/workspaces/robotmk-bridge-plugin/tests/resources/test_output/junit/junit-single-testsuite.xml",
+            "handler": "junit",
+            "plan": "JunitSingle",
+            "max_age": 3600,
+            "metadata": {
+                "format": "junit",
+                "source": "ci-job-42",
+                "foo": "bar"
+            }
+        },
+        {
+            "path": "/workspaces/robotmk-bridge-plugin/tests/resources/test_output/gatling/gatling-example-simulation.log",
+            "handler": "gatling",
+            "max_age": 3600,
+            "metadata": {
+                "format": "gatling",
+                "source": "na",
+                "compress": false,
+                "env": {
+                    "GATLING_HOME": "/opt/gatling"
+                }
+            }
+        }
+    ]
+}

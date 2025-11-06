@@ -54,6 +54,18 @@
             "console": "integratedTerminal",
             "python": "/omd/sites/cmk/bin/python3",
             "justMyCode": false
+        },
+        {
+            "name": "Python: Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "python": "/omd/sites/cmk/bin/python3",
+            "justMyCode": false,
+            "args": [
+                "/workspaces/robotmk-bridge-plugin/tests/resources/cfg/robotmk-bridge-plugin.json"
+            ]
         }
     ]
 }

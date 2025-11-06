@@ -57,41 +57,50 @@ pip3 install -r $WORKSPACE/requirements.txt 2>&1 > /tmp/pip_install.log
 echo "▹ Starting OMD... "
 omd restart
 
+
+
 # If variable GITHUB_WORKSPACE does not exist, we are in a local execution.
 # Perform additional steps for local devcontainer usage which require some user interaction.
 if [ -z "${GITHUB_WORKSPACE-}" ]; then
+    read -p "Start interactive devcontainer setup? (y/n) " -n 1 -r
+    echo    # move to a new line
+    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+        echo "Skipping interactive devcontainer setup."
+        exit 0
+    fi
+
     echo "Preparing the dev setup (not in a Github Workflow):"
 
-   echo "■ Creating a dummyhost"
-   echo "Create NOW an automation user with administrator rights / store the secret in clear text. Then press ENTER to continue."
-   read -p "Press ENTER to continue..."
-   bash $WORKSPACE/.devcontainer/create_dummyhost_${CMK_VERSION_MM}.sh
-   echo "✅ Dummyhost created, WATO rules set."
-   echo "■ Baking the agent"
-   echo "Baking agent for $HOSTNAME ... "
-   cmk -Avf $HOSTNAME
-   echo "■ Installing the agent"
-   echo "Open a root terminal and execute 'install_agent_localhost'."
-   read -p "Press ENTER to continue..."
+    echo "■ Creating a dummyhost"
+    echo "Create NOW an automation user with administrator rights / store the secret in clear text. Then press ENTER to continue."
+    read -p "Press ENTER to continue..."
+    bash $WORKSPACE/.devcontainer/create_dummyhost_${CMK_VERSION_MM}.sh
+    echo "✅ Dummyhost created, WATO rules set."
+    echo "■ Baking the agent"
+    echo "Baking agent for $HOSTNAME ... "
+    cmk -Avf $HOSTNAME
+    echo "■ Installing the agent"
+    echo "Open a root terminal and execute 'install_agent_localhost'."
+    read -p "Press ENTER to continue..."
 
-   echo "■ Trying to start the Robotmk Scheduler ..."
-   if [ -z "$(pidof systemd)"] ; then
-       echo "  ...no systemd detected. Robotmk Scheduler won't start automatically."
-       echo "  Start the Scheduler manally as root with this command:"
-       echo "  nohup /usr/lib/check_mk_agent/robotmk/robotmk_scheduler --log-path /var/log/robotmk_scheduler.log -v /etc/check_mk/robotmk.json &"
-   fi
+    echo "■ Trying to start the Robotmk Scheduler ..."
+    if [ -z "$(pidof systemd)"] ; then
+        echo "  ...no systemd detected. Robotmk Scheduler won't start automatically."
+        echo "  Start the Scheduler manally as root with this command:"
+        echo "  nohup /usr/lib/check_mk_agent/robotmk/robotmk_scheduler --log-path /var/log/robotmk_scheduler.log -v /etc/check_mk/robotmk.json &"
+    fi
 
     read -p "Press ENTER to continue..."
 
-   if [ -z "$(pgrep -f /usr/lib/check_mk_agent/robotmk/robotmk_scheduler)" ] ; then
-       echo "  ERROR: Robotmk Scheduler did not start properly. Check /var/log/robotmk_scheduler_CURRENT.log for details."
-       exit 1
-   fi
+    if [ -z "$(pgrep -f /usr/lib/check_mk_agent/robotmk/robotmk_scheduler)" ] ; then
+        echo "  ERROR: Robotmk Scheduler did not start properly. Check /var/log/robotmk_scheduler_CURRENT.log for details."
+        exit 1
+    fi
 
-   echo "Discovering ... "
-   cmk -IIv 2>&1 > /dev/null
-   echo "Reloading CMK config ... "
-   cmk -R
+    echo "Discovering ... "
+    cmk -IIv 2>&1 > /dev/null
+    echo "Reloading CMK config ... "
+    cmk -R
     echo "■ Generating VS Code launch file ..."
     bash $WORKSPACE/.devcontainer/launch_gen.sh
 

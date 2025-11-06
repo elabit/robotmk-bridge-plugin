@@ -1,0 +1,884 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.3.2 (Python 3.10.8 on linux)" generated="2025-07-17T16:52:15.777224" rpa="false" schemaversion="5">
+<suite id="s1" name="JUnit Execution">
+<suite id="s1-s1" name="utest.base_handler.test_errors.TestBaseHandlerErrors">
+<test id="s1-s1-t1" name="test_parse_results_raises_an_error">
+<kw name="Pass Execution" owner="BuiltIn">
+<msg time="2025-07-17T16:52:15.790846" level="INFO">Execution passed with message:
+Test passed :D</msg>
+<arg>Test passed :D</arg>
+<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
+<status status="PASS" start="2025-07-17T16:52:15.790748" elapsed="0.000152">Test passed :D</status>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="PASS" start="2025-07-17T16:52:15.790246" elapsed="0.000753">Test passed :D</status>
+</test>
+<status status="PASS" start="2025-07-17T16:52:15.789387" elapsed="0.001859"/>
+</suite>
+<suite id="s1-s2" name="utest.base_handler.test_inject_suite_report.TestInjectSuiteReport">
+<test id="s1-s2-t1" name="test_finds_and_appends">
+<kw name="Pass Execution" owner="BuiltIn">
+<msg time="2025-07-17T16:52:15.792533" level="INFO">Execution passed with message:
+Test passed :D</msg>
+<arg>Test passed :D</arg>
+<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
+<status status="PASS" start="2025-07-17T16:52:15.792454" elapsed="0.000177">Test passed :D</status>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="PASS" start="2025-07-17T16:52:15.792239" elapsed="0.000481">Test passed :D</status>
+</test>
+<test id="s1-s2-t2" name="test_finds_and_filters">
+<kw name="Pass Execution" owner="BuiltIn">
+<msg time="2025-07-17T16:52:15.793090" level="INFO">Execution passed with message:
+Test passed :D</msg>
+<arg>Test passed :D</arg>
+<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
+<status status="PASS" start="2025-07-17T16:52:15.793024" elapsed="0.000100">Test passed :D</status>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="PASS" start="2025-07-17T16:52:15.792832" elapsed="0.000370">Test passed :D</status>
+</test>
+<status status="PASS" start="2025-07-17T16:52:15.791531" elapsed="0.001830"/>
+</suite>
+<suite id="s1-s3" name="utest.base_handler.test_normalize_keyword_name.TestNormalizeKeywordName">
+<test id="s1-s3-t1" name="test_normalize">
+<kw name="Pass Execution" owner="BuiltIn">
+<msg time="2025-07-17T16:52:15.794623" level="INFO">Execution passed with message:
+Test passed :D</msg>
+<arg>Test passed :D</arg>
+<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
+<status status="PASS" start="2025-07-17T16:52:15.794553" elapsed="0.000107">Test passed :D</status>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="PASS" start="2025-07-17T16:52:15.794365" elapsed="0.000372">Test passed :D</status>
+</test>
+<status status="PASS" start="2025-07-17T16:52:15.793656" elapsed="0.001234"/>
+</suite>
+<suite id="s1-s4" name="utest.base_handler.test_set_suite_tags.TestSetSuiteTags">
+<test id="s1-s4-t1" name="test_tags_are_set">
+<kw name="Pass Execution" owner="BuiltIn">
+<msg time="2025-07-17T16:52:15.796142" level="INFO">Execution passed with message:
+Test passed :D</msg>
+<arg>Test passed :D</arg>
+<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
+<status status="PASS" start="2025-07-17T16:52:15.796073" elapsed="0.000106">Test passed :D</status>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="PASS" start="2025-07-17T16:52:15.795873" elapsed="0.000380">Test passed :D</status>
+</test>
+<status status="PASS" start="2025-07-17T16:52:15.795183" elapsed="0.001217"/>
+</suite>
+<suite id="s1-s5" name="utest.gatling.test_basic_functionality.JUnitBasicTests">
+<test id="s1-s5-t1" name="test_check_for_keyword">
+<kw name="Pass Execution" owner="BuiltIn">
+<msg time="2025-07-17T16:52:15.798161" level="INFO">Execution passed with message:
+Test passed :D</msg>
+<arg>Test passed :D</arg>
+<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
+<status status="PASS" start="2025-07-17T16:52:15.798091" elapsed="0.000107">Test passed :D</status>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="PASS" start="2025-07-17T16:52:15.797880" elapsed="0.000396">Test passed :D</status>
+</test>
+<test id="s1-s5-t2" name="test_cli">
+<kw name="Pass Execution" owner="BuiltIn">
+<msg time="2025-07-17T16:52:15.798632" level="INFO">Execution passed with message:
+Test passed :D</msg>
+<arg>Test passed :D</arg>
+<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
+<status status="PASS" start="2025-07-17T16:52:15.798561" elapsed="0.000108">Test passed :D</status>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="PASS" start="2025-07-17T16:52:15.798383" elapsed="0.000361">Test passed :D</status>
+</test>
+<test id="s1-s5-t3" name="test_gatling_parsing">
+<kw name="Pass Execution" owner="BuiltIn">
+<msg time="2025-07-17T16:52:15.799090" level="INFO">Execution passed with message:
+Test passed :D</msg>
+<arg>Test passed :D</arg>
+<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
+<status status="PASS" start="2025-07-17T16:52:15.799028" elapsed="0.000094">Test passed :D</status>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="PASS" start="2025-07-17T16:52:15.798848" elapsed="0.000347">Test passed :D</status>
+</test>
+<test id="s1-s5-t4" name="test_initialization">
+<kw name="Pass Execution" owner="BuiltIn">
+<msg time="2025-07-17T16:52:15.799526" level="INFO">Execution passed with message:
+Test passed :D</msg>
+<arg>Test passed :D</arg>
+<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
+<status status="PASS" start="2025-07-17T16:52:15.799466" elapsed="0.000092">Test passed :D</status>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="PASS" start="2025-07-17T16:52:15.799295" elapsed="0.000334">Test passed :D</status>
+</test>
+<test id="s1-s5-t5" name="test_parsing">
+<kw name="Pass Execution" owner="BuiltIn">
+<msg time="2025-07-17T16:52:15.799958" level="INFO">Execution passed with message:
+Test passed :D</msg>
+<arg>Test passed :D</arg>
+<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
+<status status="PASS" start="2025-07-17T16:52:15.799900" elapsed="0.000089">Test passed :D</status>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="PASS" start="2025-07-17T16:52:15.799731" elapsed="0.000339">Test passed :D</status>
+</test>
+<test id="s1-s5-t6" name="test_running">
+<kw name="Pass Execution" owner="BuiltIn">
+<msg time="2025-07-17T16:52:15.800402" level="INFO">Execution passed with message:
+Test passed :D</msg>
+<arg>Test passed :D</arg>
+<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
+<status status="PASS" start="2025-07-17T16:52:15.800345" elapsed="0.000089">Test passed :D</status>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="PASS" start="2025-07-17T16:52:15.800176" elapsed="0.000329">Test passed :D</status>
+</test>
+<test id="s1-s5-t7" name="test_running_does_not_fail_by_default">
+<kw name="Pass Execution" owner="BuiltIn">
+<msg time="2025-07-17T16:52:15.800847" level="INFO">Execution passed with message:
+Test passed :D</msg>
+<arg>Test passed :D</arg>
+<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
+<status status="PASS" start="2025-07-17T16:52:15.800790" elapsed="0.000088">Test passed :D</status>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="PASS" start="2025-07-17T16:52:15.800605" elapsed="0.000347">Test passed :D</status>
+</test>
+<test id="s1-s5-t8" name="test_running_fails_correctly">
+<kw name="Pass Execution" owner="BuiltIn">
+<msg time="2025-07-17T16:52:15.801310" level="INFO">Execution passed with message:
+Test passed :D</msg>
+<arg>Test passed :D</arg>
+<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
+<status status="PASS" start="2025-07-17T16:52:15.801247" elapsed="0.000096">Test passed :D</status>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="PASS" start="2025-07-17T16:52:15.801058" elapsed="0.000359">Test passed :D</status>
+</test>
+<test id="s1-s5-t9" name="test_running_with_passing_environment_variables">
+<kw name="Pass Execution" owner="BuiltIn">
+<msg time="2025-07-17T16:52:15.810069" level="INFO">Execution passed with message:
+Test passed :D</msg>
+<arg>Test passed :D</arg>
+<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
+<status status="PASS" start="2025-07-17T16:52:15.809951" elapsed="0.000170">Test passed :D</status>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="PASS" start="2025-07-17T16:52:15.801558" elapsed="0.008665">Test passed :D</status>
+</test>
+<status status="PASS" start="2025-07-17T16:52:15.796691" elapsed="0.013737"/>
+</suite>
+<suite id="s1-s6" name="utest.junit.test_basic_functionality.JUnitBasicTests">
+<test id="s1-s6-t1" name="test_JUnitXml_requires_path_to_be_string">
+<kw name="Pass Execution" owner="BuiltIn">
+<msg time="2025-07-17T16:52:15.811862" level="INFO">Execution passed with message:
+Test passed :D</msg>
+<arg>Test passed :D</arg>
+<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
+<status status="PASS" start="2025-07-17T16:52:15.811792" elapsed="0.000109">Test passed :D</status>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="PASS" start="2025-07-17T16:52:15.811571" elapsed="0.000407">Test passed :D</status>
+</test>
+<test id="s1-s6-t2" name="test_check_for_keyword">
+<kw name="Pass Execution" owner="BuiltIn">
+<msg time="2025-07-17T16:52:15.812331" level="INFO">Execution passed with message:
+Test passed :D</msg>
+<arg>Test passed :D</arg>
+<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
+<status status="PASS" start="2025-07-17T16:52:15.812269" elapsed="0.000096">Test passed :D</status>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="PASS" start="2025-07-17T16:52:15.812089" elapsed="0.000350">Test passed :D</status>
+</test>
+<test id="s1-s6-t3" name="test_cli">
+<kw name="Pass Execution" owner="BuiltIn">
+<msg time="2025-07-17T16:52:15.812769" level="INFO">Execution passed with message:
+Test passed :D</msg>
+<arg>Test passed :D</arg>
+<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
+<status status="PASS" start="2025-07-17T16:52:15.812709" elapsed="0.000092">Test passed :D</status>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="PASS" start="2025-07-17T16:52:15.812541" elapsed="0.000335">Test passed :D</status>
+</test>
+<test id="s1-s6-t4" name="test_initialization">
+<kw name="Pass Execution" owner="BuiltIn">
+<msg time="2025-07-17T16:52:15.813350" level="INFO">Execution passed with message:
+Test passed :D</msg>
+<arg>Test passed :D</arg>
+<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
+<status status="PASS" start="2025-07-17T16:52:15.813205" elapsed="0.000181">Test passed :D</status>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="PASS" start="2025-07-17T16:52:15.812983" elapsed="0.000480">Test passed :D</status>
+</test>
+<test id="s1-s6-t5" name="test_parsing">
+<kw name="Pass Execution" owner="BuiltIn">
+<msg time="2025-07-17T16:52:15.813794" level="INFO">Execution passed with message:
+Test passed :D</msg>
+<arg>Test passed :D</arg>
+<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
+<status status="PASS" start="2025-07-17T16:52:15.813735" elapsed="0.000090">Test passed :D</status>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="PASS" start="2025-07-17T16:52:15.813566" elapsed="0.000330">Test passed :D</status>
+</test>
+<test id="s1-s6-t6" name="test_result_file_is_not_a_string">
+<kw name="Pass Execution" owner="BuiltIn">
+<msg time="2025-07-17T16:52:15.814272" level="INFO">Execution passed with message:
+Test passed :D</msg>
+<arg>Test passed :D</arg>
+<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
+<status status="PASS" start="2025-07-17T16:52:15.814213" elapsed="0.000090">Test passed :D</status>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="PASS" start="2025-07-17T16:52:15.813997" elapsed="0.000374">Test passed :D</status>
+</test>
+<test id="s1-s6-t7" name="test_running">
+<kw name="Pass Execution" owner="BuiltIn">
+<msg time="2025-07-17T16:52:15.814689" level="INFO">Execution passed with message:
+Test passed :D</msg>
+<arg>Test passed :D</arg>
+<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
+<status status="PASS" start="2025-07-17T16:52:15.814634" elapsed="0.000086">Test passed :D</status>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="PASS" start="2025-07-17T16:52:15.814470" elapsed="0.000319">Test passed :D</status>
+</test>
+<test id="s1-s6-t8" name="test_running_does_not_fail_by_default">
+<kw name="Pass Execution" owner="BuiltIn">
+<msg time="2025-07-17T16:52:15.815135" level="INFO">Execution passed with message:
+Test passed :D</msg>
+<arg>Test passed :D</arg>
+<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
+<status status="PASS" start="2025-07-17T16:52:15.815075" elapsed="0.000093">Test passed :D</status>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="PASS" start="2025-07-17T16:52:15.814887" elapsed="0.000355">Test passed :D</status>
+</test>
+<test id="s1-s6-t9" name="test_running_fails_correctly">
+<kw name="Pass Execution" owner="BuiltIn">
+<msg time="2025-07-17T16:52:15.815599" level="INFO">Execution passed with message:
+Test passed :D</msg>
+<arg>Test passed :D</arg>
+<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
+<status status="PASS" start="2025-07-17T16:52:15.815536" elapsed="0.000097">Test passed :D</status>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="PASS" start="2025-07-17T16:52:15.815349" elapsed="0.000358">Test passed :D</status>
+</test>
+<test id="s1-s6-t10" name="test_running_with_passing_environment_variables">
+<kw name="Pass Execution" owner="BuiltIn">
+<msg time="2025-07-17T16:52:15.816087" level="INFO">Execution passed with message:
+Test passed :D</msg>
+<arg>Test passed :D</arg>
+<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
+<status status="PASS" start="2025-07-17T16:52:15.816026" elapsed="0.000092">Test passed :D</status>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="PASS" start="2025-07-17T16:52:15.815812" elapsed="0.000375">Test passed :D</status>
+</test>
+<test id="s1-s6-t11" name="test_transform_tests">
+<kw name="Pass Execution" owner="BuiltIn">
+<msg time="2025-07-17T16:52:15.816506" level="INFO">Execution passed with message:
+Test passed :D</msg>
+<arg>Test passed :D</arg>
+<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
+<status status="PASS" start="2025-07-17T16:52:15.816450" elapsed="0.000086">Test passed :D</status>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="PASS" start="2025-07-17T16:52:15.816284" elapsed="0.000319">Test passed :D</status>
+</test>
+<status status="PASS" start="2025-07-17T16:52:15.810769" elapsed="0.006005"/>
+</suite>
+<suite id="s1-s7" name="utest.oxygen.test_oxygen_listener.OxygenListenerBasicTests">
+<test id="s1-s7-t1" name="test_end_test_when_library_was_not_used">
+<kw name="Pass Execution" owner="BuiltIn">
+<msg time="2025-07-17T16:52:15.818162" level="INFO">Execution passed with message:
+Test passed :D</msg>
+<arg>Test passed :D</arg>
+<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
+<status status="PASS" start="2025-07-17T16:52:15.818099" elapsed="0.000097">Test passed :D</status>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="PASS" start="2025-07-17T16:52:15.817894" elapsed="0.000375">Test passed :D</status>
+</test>
+<test id="s1-s7-t2" name="test_end_test_when_library_was_used">
+<kw name="Pass Execution" owner="BuiltIn">
+<msg time="2025-07-17T16:52:15.818620" level="INFO">Execution passed with message:
+Test passed :D</msg>
+<arg>Test passed :D</arg>
+<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
+<status status="PASS" start="2025-07-17T16:52:15.818560" elapsed="0.000092">Test passed :D</status>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="PASS" start="2025-07-17T16:52:15.818377" elapsed="0.000396">Test passed :D</status>
+</test>
+<test id="s1-s7-t3" name="test_listener_api_version_is_not_changed_accidentally">
+<kw name="Pass Execution" owner="BuiltIn">
+<msg time="2025-07-17T16:52:15.819143" level="INFO">Execution passed with message:
+Test passed :D</msg>
+<arg>Test passed :D</arg>
+<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
+<status status="PASS" start="2025-07-17T16:52:15.819081" elapsed="0.000096">Test passed :D</status>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="PASS" start="2025-07-17T16:52:15.818876" elapsed="0.000371">Test passed :D</status>
+</test>
+<status status="PASS" start="2025-07-17T16:52:15.817087" elapsed="0.002309"/>
+</suite>
+<suite id="s1-s8" name="utest.oxygen.test_oxygen_visitor.TestOxygen">
+<test id="s1-s8-t1" name="test_multiple_errors_are_reported">
+<kw name="Pass Execution" owner="BuiltIn">
+<msg time="2025-07-17T16:52:15.820610" level="INFO">Execution passed with message:
+Test passed :D</msg>
+<arg>Test passed :D</arg>
+<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
+<status status="PASS" start="2025-07-17T16:52:15.820543" elapsed="0.000104">Test passed :D</status>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="PASS" start="2025-07-17T16:52:15.820338" elapsed="0.000387">Test passed :D</status>
+</test>
+<test id="s1-s8-t2" name="test_single_exception_raised_directly">
+<kw name="Pass Execution" owner="BuiltIn">
+<msg time="2025-07-17T16:52:15.821095" level="INFO">Execution passed with message:
+Test passed :D</msg>
+<arg>Test passed :D</arg>
+<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
+<status status="PASS" start="2025-07-17T16:52:15.821031" elapsed="0.000098">Test passed :D</status>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="PASS" start="2025-07-17T16:52:15.820832" elapsed="0.000372">Test passed :D</status>
+</test>
+<status status="PASS" start="2025-07-17T16:52:15.819668" elapsed="0.001686"/>
+</suite>
+<suite id="s1-s9" name="utest.oxygen.test_oxygenlibrary.TestOxygenLibrary">
+<test id="s1-s9-t1" name="test_arguments">
+<kw name="Pass Execution" owner="BuiltIn">
+<msg time="2025-07-17T16:52:15.822620" level="INFO">Execution passed with message:
+Test passed :D</msg>
+<arg>Test passed :D</arg>
+<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
+<status status="PASS" start="2025-07-17T16:52:15.822556" elapsed="0.000099">Test passed :D</status>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="PASS" start="2025-07-17T16:52:15.822372" elapsed="0.000358">Test passed :D</status>
+</test>
+<test id="s1-s9-t2" name="test_config_is_correct">
+<kw name="Pass Execution" owner="BuiltIn">
+<msg time="2025-07-17T16:52:15.823083" level="INFO">Execution passed with message:
+Test passed :D</msg>
+<arg>Test passed :D</arg>
+<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
+<status status="PASS" start="2025-07-17T16:52:15.823020" elapsed="0.000097">Test passed :D</status>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="PASS" start="2025-07-17T16:52:15.822836" elapsed="0.000353">Test passed :D</status>
+</test>
+<test id="s1-s9-t3" name="test_documentation">
+<kw name="Pass Execution" owner="BuiltIn">
+<msg time="2025-07-17T16:52:15.823524" level="INFO">Execution passed with message:
+Test passed :D</msg>
+<arg>Test passed :D</arg>
+<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
+<status status="PASS" start="2025-07-17T16:52:15.823463" elapsed="0.000094">Test passed :D</status>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="PASS" start="2025-07-17T16:52:15.823288" elapsed="0.000341">Test passed :D</status>
+</test>
+<test id="s1-s9-t4" name="test_initialization">
+<kw name="Pass Execution" owner="BuiltIn">
+<msg time="2025-07-17T16:52:15.823962" level="INFO">Execution passed with message:
+Test passed :D</msg>
+<arg>Test passed :D</arg>
+<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
+<status status="PASS" start="2025-07-17T16:52:15.823902" elapsed="0.000092">Test passed :D</status>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="PASS" start="2025-07-17T16:52:15.823731" elapsed="0.000349">Test passed :D</status>
+</test>
+<test id="s1-s9-t5" name="test_run_keyword">
+<kw name="Pass Execution" owner="BuiltIn">
+<msg time="2025-07-17T16:52:15.824459" level="INFO">Execution passed with message:
+Test passed :D</msg>
+<arg>Test passed :D</arg>
+<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
+<status status="PASS" start="2025-07-17T16:52:15.824391" elapsed="0.000105">Test passed :D</status>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="PASS" start="2025-07-17T16:52:15.824208" elapsed="0.000371">Test passed :D</status>
+</test>
+<test id="s1-s9-t6" name="test_run_keyword_should_fail_if_nonexistent_kw_is_called">
+<kw name="Pass Execution" owner="BuiltIn">
+<msg time="2025-07-17T16:52:15.824981" level="INFO">Execution passed with message:
+Test passed :D</msg>
+<arg>Test passed :D</arg>
+<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
+<status status="PASS" start="2025-07-17T16:52:15.824916" elapsed="0.000107">Test passed :D</status>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="PASS" start="2025-07-17T16:52:15.824695" elapsed="0.000410">Test passed :D</status>
+</test>
+<status status="PASS" start="2025-07-17T16:52:15.821607" elapsed="0.003664"/>
+</suite>
+<suite id="s1-s10" name="utest.robot_interface.test_robot_interface_basic_usage.RobotInterfaceBasicTests">
+<test id="s1-s10-t1" name="test_build_suites">
+<kw name="Pass Execution" owner="BuiltIn">
+<msg time="2025-07-17T16:52:15.826732" level="INFO">Execution passed with message:
+Test passed :D</msg>
+<arg>Test passed :D</arg>
+<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
+<status status="PASS" start="2025-07-17T16:52:15.826563" elapsed="0.000208">Test passed :D</status>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="PASS" start="2025-07-17T16:52:15.826355" elapsed="0.000499">Test passed :D</status>
+</test>
+<test id="s1-s10-t2" name="test_create_wrapper_keyword_for_setup">
+<kw name="Pass Execution" owner="BuiltIn">
+<msg time="2025-07-17T16:52:15.827242" level="INFO">Execution passed with message:
+Test passed :D</msg>
+<arg>Test passed :D</arg>
+<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
+<status status="PASS" start="2025-07-17T16:52:15.827176" elapsed="0.000101">Test passed :D</status>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="PASS" start="2025-07-17T16:52:15.826965" elapsed="0.000402">Test passed :D</status>
+</test>
+<status status="PASS" start="2025-07-17T16:52:15.825562" elapsed="0.001969"/>
+</suite>
+<suite id="s1-s11" name="utest.robot_interface.test_time_conversions.TestMsToTimestamp">
+<test id="s1-s11-t1" name="test_should_be_associative">
+<kw name="Pass Execution" owner="BuiltIn">
+<msg time="2025-07-17T16:52:15.828843" level="INFO">Execution passed with message:
+Test passed :D</msg>
+<arg>Test passed :D</arg>
+<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
+<status status="PASS" start="2025-07-17T16:52:15.828775" elapsed="0.000105">Test passed :D</status>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="PASS" start="2025-07-17T16:52:15.828567" elapsed="0.000391">Test passed :D</status>
+</test>
+<test id="s1-s11-t2" name="test_should_be_correct">
+<kw name="Pass Execution" owner="BuiltIn">
+<msg time="2025-07-17T16:52:15.829331" level="INFO">Execution passed with message:
+Test passed :D</msg>
+<arg>Test passed :D</arg>
+<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
+<status status="PASS" start="2025-07-17T16:52:15.829269" elapsed="0.000095">Test passed :D</status>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="PASS" start="2025-07-17T16:52:15.829073" elapsed="0.000399">Test passed :D</status>
+</test>
+<status status="PASS" start="2025-07-17T16:52:15.827849" elapsed="0.001784"/>
+</suite>
+<suite id="s1-s12" name="utest.robot_interface.test_time_conversions.TestTimestampToMs">
+<test id="s1-s12-t1" name="test_should_be_associative">
+<kw name="Pass Execution" owner="BuiltIn">
+<msg time="2025-07-17T16:52:15.830842" level="INFO">Execution passed with message:
+Test passed :D</msg>
+<arg>Test passed :D</arg>
+<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
+<status status="PASS" start="2025-07-17T16:52:15.830777" elapsed="0.000099">Test passed :D</status>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="PASS" start="2025-07-17T16:52:15.830593" elapsed="0.000356">Test passed :D</status>
+</test>
+<test id="s1-s12-t2" name="test_should_be_correct">
+<kw name="Pass Execution" owner="BuiltIn">
+<msg time="2025-07-17T16:52:15.831294" level="INFO">Execution passed with message:
+Test passed :D</msg>
+<arg>Test passed :D</arg>
+<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
+<status status="PASS" start="2025-07-17T16:52:15.831232" elapsed="0.000189">Test passed :D</status>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="PASS" start="2025-07-17T16:52:15.831055" elapsed="0.000447">Test passed :D</status>
+</test>
+<status status="PASS" start="2025-07-17T16:52:15.829929" elapsed="0.001724"/>
+</suite>
+<suite id="s1-s13" name="utest.zap.test_basic_functionality.ZAPBasicTests">
+<test id="s1-s13-t1" name="test_check_for_keyword">
+<kw name="Pass Execution" owner="BuiltIn">
+<msg time="2025-07-17T16:52:15.832851" level="INFO">Execution passed with message:
+Test passed :D</msg>
+<arg>Test passed :D</arg>
+<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
+<status status="PASS" start="2025-07-17T16:52:15.832787" elapsed="0.000098">Test passed :D</status>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="PASS" start="2025-07-17T16:52:15.832599" elapsed="0.000358">Test passed :D</status>
+</test>
+<test id="s1-s13-t2" name="test_cli">
+<kw name="Pass Execution" owner="BuiltIn">
+<msg time="2025-07-17T16:52:15.833290" level="INFO">Execution passed with message:
+Test passed :D</msg>
+<arg>Test passed :D</arg>
+<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
+<status status="PASS" start="2025-07-17T16:52:15.833229" elapsed="0.000095">Test passed :D</status>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="PASS" start="2025-07-17T16:52:15.833064" elapsed="0.000330">Test passed :D</status>
+</test>
+<test id="s1-s13-t3" name="test_initialization">
+<kw name="Pass Execution" owner="BuiltIn">
+<msg time="2025-07-17T16:52:15.833739" level="INFO">Execution passed with message:
+Test passed :D</msg>
+<arg>Test passed :D</arg>
+<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
+<status status="PASS" start="2025-07-17T16:52:15.833675" elapsed="0.000099">Test passed :D</status>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="PASS" start="2025-07-17T16:52:15.833497" elapsed="0.000349">Test passed :D</status>
+</test>
+<test id="s1-s13-t4" name="test_parsing">
+<kw name="Pass Execution" owner="BuiltIn">
+<msg time="2025-07-17T16:52:15.834179" level="INFO">Execution passed with message:
+Test passed :D</msg>
+<arg>Test passed :D</arg>
+<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
+<status status="PASS" start="2025-07-17T16:52:15.834118" elapsed="0.000094">Test passed :D</status>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="PASS" start="2025-07-17T16:52:15.833949" elapsed="0.000334">Test passed :D</status>
+</test>
+<test id="s1-s13-t5" name="test_parsing_json">
+<kw name="Pass Execution" owner="BuiltIn">
+<msg time="2025-07-17T16:52:15.834622" level="INFO">Execution passed with message:
+Test passed :D</msg>
+<arg>Test passed :D</arg>
+<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
+<status status="PASS" start="2025-07-17T16:52:15.834560" elapsed="0.000094">Test passed :D</status>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="PASS" start="2025-07-17T16:52:15.834384" elapsed="0.000339">Test passed :D</status>
+</test>
+<test id="s1-s13-t6" name="test_parsing_xml">
+<kw name="Pass Execution" owner="BuiltIn">
+<msg time="2025-07-17T16:52:15.835060" level="INFO">Execution passed with message:
+Test passed :D</msg>
+<arg>Test passed :D</arg>
+<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
+<status status="PASS" start="2025-07-17T16:52:15.834993" elapsed="0.000098">Test passed :D</status>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="PASS" start="2025-07-17T16:52:15.834824" elapsed="0.000337">Test passed :D</status>
+</test>
+<test id="s1-s13-t7" name="test_running">
+<kw name="Pass Execution" owner="BuiltIn">
+<msg time="2025-07-17T16:52:15.835587" level="INFO">Execution passed with message:
+Test passed :D</msg>
+<arg>Test passed :D</arg>
+<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
+<status status="PASS" start="2025-07-17T16:52:15.835429" elapsed="0.000194">Test passed :D</status>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="PASS" start="2025-07-17T16:52:15.835262" elapsed="0.000440">Test passed :D</status>
+</test>
+<test id="s1-s13-t8" name="test_running_does_not_fail_by_default">
+<kw name="Pass Execution" owner="BuiltIn">
+<msg time="2025-07-17T16:52:15.836070" level="INFO">Execution passed with message:
+Test passed :D</msg>
+<arg>Test passed :D</arg>
+<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
+<status status="PASS" start="2025-07-17T16:52:15.836004" elapsed="0.000099">Test passed :D</status>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="PASS" start="2025-07-17T16:52:15.835808" elapsed="0.000365">Test passed :D</status>
+</test>
+<test id="s1-s13-t9" name="test_running_fails_correctly">
+<kw name="Pass Execution" owner="BuiltIn">
+<msg time="2025-07-17T16:52:15.836518" level="INFO">Execution passed with message:
+Test passed :D</msg>
+<arg>Test passed :D</arg>
+<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
+<status status="PASS" start="2025-07-17T16:52:15.836458" elapsed="0.000092">Test passed :D</status>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="PASS" start="2025-07-17T16:52:15.836276" elapsed="0.000343">Test passed :D</status>
+</test>
+<test id="s1-s13-t10" name="test_running_with_passing_environment_values">
+<kw name="Pass Execution" owner="BuiltIn">
+<msg time="2025-07-17T16:52:15.836975" level="INFO">Execution passed with message:
+Test passed :D</msg>
+<arg>Test passed :D</arg>
+<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
+<status status="PASS" start="2025-07-17T16:52:15.836917" elapsed="0.000094">Test passed :D</status>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="PASS" start="2025-07-17T16:52:15.836720" elapsed="0.000359">Test passed :D</status>
+</test>
+<test id="s1-s13-t11" name="test_zap_parsing">
+<kw name="Pass Execution" owner="BuiltIn">
+<msg time="2025-07-17T16:52:15.837416" level="INFO">Execution passed with message:
+Test passed :D</msg>
+<arg>Test passed :D</arg>
+<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
+<status status="PASS" start="2025-07-17T16:52:15.837355" elapsed="0.000095">Test passed :D</status>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="PASS" start="2025-07-17T16:52:15.837181" elapsed="0.000340">Test passed :D</status>
+</test>
+<status status="PASS" start="2025-07-17T16:52:15.831944" elapsed="0.005750"/>
+</suite>
+<suite id="s1-s14" name="utest.zap.test_parse_zap_alert_dict.TestParseZapAlertDict">
+<test id="s1-s14-t1" name="test_has_defaults">
+<kw name="Pass Execution" owner="BuiltIn">
+<msg time="2025-07-17T16:52:15.838983" level="INFO">Execution passed with message:
+Test passed :D</msg>
+<arg>Test passed :D</arg>
+<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
+<status status="PASS" start="2025-07-17T16:52:15.838873" elapsed="0.000157">Test passed :D</status>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="PASS" start="2025-07-17T16:52:15.838678" elapsed="0.000435">Test passed :D</status>
+</test>
+<test id="s1-s14-t2" name="test_keeps_params">
+<kw name="Pass Execution" owner="BuiltIn">
+<msg time="2025-07-17T16:52:15.839464" level="INFO">Execution passed with message:
+Test passed :D</msg>
+<arg>Test passed :D</arg>
+<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
+<status status="PASS" start="2025-07-17T16:52:15.839399" elapsed="0.000098">Test passed :D</status>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="PASS" start="2025-07-17T16:52:15.839221" elapsed="0.000349">Test passed :D</status>
+</test>
+<test id="s1-s14-t3" name="test_passes_down">
+<kw name="Pass Execution" owner="BuiltIn">
+<msg time="2025-07-17T16:52:15.840017" level="INFO">Execution passed with message:
+Test passed :D</msg>
+<arg>Test passed :D</arg>
+<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
+<status status="PASS" start="2025-07-17T16:52:15.839943" elapsed="0.000111">Test passed :D</status>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="PASS" start="2025-07-17T16:52:15.839673" elapsed="0.000460">Test passed :D</status>
+</test>
+<status status="PASS" start="2025-07-17T16:52:15.837993" elapsed="0.002294"/>
+</suite>
+<suite id="s1-s15" name="utest.zap.test_parse_zap_dict.TestParseZapDict">
+<test id="s1-s15-t1" name="test_calls_down">
+<kw name="Pass Execution" owner="BuiltIn">
+<msg time="2025-07-17T16:52:15.841493" level="INFO">Execution passed with message:
+Test passed :D</msg>
+<arg>Test passed :D</arg>
+<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
+<status status="PASS" start="2025-07-17T16:52:15.841428" elapsed="0.000102">Test passed :D</status>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="PASS" start="2025-07-17T16:52:15.841238" elapsed="0.000369">Test passed :D</status>
+</test>
+<test id="s1-s15-t2" name="test_handles_oddparams">
+<kw name="Pass Execution" owner="BuiltIn">
+<msg time="2025-07-17T16:52:15.841973" level="INFO">Execution passed with message:
+Test passed :D</msg>
+<arg>Test passed :D</arg>
+<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
+<status status="PASS" start="2025-07-17T16:52:15.841900" elapsed="0.000113">Test passed :D</status>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="PASS" start="2025-07-17T16:52:15.841714" elapsed="0.000408">Test passed :D</status>
+</test>
+<test id="s1-s15-t3" name="test_has_defaults">
+<kw name="Pass Execution" owner="BuiltIn">
+<msg time="2025-07-17T16:52:15.842521" level="INFO">Execution passed with message:
+Test passed :D</msg>
+<arg>Test passed :D</arg>
+<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
+<status status="PASS" start="2025-07-17T16:52:15.842456" elapsed="0.000100">Test passed :D</status>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="PASS" start="2025-07-17T16:52:15.842266" elapsed="0.000362">Test passed :D</status>
+</test>
+<test id="s1-s15-t4" name="test_keepsparams">
+<kw name="Pass Execution" owner="BuiltIn">
+<msg time="2025-07-17T16:52:15.842969" level="INFO">Execution passed with message:
+Test passed :D</msg>
+<arg>Test passed :D</arg>
+<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
+<status status="PASS" start="2025-07-17T16:52:15.842908" elapsed="0.000094">Test passed :D</status>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="PASS" start="2025-07-17T16:52:15.842733" elapsed="0.000351">Test passed :D</status>
+</test>
+<status status="PASS" start="2025-07-17T16:52:15.840568" elapsed="0.002671"/>
+</suite>
+<suite id="s1-s16" name="utest.zap.test_parse_zap_instance.TestParseZapInstance">
+<test id="s1-s16-t1" name="test_has_defaults">
+<kw name="Pass Execution" owner="BuiltIn">
+<msg time="2025-07-17T16:52:15.844558" level="INFO">Execution passed with message:
+Test passed :D</msg>
+<arg>Test passed :D</arg>
+<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
+<status status="PASS" start="2025-07-17T16:52:15.844394" elapsed="0.000203">Test passed :D</status>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="PASS" start="2025-07-17T16:52:15.844199" elapsed="0.000479">Test passed :D</status>
+</test>
+<test id="s1-s16-t2" name="test_is_fail_if_risk_and_confident">
+<kw name="Pass Execution" owner="BuiltIn">
+<msg time="2025-07-17T16:52:15.845048" level="INFO">Execution passed with message:
+Test passed :D</msg>
+<arg>Test passed :D</arg>
+<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
+<status status="PASS" start="2025-07-17T16:52:15.844977" elapsed="0.000107">Test passed :D</status>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="PASS" start="2025-07-17T16:52:15.844784" elapsed="0.000375">Test passed :D</status>
+</test>
+<test id="s1-s16-t3" name="test_is_pass_if_not_risk_and_confident">
+<kw name="Pass Execution" owner="BuiltIn">
+<msg time="2025-07-17T16:52:15.845530" level="INFO">Execution passed with message:
+Test passed :D</msg>
+<arg>Test passed :D</arg>
+<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
+<status status="PASS" start="2025-07-17T16:52:15.845466" elapsed="0.000098">Test passed :D</status>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="PASS" start="2025-07-17T16:52:15.845267" elapsed="0.000374">Test passed :D</status>
+</test>
+<test id="s1-s16-t4" name="test_is_pass_if_not_risk_and_not_confident">
+<kw name="Pass Execution" owner="BuiltIn">
+<msg time="2025-07-17T16:52:15.846013" level="INFO">Execution passed with message:
+Test passed :D</msg>
+<arg>Test passed :D</arg>
+<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
+<status status="PASS" start="2025-07-17T16:52:15.845947" elapsed="0.000103">Test passed :D</status>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="PASS" start="2025-07-17T16:52:15.845747" elapsed="0.000375">Test passed :D</status>
+</test>
+<test id="s1-s16-t5" name="test_is_pass_if_risk_and_not_confident">
+<kw name="Pass Execution" owner="BuiltIn">
+<msg time="2025-07-17T16:52:15.846466" level="INFO">Execution passed with message:
+Test passed :D</msg>
+<arg>Test passed :D</arg>
+<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
+<status status="PASS" start="2025-07-17T16:52:15.846407" elapsed="0.000091">Test passed :D</status>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="PASS" start="2025-07-17T16:52:15.846221" elapsed="0.000345">Test passed :D</status>
+</test>
+<test id="s1-s16-t6" name="test_keepsparams">
+<kw name="Pass Execution" owner="BuiltIn">
+<msg time="2025-07-17T16:52:15.846902" level="INFO">Execution passed with message:
+Test passed :D</msg>
+<arg>Test passed :D</arg>
+<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
+<status status="PASS" start="2025-07-17T16:52:15.846840" elapsed="0.000096">Test passed :D</status>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="PASS" start="2025-07-17T16:52:15.846666" elapsed="0.000344">Test passed :D</status>
+</test>
+<status status="PASS" start="2025-07-17T16:52:15.843508" elapsed="0.003670"/>
+</suite>
+<suite id="s1-s17" name="utest.zap.test_parse_zap_site_dict.TestParseZapSiteDict">
+<test id="s1-s17-t1" name="test_has_defaults">
+<kw name="Pass Execution" owner="BuiltIn">
+<msg time="2025-07-17T16:52:15.848417" level="INFO">Execution passed with message:
+Test passed :D</msg>
+<arg>Test passed :D</arg>
+<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
+<status status="PASS" start="2025-07-17T16:52:15.848350" elapsed="0.000104">Test passed :D</status>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="PASS" start="2025-07-17T16:52:15.848158" elapsed="0.000411">Test passed :D</status>
+</test>
+<test id="s1-s17-t2" name="test_reads_prefixed">
+<kw name="Pass Execution" owner="BuiltIn">
+<msg time="2025-07-17T16:52:15.849082" level="INFO">Execution passed with message:
+Test passed :D</msg>
+<arg>Test passed :D</arg>
+<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
+<status status="PASS" start="2025-07-17T16:52:15.848910" elapsed="0.000210">Test passed :D</status>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="PASS" start="2025-07-17T16:52:15.848715" elapsed="0.000485">Test passed :D</status>
+</test>
+<status status="PASS" start="2025-07-17T16:52:15.847462" elapsed="0.001892"/>
+</suite>
+<suite id="s1-s18" name="utest.zap.test_xml_to_dict.TestXmlToDict">
+<test id="s1-s18-t1" name="test_converts_xml">
+<kw name="Pass Execution" owner="BuiltIn">
+<msg time="2025-07-17T16:52:15.850553" level="INFO">Execution passed with message:
+Test passed :D</msg>
+<arg>Test passed :D</arg>
+<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
+<status status="PASS" start="2025-07-17T16:52:15.850487" elapsed="0.000102">Test passed :D</status>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="PASS" start="2025-07-17T16:52:15.850296" elapsed="0.000369">Test passed :D</status>
+</test>
+<status status="PASS" start="2025-07-17T16:52:15.849630" elapsed="0.001183"/>
+</suite>
+<suite id="s1-s19" name="utest.oxygen.test_oxygen_cli.TestOxygenCLI">
+<test id="s1-s19-t1" name="test_cli_with_no_args">
+<kw name="Fail" owner="BuiltIn">
+<msg time="2025-07-17T16:52:15.852050" level="FAIL">FAIL: None (None)</msg>
+<arg>FAIL: None (None)</arg>
+<doc>Fails the test with the given message and optionally alters its tags.</doc>
+<status status="FAIL" start="2025-07-17T16:52:15.851912" elapsed="0.000195">FAIL: None (None)</status>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="FAIL" start="2025-07-17T16:52:15.851725" elapsed="0.000487">FAIL: None (None)</status>
+</test>
+<test id="s1-s19-t2" name="test_direct_module_entrypoint">
+<kw name="Fail" owner="BuiltIn">
+<msg time="2025-07-17T16:52:15.852626" level="FAIL">ERROR: None (None)</msg>
+<arg>ERROR: None (None)</arg>
+<doc>Fails the test with the given message and optionally alters its tags.</doc>
+<status status="FAIL" start="2025-07-17T16:52:15.852511" elapsed="0.000160">ERROR: None (None)</status>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="FAIL" start="2025-07-17T16:52:15.852322" elapsed="0.000438">ERROR: None (None)</status>
+</test>
+<test id="s1-s19-t3" name="test_main_level_entrypoint">
+<kw name="Fail" owner="BuiltIn">
+<msg time="2025-07-17T16:52:15.853165" level="FAIL">ERROR: None (None)</msg>
+<arg>ERROR: None (None)</arg>
+<doc>Fails the test with the given message and optionally alters its tags.</doc>
+<status status="FAIL" start="2025-07-17T16:52:15.853055" elapsed="0.000151">ERROR: None (None)</status>
+</kw>
+<tag>oxygen-junit-unknown-execution-time</tag>
+<status status="FAIL" start="2025-07-17T16:52:15.852862" elapsed="0.000433">ERROR: None (None)</status>
+</test>
+<status status="FAIL" start="2025-07-17T16:52:15.851071" elapsed="0.002381"/>
+</suite>
+<status status="FAIL" start="2025-07-17T16:52:15.777977" elapsed="0.076022"/>
+</suite>
+<statistics>
+<total>
+<stat pass="69" fail="3" skip="0">All Tests</stat>
+</total>
+<tag>
+<stat pass="69" fail="3" skip="0">oxygen-junit-unknown-execution-time</stat>
+</tag>
+<suite>
+<stat name="JUnit Execution" id="s1" pass="69" fail="3" skip="0">JUnit Execution</stat>
+<stat name="utest.base_handler.test_errors.TestBaseHandlerErrors" id="s1-s1" pass="1" fail="0" skip="0">JUnit Execution.utest.base_handler.test_errors.TestBaseHandlerErrors</stat>
+<stat name="utest.base_handler.test_inject_suite_report.TestInjectSuiteReport" id="s1-s2" pass="2" fail="0" skip="0">JUnit Execution.utest.base_handler.test_inject_suite_report.TestInjectSuiteReport</stat>
+<stat name="utest.base_handler.test_normalize_keyword_name.TestNormalizeKeywordName" id="s1-s3" pass="1" fail="0" skip="0">JUnit Execution.utest.base_handler.test_normalize_keyword_name.TestNormalizeKeywordName</stat>
+<stat name="utest.base_handler.test_set_suite_tags.TestSetSuiteTags" id="s1-s4" pass="1" fail="0" skip="0">JUnit Execution.utest.base_handler.test_set_suite_tags.TestSetSuiteTags</stat>
+<stat name="utest.gatling.test_basic_functionality.JUnitBasicTests" id="s1-s5" pass="9" fail="0" skip="0">JUnit Execution.utest.gatling.test_basic_functionality.JUnitBasicTests</stat>
+<stat name="utest.junit.test_basic_functionality.JUnitBasicTests" id="s1-s6" pass="11" fail="0" skip="0">JUnit Execution.utest.junit.test_basic_functionality.JUnitBasicTests</stat>
+<stat name="utest.oxygen.test_oxygen_listener.OxygenListenerBasicTests" id="s1-s7" pass="3" fail="0" skip="0">JUnit Execution.utest.oxygen.test_oxygen_listener.OxygenListenerBasicTests</stat>
+<stat name="utest.oxygen.test_oxygen_visitor.TestOxygen" id="s1-s8" pass="2" fail="0" skip="0">JUnit Execution.utest.oxygen.test_oxygen_visitor.TestOxygen</stat>
+<stat name="utest.oxygen.test_oxygenlibrary.TestOxygenLibrary" id="s1-s9" pass="6" fail="0" skip="0">JUnit Execution.utest.oxygen.test_oxygenlibrary.TestOxygenLibrary</stat>
+<stat name="utest.robot_interface.test_robot_interface_basic_usage.RobotInterfaceBasicTests" id="s1-s10" pass="2" fail="0" skip="0">JUnit Execution.utest.robot_interface.test_robot_interface_basic_usage.RobotInterfaceBasicTests</stat>
+<stat name="utest.robot_interface.test_time_conversions.TestMsToTimestamp" id="s1-s11" pass="2" fail="0" skip="0">JUnit Execution.utest.robot_interface.test_time_conversions.TestMsToTimestamp</stat>
+<stat name="utest.robot_interface.test_time_conversions.TestTimestampToMs" id="s1-s12" pass="2" fail="0" skip="0">JUnit Execution.utest.robot_interface.test_time_conversions.TestTimestampToMs</stat>
+<stat name="utest.zap.test_basic_functionality.ZAPBasicTests" id="s1-s13" pass="11" fail="0" skip="0">JUnit Execution.utest.zap.test_basic_functionality.ZAPBasicTests</stat>
+<stat name="utest.zap.test_parse_zap_alert_dict.TestParseZapAlertDict" id="s1-s14" pass="3" fail="0" skip="0">JUnit Execution.utest.zap.test_parse_zap_alert_dict.TestParseZapAlertDict</stat>
+<stat name="utest.zap.test_parse_zap_dict.TestParseZapDict" id="s1-s15" pass="4" fail="0" skip="0">JUnit Execution.utest.zap.test_parse_zap_dict.TestParseZapDict</stat>
+<stat name="utest.zap.test_parse_zap_instance.TestParseZapInstance" id="s1-s16" pass="6" fail="0" skip="0">JUnit Execution.utest.zap.test_parse_zap_instance.TestParseZapInstance</stat>
+<stat name="utest.zap.test_parse_zap_site_dict.TestParseZapSiteDict" id="s1-s17" pass="2" fail="0" skip="0">JUnit Execution.utest.zap.test_parse_zap_site_dict.TestParseZapSiteDict</stat>
+<stat name="utest.zap.test_xml_to_dict.TestXmlToDict" id="s1-s18" pass="1" fail="0" skip="0">JUnit Execution.utest.zap.test_xml_to_dict.TestXmlToDict</stat>
+<stat name="utest.oxygen.test_oxygen_cli.TestOxygenCLI" id="s1-s19" pass="0" fail="3" skip="0">JUnit Execution.utest.oxygen.test_oxygen_cli.TestOxygenCLI</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>

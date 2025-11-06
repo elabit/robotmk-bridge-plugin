@@ -2,7 +2,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "CMK2.4 bakery (af63b05c2f4d)",
+            "name": "CMK2.4 bakery (1f64b412f2e3)",
             "type": "python",
             "request": "launch",
             "program": "/omd/sites/cmk/bin/cmk",
@@ -10,14 +10,14 @@
                 "-A",
                 "-v",
                 "-f",
-                "af63b05c2f4d"
+                "1f64b412f2e3"
             ],
             "console": "integratedTerminal",
             "python": "/omd/sites/cmk/bin/python3",
             "justMyCode": false
         },
         {
-            "name": "CMK2.4 Inventory (af63b05c2f4d)",
+            "name": "CMK2.4 Inventory (1f64b412f2e3)",
             "type": "python",
             "request": "launch",
             "program": "/omd/sites/cmk/bin/cmk",
@@ -25,14 +25,14 @@
                 "-v",
                 "-II",
                 "--debug",
-                "af63b05c2f4d"
+                "1f64b412f2e3"
             ],
             "console": "integratedTerminal",
             "python": "/omd/sites/cmk/bin/python3",
             "justMyCode": false
         },
         {
-            "name": "CMK2.4 check (af63b05c2f4d)",
+            "name": "CMK2.4 check (1f64b412f2e3)",
             "type": "python",
             "request": "launch",
             "program": "/omd/sites/cmk/bin/cmk",
@@ -40,7 +40,7 @@
                 "-v",
                 "-n",
                 "-p",
-                "af63b05c2f4d"
+                "1f64b412f2e3"
             ],
             "console": "integratedTerminal",
             "python": "/omd/sites/cmk/bin/python3",
@@ -50,10 +50,26 @@
             "name": "Python: Current File",
             "type": "python",
             "request": "launch",
-            "program": "",
+            "program": "${file}",
             "console": "integratedTerminal",
-            "python": "/omd/sites/cmk/bin/python3",
-            "justMyCode": false
-        }
+            "python": "/usr/bin/python3",
+            "justMyCode": false,
+            "args": [
+                "/workspaces/robotmk-bridge-plugin/tests/resources/cfg/robotmk-bridge-plugin.json"
+            ]
+        },
+        {
+            "name": "Oxygen (Junit)",
+            "type": "python",
+            "request": "launch",
+            "console": "integratedTerminal",
+            "module": "oxygen",
+            "python": "/usr/bin/python3",
+            "justMyCode": false,
+            "args": [
+                "oxygen.junit",
+                "/workspaces/robotmk-bridge-plugin/tests/resources/test_output/junit/junit.xml"
+            ]
+        },
     ]
 }
