@@ -1,22 +1,28 @@
 #!/usr/bin/env python3
 
-"""Robotmk-Bridge agent plugin (minimal start)
+"""Robotmk-Bridge agent plugin utilities.
 
-This module will grow into the agent-side plugin that reads configured
-test-result paths, dispatches handlers and writes Robotmk JSON results.
-For now it contains a config loader used by the agent.
+Implements configuration loading, file discovery and handler integration for
+Oxygen-based conversions. The full agent entry point will build on these
+utilities in future implementation steps.
 """
 
 from __future__ import annotations
 
 import json
 import os
+import tempfile
 import time
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional
+from inspect import Parameter, Signature, signature
+from io import StringIO
+from typing import Any, Dict, Iterable, List, Optional, Sequence, Tuple
 import glob
-import stat
-import oxygen
+
+from oxygen.oxygen import OxygenCore
+from oxygen.robot_interface import RobotInterface
+from oxygen.utils import validate_with_deprecation_warning
+from robot.api import ResultWriter
 
 
 DEFAULT_CONFIG_PATH = "/etc/check_mk/robotmk-bridge-plugin.json"
@@ -29,6 +35,254 @@ class Config:
     plan: Optional[str] = None
     max_age: Optional[int] = None
     metadata: Dict[str, Any] = field(default_factory=dict)
+
+
+@dataclass
+class ResolvedHandler:
+    """Stores the resolved Oxygen handler instance and metadata."""
+
+    handler_key: str
+    handler: Any
+
+
+@dataclass
+class HandlerConversionResult:
+    """Captures artifacts produced by an Oxygen handler conversion."""
+
+    config: Config
+    source_path: str
+    handler_key: str
+    handler_keyword: str
+    parsed_results: Dict[str, Any]
+    robot_output_xml: str
+    log_html: Optional[str]
+    duration_s: float
+
+
+class HandlerError(RuntimeError):
+    """Base exception for handler related failures."""
+
+
+class HandlerResolutionError(HandlerError):
+    """Raised when a configured handler name cannot be mapped to Oxygen."""
+
+
+class HandlerConfigurationError(HandlerError):
+    """Raised when handler arguments cannot be satisfied."""
+
+
+class HandlerExecutionError(HandlerError):
+    """Raised when handler execution fails."""
+
+
+_OXYGENCORE: Optional[OxygenCore] = None
+
+
+def _get_oxygenCORE() -> OxygenCore:
+    """Return a cached OxygenCore instance."""
+
+    global _OXYGENCORE
+    if _OXYGENCORE is None:
+        try:
+            _OXYGENCORE = OxygenCore()
+        except Exception as exc:  # noqa: BLE001 - propagate as domain error
+            raise HandlerResolutionError(f"Failed to initialise Oxygen.OxygenCore: {exc}") from exc
+    return _OXYGENCORE
+
+
+def _iter_handler_keys(handler_name: str) -> Iterable[str]:
+    """Yield plausible handler keys for the given configuration name."""
+
+    names: List[str] = [handler_name]
+    if not handler_name.startswith("oxygen."):
+        names.append(f"oxygen.{handler_name}")
+    return names
+
+
+def resolve_handler(handler_name: str) -> ResolvedHandler:
+    """Resolve a configured handler name to an Oxygen handler instance."""
+
+    core = _get_oxygenCORE()
+    handlers = core.handlers
+
+    for candidate in _iter_handler_keys(handler_name):
+        if candidate in handlers:
+            return ResolvedHandler(handler_key=candidate, handler=handlers[candidate])
+
+    normalized = handler_name.replace(" ", "_").lower()
+    for key, handler in handlers.items():
+        if getattr(handler, "keyword", None) == normalized:
+            return ResolvedHandler(handler_key=key, handler=handler)
+
+    available = ", ".join(sorted(handlers.keys()))
+    raise HandlerResolutionError(
+        f"Unknown handler '{handler_name}'. Available handlers: {available}"
+    )
+
+
+def _prepare_handler_call(handler: Any, source_path: str, metadata: Dict[str, Any]) -> Tuple[List[Any], Dict[str, Any]]:
+    """
+    Prepare positional and keyword arguments to call handler.parse_results(source, ...).
+
+    This function introspects the handler.parse_results' signature and builds the
+    positional (args) and keyword (kwargs) arguments that should be passed when
+    invoking that method. It maps the provided source_path and metadata dictionary
+    into the handler's declared parameters following these rules:
+
+    Parameters
+    - handler (Any): An object that exposes a parse_results method. Its signature is
+        inspected to determine how to map source_path and metadata into arguments.
+    - source_path (str): The path (or other primary input) to be supplied as the
+        first argument to parse_results (positionally or as the first parameter's name).
+    - metadata (Dict[str, Any]): A mapping of additional fields that may be bound
+        to named parameters of parse_results or forwarded into a catch-all **kwargs.
+    
+    Behavior summary
+    - The function inspects the signature of handler.parse_results using inspect.signature.
+    - The first parameter of parse_results receives the source_path:
+        - If the first parameter is positional (POSITIONAL_ONLY, POSITIONAL_OR_KEYWORD)
+            or a var-positional (*args), source_path is appended to the positional args list.
+        - If the first parameter is keyword-only, the source_path is placed in kwargs
+            under that parameter name and that name is marked as consumed.
+        - If the first parameter is a var-keyword (**kwargs), the source_path is placed
+            in kwargs under the var-keyword parameter name (i.e., kwargs[<var_kw_name>] = source_path).
+        - Any other first-parameter kind is treated as unsupported.
+    - For each subsequent declared parameter:
+        - If the parameter is positional-only, positional-or-keyword, or keyword-only:
+            - If metadata contains a value for that parameter name, the value is added
+                to kwargs and the name is marked consumed.
+            - If metadata does not contain the name and the parameter has no default,
+                a HandlerConfigurationError is raised (required metadata missing).
+        - Var-positional parameters (*args) are ignored (no attempt is made to fill them).
+        - Var-keyword parameters (**kwargs) collect any remaining metadata items whose
+            names were not already consumed; each such item is added to kwargs.
+
+    Returns
+    - Tuple[List[Any], Dict[str, Any]]: A 2-tuple (args, kwargs) suitable for calling
+        handler.parse_results(*args, **kwargs). args is a list of positional arguments
+        (possibly empty); kwargs is a dict of keyword arguments prepared from metadata
+        and the source_path mapping rules described above.
+
+    Errors / Exceptions
+    - HandlerConfigurationError is raised when:
+        - handler.parse_results declares no parameters.
+        - A required parameter (no default) is not present in metadata.
+        - The first parameter uses an unsupported parameter kind.
+
+    Notes and examples
+    - Consumed parameter names are tracked to avoid supplying the same metadata key
+        twice or forwarding it twice into **kwargs.
+    - Example mappings (informal):
+        - parse_results(source, foo, **rest) -> args = [source], kwargs['foo'] from metadata if present,
+            remaining metadata items go into kwargs via **rest.
+        - parse_results(*args, **kwargs) -> args = [source], kwargs = {'kwargs': source, ...} (the
+            var-keyword name receives source_path under that name).
+    - The function does not attempt type conversion; it purely maps names and values
+        according to the declared signature.
+    """
+    """Build positional/keyword arguments for handler.parse_results."""
+
+    parse: Signature = signature(handler.parse_results)
+    params: Sequence[Parameter] = tuple(parse.parameters.values())
+    if not params:
+        raise HandlerConfigurationError(
+            f"Handler '{handler.__class__.__name__}' declares no parameters"
+        )
+
+    args: List[Any] = []
+    kwargs: Dict[str, Any] = {}
+    consumed: set[str] = set()
+
+    first = params[0]
+    if first.kind in (Parameter.POSITIONAL_ONLY, Parameter.POSITIONAL_OR_KEYWORD, Parameter.VAR_POSITIONAL):
+        args.append(source_path)
+    elif first.kind == Parameter.KEYWORD_ONLY:
+        kwargs[first.name] = source_path
+        consumed.add(first.name)
+    elif first.kind == Parameter.VAR_KEYWORD:
+        kwargs[first.name] = source_path
+    else:
+        raise HandlerConfigurationError(
+            f"Unsupported parameter kind for first argument: {first.kind}"
+        )
+
+    for param in params[1:]:
+        if param.kind in (Parameter.POSITIONAL_ONLY, Parameter.POSITIONAL_OR_KEYWORD, Parameter.KEYWORD_ONLY):
+            if param.name in metadata:
+                kwargs[param.name] = metadata[param.name]
+                consumed.add(param.name)
+            elif param.default is Parameter.empty:
+                raise HandlerConfigurationError(
+                    f"Missing required metadata field '{param.name}' for handler "
+                    f"'{handler.__class__.__name__}'"
+                )
+        elif param.kind == Parameter.VAR_POSITIONAL:
+            continue
+        elif param.kind == Parameter.VAR_KEYWORD:
+            for key, value in metadata.items():
+                if key not in consumed:
+                    kwargs[key] = value
+                    consumed.add(key)
+
+    return args, kwargs
+
+
+def _render_robot_artifacts(parsed_results: Dict[str, Any]) -> Tuple[str, Optional[str]]:
+    """Render Robot Framework XML and log HTML for parsed results."""
+
+    suite = RobotInterface().running.build_suite(parsed_results)
+    stdout_buffer = StringIO()
+
+    with tempfile.TemporaryDirectory() as tmpdir:
+        output_path = os.path.join(tmpdir, "output.xml")
+        log_path = os.path.join(tmpdir, "log.html")
+
+        suite.run(output=output_path, log=None, report=None, stdout=stdout_buffer)
+        ResultWriter(output_path).write_results(log=log_path, report=None)
+
+        with open(output_path, "r", encoding="utf-8") as fh:
+            output_xml = fh.read()
+
+        log_html: Optional[str] = None
+        if os.path.exists(log_path):
+            try:
+                with open(log_path, "r", encoding="utf-8") as fh:
+                    log_html = fh.read()
+            except OSError:
+                log_html = None
+
+    return output_xml, log_html
+
+
+def convert_with_handler(config: Config, source_path: str) -> HandlerConversionResult:
+    """Convert a test result file using the configured Oxygen handler."""
+
+    resolved = resolve_handler(config.handler)
+    handler = resolved.handler
+
+    args, kwargs = _prepare_handler_call(handler, source_path, config.metadata)
+
+    start = time.perf_counter()
+    try:
+        parsed = handler.parse_results(*args, **kwargs)
+    except Exception as exc:  # noqa: BLE001 - we wrap into domain error
+        raise HandlerExecutionError(str(exc)) from exc
+
+    validate_with_deprecation_warning(parsed, handler.parse_results)
+
+    output_xml, log_html = _render_robot_artifacts(parsed)
+    duration = time.perf_counter() - start
+
+    return HandlerConversionResult(
+        config=config,
+        source_path=source_path,
+        handler_key=resolved.handler_key,
+        handler_keyword=getattr(handler, "keyword", config.handler),
+        parsed_results=parsed,
+        robot_output_xml=output_xml,
+        log_html=log_html,
+        duration_s=duration,
+    )
 
 
 def load_config(path: Optional[str] = None) -> List[Config]:

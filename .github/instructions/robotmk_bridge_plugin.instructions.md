@@ -51,7 +51,7 @@ Not yet refined:
 1. Implement config loader and validation to read `/etc/check_mk/robotmk-bridge-plugin.json`, ensuring required keys, numeric `max_age`, and sensible defaults (plan name, metadata).
 2. Build file discovery layer that resolves paths/globs, filters by `max_age`, checks file size thresholds, and yields concrete files with rich error states.
 3. Integrate oxygen handlers: instantiate the correct handler per entry, feed file contents, capture Robot Framework XML/log output, and surface handler-level errors.
-4. Construct Robotmk JSON wrapper matching `sample_data/globetrack_simple.json`, embedding RF XML/HTML, metadata, timing data, and writing to scheduler plan paths.
+4. Construct Robotmk JSON file, embedding RF XML/HTML in the same way as in `sample_data/globetrack_simple.json`, (metadata, timing data etc.), and write it to the path where the Scheduler also stores them. This is defined in the Agent config dir (MK_CONFDIR) in `robotmk.json` in key "runtime_directory" (folder "results" below"). If file is not found, produce a proper error message
 5. Emit bridge agent section summarizing each processed file, success/failure details, conversion durations, and cumulative metrics for the server-side check.
 6. Add structured logging and error handling (warnings vs. fatal), making sure failures propagate to agent section and optional debug logs.
 7. Cover functionality with unit tests (config, discovery, JSON builder, handler dispatch) plus an integration test against `rf_tests/simple` fixtures.
