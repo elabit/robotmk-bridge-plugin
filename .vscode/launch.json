@@ -2,7 +2,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "CMK2.4 bakery (1f64b412f2e3)",
+            "name": "CMK2.4 bakery (bd9de59ec191)",
             "type": "python",
             "request": "launch",
             "program": "/omd/sites/cmk/bin/cmk",
@@ -10,14 +10,14 @@
                 "-A",
                 "-v",
                 "-f",
-                "1f64b412f2e3"
+                "bd9de59ec191"
             ],
             "console": "integratedTerminal",
             "python": "/omd/sites/cmk/bin/python3",
             "justMyCode": false
         },
         {
-            "name": "CMK2.4 Inventory (1f64b412f2e3)",
+            "name": "CMK2.4 Inventory (bd9de59ec191)",
             "type": "python",
             "request": "launch",
             "program": "/omd/sites/cmk/bin/cmk",
@@ -25,14 +25,14 @@
                 "-v",
                 "-II",
                 "--debug",
-                "1f64b412f2e3"
+                "bd9de59ec191"
             ],
             "console": "integratedTerminal",
             "python": "/omd/sites/cmk/bin/python3",
             "justMyCode": false
         },
         {
-            "name": "CMK2.4 check (1f64b412f2e3)",
+            "name": "CMK2.4 check (bd9de59ec191)",
             "type": "python",
             "request": "launch",
             "program": "/omd/sites/cmk/bin/cmk",
@@ -40,7 +40,7 @@
                 "-v",
                 "-n",
                 "-p",
-                "1f64b412f2e3"
+                "bd9de59ec191"
             ],
             "console": "integratedTerminal",
             "python": "/omd/sites/cmk/bin/python3",
@@ -48,6 +48,15 @@
         },
         {
             "name": "Python: Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "",
+            "console": "integratedTerminal",
+            "python": "/omd/sites/cmk/bin/python3",
+            "justMyCode": false
+        },
+        {
+            "name": "robotmk_bridge_plugin",
             "type": "python",
             "request": "launch",
             "program": "${file}",
@@ -59,17 +68,30 @@
             ]
         },
         {
-            "name": "Oxygen (Junit)",
+            "name": "robotmk_bridge_plugin (Gatling)",
             "type": "python",
             "request": "launch",
+            "program": "${file}",
             "console": "integratedTerminal",
-            "module": "oxygen",
             "python": "/usr/bin/python3",
             "justMyCode": false,
             "args": [
-                "oxygen.junit",
-                "/workspaces/robotmk-bridge-plugin/tests/resources/test_output/junit/junit.xml"
+                "/workspaces/robotmk-bridge-plugin/tests/resources/cfg/robotmk-bridge-plugin.json",
+                "GatlingTest"
             ]
         },
+        {
+            "name": "robotmk_bridge_plugin (Junit)",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "python": "/usr/bin/python3",
+            "justMyCode": false,
+            "args": [
+                "/workspaces/robotmk-bridge-plugin/tests/resources/cfg/junit-single-testsuite.xml",
+                "JunitTest"
+            ]
+        }
     ]
 }

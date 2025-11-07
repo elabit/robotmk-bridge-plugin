@@ -56,15 +56,41 @@
             "justMyCode": false
         },
         {
-            "name": "Python: Current File",
+            "name": "robotmk_bridge_plugin (ALL)",
             "type": "python",
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
-            "python": "/omd/sites/cmk/bin/python3",
+            "python": "/usr/bin/python3",
             "justMyCode": false,
             "args": [
                 "/workspaces/robotmk-bridge-plugin/tests/resources/cfg/robotmk-bridge-plugin.json"
+            ]
+        },
+        {
+            "name": "robotmk_bridge_plugin (Gatling)",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "python": "/usr/bin/python3",
+            "justMyCode": false,
+            "args": [
+                "/workspaces/robotmk-bridge-plugin/tests/resources/cfg/robotmk-bridge-plugin.json",
+                "GatlingTest"
+            ]
+        },
+        {
+            "name": "robotmk_bridge_plugin (Junit)",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "python": "/usr/bin/python3",
+            "justMyCode": false,
+            "args": [
+                "/workspaces/robotmk-bridge-plugin/tests/resources/cfg/junit-single-testsuite.xml",
+                "JunitTest"
             ]
         }
     ]

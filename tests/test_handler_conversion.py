@@ -1,5 +1,9 @@
+import base64
 import importlib.util
+import json
 import os
+from pathlib import Path
+import time
 
 import pytest
 
@@ -32,11 +36,29 @@ class DummyHandler:
 @pytest.fixture(scope="module")
 def junit_config():
     return plugin.Config(
+        plan_name="JunitSingleTest",
         path=JUNIT_FILE,
         handler="junit",
-        max_age=3600,
+        max_age=3600000,
         metadata={},
     )
+
+
+@pytest.fixture
+def conversion_result(junit_config):
+    return plugin.convert_with_handler(junit_config, JUNIT_FILE)
+
+
+@pytest.fixture
+def conversion_result_piggyback(junit_config):
+    piggyback_cfg = plugin.Config(
+        path=junit_config.path,
+        handler=junit_config.handler,
+        piggyback_host="ci-backend",
+        max_age=junit_config.max_age,
+        metadata=dict(junit_config.metadata),
+    )
+    return plugin.convert_with_handler(piggyback_cfg, JUNIT_FILE)
 
 
 def test_resolve_handler_accepts_prefixless_name():
@@ -101,3 +123,116 @@ def test_convert_with_handler_unknown_handler_raises():
     cfg = plugin.Config(path="/tmp/does-not-matter", handler="nope", max_age=1, metadata={})
     with pytest.raises(plugin.HandlerResolutionError):
         plugin.convert_with_handler(cfg, cfg.path)
+
+
+def test_build_robotmk_result_structure(conversion_result):
+    payload = plugin.build_robotmk_result(conversion_result, timestamp=1234567890)
+
+    assert payload["host"] == "Source"
+    assert payload["name"]
+
+    content = json.loads(payload["content"])    
+    assert content["timestamp"] == 1234567890
+    # TODO
+    assert content["attempts"][0]["outcome"] == "AllTestsPassed"
+    assert content["rebot"]["Ok"]["xml"].startswith("<?xml")
+
+    html_base64 = content["rebot"]["Ok"]["html_base64"]
+    decoded_html = base64.b64decode(html_base64.encode("ascii")) if html_base64 else b""
+    assert b"<html" in decoded_html.lower()
+
+
+def test_build_robotmk_result_uses_piggyback_host(conversion_result_piggyback):
+    payload = plugin.build_robotmk_result(conversion_result_piggyback)
+
+    assert payload["host"] == "ci-backend"
+
+
+def test_resolve_results_directory_reads_robotmk_config(tmp_path, monkeypatch):
+    runtime_dir = tmp_path / "runtime"
+    runtime_dir.mkdir()
+    config_path = tmp_path / "robotmk.json"
+    config_path.write_text(json.dumps({"runtime_directory": str(runtime_dir)}))
+
+    resolved = plugin.resolve_results_directory(robotmk_config_path=str(config_path))
+    assert resolved == runtime_dir / "results" / "plans"
+
+
+def test_write_robotmk_result_creates_plan_file(conversion_result, tmp_path):
+    payload = plugin.build_robotmk_result(conversion_result, timestamp=123)
+
+    target = plugin.write_robotmk_result(conversion_result.config.plan_name, payload, results_dir=str(tmp_path))
+
+    expected = Path(tmp_path) / f"{conversion_result.config.plan_name}.json"
+    assert target == expected
+    stored = json.loads(expected.read_text(encoding="utf-8"))
+    assert stored["host"] == payload["host"]
+    assert json.loads(stored["content"])["timestamp"] == 123
+
+
+def test_process_config_entry_creates_result_file(tmp_path, junit_config):
+    records = plugin.process_config_entry(
+        junit_config,
+        reference_time=123456,
+        results_dir=str(tmp_path),
+    )
+
+    assert len(records) == 1
+    record = records[0]
+    assert record.status == "success"
+    assert record.timestamp == 123456
+    assert record.result_path is not None
+    stored_path = Path(record.result_path)
+    assert stored_path.exists()
+    stored = json.loads(stored_path.read_text(encoding="utf-8"))
+    assert json.loads(stored["content"])["timestamp"] == 123456
+
+
+def test_run_bridge_processes_config_and_writes_results(tmp_path, junit_config):
+    config_file = tmp_path / "robotmk-bridge-plugin.json"
+    config_payload = {
+        "paths": [
+            {
+                "path": junit_config.path,
+                "handler": junit_config.handler,
+                "plan_name": junit_config.plan_name,
+                "max_age": junit_config.max_age
+            }
+        ]
+    }
+    config_file.write_text(json.dumps(config_payload))
+
+    results_dir = tmp_path / "results"
+    report = plugin.run_bridge(
+        config_path=str(config_file),
+        results_dir=str(results_dir),
+        reference_time=987654321,
+    )
+
+    assert len(report.records) == 1
+    record = report.records[0]
+    assert record.status == "success"
+    assert record.result_path is not None
+    stored = json.loads(Path(record.result_path).read_text(encoding="utf-8"))
+    assert json.loads(stored["content"])["timestamp"] == 987654321
+
+
+def test_build_agent_payload_contains_summary(tmp_path, junit_config):
+    reference_time = os.path.getmtime(JUNIT_FILE) + 10
+    records = plugin.process_config_entry(
+        junit_config,
+        results_dir=str(tmp_path),
+        reference_time=reference_time,
+    )
+    report = plugin.BridgeRunReport(
+        started_at=time.time() - 1,
+        finished_at=time.time(),
+        records=records,
+        config_count=1,
+        messages=["test message"],
+    )
+
+    payload = plugin.build_agent_payload(report)
+    assert payload["summary"]["files_success"] == 1
+    assert "plans" in payload
+    assert payload["messages"] == ["test message"]

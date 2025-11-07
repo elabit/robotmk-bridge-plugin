@@ -1,21 +1,17 @@
 #!/usr/bin/env python3
 
-"""Robotmk-Bridge agent plugin utilities.
-
-Implements configuration loading, file discovery and handler integration for
-Oxygen-based conversions. The full agent entry point will build on these
-utilities in future implementation steps.
-"""
-
 from __future__ import annotations
 
+import base64
 import json
 import os
+import sys
 import tempfile
 import time
 from dataclasses import dataclass, field
 from inspect import Parameter, Signature, signature
 from io import StringIO
+from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional, Sequence, Tuple
 import glob
 
@@ -26,15 +22,43 @@ from robot.api import ResultWriter
 
 
 DEFAULT_CONFIG_PATH = "/etc/check_mk/robotmk-bridge-plugin.json"
+AGENT_SECTION = "robotmk_bridge"
 
 
 @dataclass
 class Config:
     path: str
     handler: str
-    plan: Optional[str] = None
+    plan_name: Optional[str] = None
+    piggyback_host: Optional[str] = None
     max_age: Optional[int] = None
     metadata: Dict[str, Any] = field(default_factory=dict)
+
+
+@dataclass
+class FileRunRecord:
+    plan: str
+    handler: str
+    source_path: str
+    status: str
+    runtime_s: Optional[float]
+    result_path: Optional[str]
+    host: Optional[str]
+    message: Optional[str]
+    timestamp: Optional[int]
+
+
+@dataclass
+class BridgeRunReport:
+    started_at: float
+    finished_at: float
+    records: List[FileRunRecord]
+    config_count: int
+    messages: List[str]
+
+    @property
+    def duration_s(self) -> float:
+        return self.finished_at - self.started_at
 
 
 @dataclass
@@ -251,6 +275,7 @@ def _render_robot_artifacts(parsed_results: Dict[str, Any]) -> Tuple[str, Option
             except OSError:
                 log_html = None
 
+
     return output_xml, log_html
 
 
@@ -283,6 +308,352 @@ def convert_with_handler(config: Config, source_path: str) -> HandlerConversionR
         log_html=log_html,
         duration_s=duration,
     )
+
+def _encode_log_html(log_html: Optional[str]) -> str:
+    if not log_html:
+        return ""
+    return base64.b64encode(log_html.encode("utf-8")).decode("ascii")
+
+
+def _assemble_metadata(conversion: HandlerConversionResult) -> Dict[str, Any]:
+    metadata = dict(conversion.config.metadata)
+    metadata.setdefault("application", "robotmk-bridge")
+    metadata.setdefault("suite_name", Path(conversion.source_path).stem)
+    metadata.setdefault("variant", conversion.handler_keyword)
+    return metadata
+
+
+def _build_result_config(metadata: Dict[str, Any]) -> Dict[str, int]:
+    def _coerce(value: Any, default: int) -> int:
+        try:
+            return int(value)
+        except (TypeError, ValueError):
+            return default
+
+    # Also these data are faked for now. 
+    # TODO: Implement proper logic to extract these values from the metadata.
+    # Ref: 0003
+    return {
+        "interval": 60,
+        "timeout": 60,
+        "n_attempts_max": 1,
+    }
+
+    return {
+        "interval": _coerce(metadata.get("interval"), 0),
+        "timeout": _coerce(metadata.get("timeout"), 0),
+        "n_attempts_max": _coerce(metadata.get("n_attempts_max"), 1),
+    }
+
+
+def build_robotmk_result(
+    conversion: HandlerConversionResult,
+    host: Optional[str] = None,
+    timestamp: Optional[float] = None,
+) -> Dict[str, Any]:
+    """Create a Robotmk JSON payload matching the scheduler expectations."""
+
+    now = timestamp or time.time()
+    plan_name = conversion.config.plan_name
+    metadata = _assemble_metadata(conversion)
+    html_base64 = _encode_log_html(conversion.log_html)
+    config_host = (
+        conversion.config.piggyback_host.strip()
+        if conversion.config.piggyback_host
+        else None
+    )
+    host_name = host if host is not None else (config_host or "Source")
+
+    # TODO: robotmk parser expects one of the enum values
+    # Ref: 0001
+    # ('AllTestsPassed','TestFailures','RobotFailure','EnvironmentFailure','TimedOut').
+    # Using "AllTests Passed" as a temporary placeholder — adjust to canonical enum later.
+
+    # Also duration is curently only allows as int - convert to float later. 
+    # Ref: 0002
+    content = {
+        "plan_id": plan_name,
+        "timestamp": int(now),
+        "attempts": [
+            {
+                "index": 1,
+                "outcome": "AllTestsPassed",
+                "runtime": int(conversion.duration_s) + 1,
+            }
+        ],
+        "rebot": {
+            "Ok": {
+                "xml": conversion.robot_output_xml,
+                "html_base64": html_base64,
+                "timestamp": int(now),
+            }
+        },
+        "config": _build_result_config(metadata),
+        "metadata": metadata,
+    }
+
+    # (name becomes the section name in Robotmk scheduler)
+    return {
+        "host": host_name,
+        "name": "robotmk_plan_execution_report",
+        "content": json.dumps(content, separators=(",", ":")),
+    }
+
+
+def _default_robotmk_config_path() -> Path:
+    conf_dir = os.environ.get("MK_CONFDIR")
+    if conf_dir:
+        return Path(conf_dir) / "robotmk.json"
+
+    if os.name == "nt":
+        program_data = os.environ.get("ProgramData", r"C:\\ProgramData")
+        return Path(program_data) / "checkmk" / "agent" / "config" / "robotmk.json"
+
+    return Path("/etc/check_mk/robotmk.json")
+
+
+def _load_robotmk_scheduler_working_directory(config_path: Optional[str] = None) -> Path:
+    path = Path(config_path) if config_path else _default_robotmk_config_path()
+
+    if not path.exists():
+        raise FileNotFoundError(f"robotmk config not found: {path}")
+
+    with path.open("r", encoding="utf-8") as handle:
+        data = json.load(handle)
+
+    runtime_directory = data.get("runtime_directory")
+    if not runtime_directory or not isinstance(runtime_directory, str):
+        raise ValueError("robotmk config missing valid 'runtime_directory'")
+
+    return Path(runtime_directory)
+
+
+def resolve_results_directory(
+    *,
+    runtime_directory: Optional[str] = None,
+    robotmk_config_path: Optional[str] = None,
+) -> Path:
+    base = Path(runtime_directory) if runtime_directory else _load_robotmk_scheduler_working_directory(robotmk_config_path)
+    return base / "results" / "plans"
+
+
+def _write_atomic_text(path: Path, payload: str) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    fd, tmp_path = tempfile.mkstemp(dir=str(path.parent))
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8") as handle:
+            handle.write(payload)
+        os.replace(tmp_path, path)
+    finally:
+        try:
+            os.unlink(tmp_path)
+        except FileNotFoundError:
+            pass
+
+
+def write_robotmk_result(
+    plan_name: str,
+    result_payload: Dict[str, Any],
+    results_dir: Optional[str] = None,
+    runtime_directory: Optional[str] = None,
+    robotmk_config_path: Optional[str] = None,
+) -> Path:
+    """Persist a Robotmk result payload into the scheduler results directory."""
+
+    if not plan_name or not isinstance(plan_name, str):
+        raise ValueError("Result payload missing string 'name'")
+
+    target_dir = (
+        Path(results_dir)
+        if results_dir is not None
+        else resolve_results_directory(
+            runtime_directory=runtime_directory,
+            robotmk_config_path=robotmk_config_path,
+        )
+    )
+
+    target_path = target_dir / f"{plan_name}.json"
+    serialized = json.dumps(result_payload, ensure_ascii=False, separators=(",", ":"))
+    _write_atomic_text(target_path, serialized)
+    return target_path
+
+
+def process_config_entry(
+    config: Config,
+    reference_time: Optional[float] = None,
+    results_dir: Optional[str] = None,
+    runtime_directory: Optional[str] = None,
+    robotmk_config_path: Optional[str] = None,
+
+) -> List[FileRunRecord]:
+    """Convert and store Robotmk results for a single configuration entry."""
+
+    processed: List[Path] = []
+    candidates = discover_files(
+        config.path,
+        max_age=config.max_age,
+        reference_time=reference_time,
+    )
+
+    timestamp_value = reference_time if reference_time is not None else time.time()
+    timestamp_int = int(timestamp_value)
+
+    if not candidates:
+        processed.append(
+            FileRunRecord(
+                plan=config.plan_name,
+                handler=config.handler,
+                source_path=config.path,
+                status="missing",
+                runtime_s=None,
+                result_path=None,
+                host=config.piggyback_host,
+                message="no files matched pattern",
+                timestamp=timestamp_int,
+            )
+        )
+        return processed
+
+    for source in candidates:
+        status = "success"
+        message: Optional[str] = None
+        result_path: Optional[str] = None
+        runtime_s: Optional[float] = None
+        host_value: Optional[str] = config.piggyback_host
+        try:
+            conversion = convert_with_handler(config, source)
+            runtime_s = conversion.duration_s
+            payload = build_robotmk_result(conversion, timestamp=timestamp_value)
+            host_value = payload.get("host", host_value)
+            stored = write_robotmk_result(
+                plan_name=config.plan_name,
+                result_payload=payload,
+                results_dir=results_dir,
+                runtime_directory=runtime_directory,
+                robotmk_config_path=robotmk_config_path,
+            )
+            result_path = str(stored)
+        except HandlerError as exc:
+            status = "error"
+            message = str(exc)
+        except Exception as exc:  # noqa: BLE001 - capture unexpected errors
+            status = "error"
+            message = str(exc)
+
+        processed.append(
+            FileRunRecord(
+                plan=config.plan_name,
+                handler=config.handler,
+                source_path=source,
+                status=status,
+                runtime_s=runtime_s,
+                result_path=result_path,
+                host=host_value,
+                message=message,
+                timestamp=timestamp_int,
+            )
+        )
+
+    return processed
+
+
+def run_bridge(
+    config_path: Optional[str] = None,
+    reference_time: Optional[float] = None,
+    results_dir: Optional[str] = None,
+    runtime_directory: Optional[str] = None,
+    robotmk_config_path: Optional[str] = None,
+
+) -> BridgeRunReport:
+    """Execute the bridge workflow for all configured paths."""
+
+    started = time.time()
+    configs = load_config(config_path)
+    processed: List[FileRunRecord] = []
+    messages: List[str] = []
+    for cfg in configs:
+        results = process_config_entry(
+            cfg,
+            reference_time=reference_time,
+            results_dir=results_dir,
+            runtime_directory=runtime_directory,
+            robotmk_config_path=robotmk_config_path,
+        )
+        plan_name = cfg.plan_name
+        if not results:
+            messages.append(f"no files processed for plan {plan_name}")
+        else:
+            for record in results:
+                if record.message:
+                    messages.append(
+                        f"{record.plan}:{record.source_path}:{record.message}"
+                    )
+        processed.extend(results)
+
+    finished = time.time()
+    return BridgeRunReport(
+        started_at=started,
+        finished_at=finished,
+        records=processed,
+        config_count=len(configs),
+        messages=messages,
+    )
+
+
+def _serialise_record(record: FileRunRecord) -> Dict[str, Any]:
+    return {
+        "plan": record.plan,
+        "handler": record.handler,
+        "source_path": record.source_path,
+        "status": record.status,
+        "runtime_s": record.runtime_s,
+        "result_path": record.result_path,
+        "host": record.host,
+        "message": record.message,
+        "timestamp": record.timestamp,
+    }
+
+
+def build_agent_payload(report: BridgeRunReport) -> Dict[str, Any]:
+    total = len(report.records)
+    success = sum(1 for r in report.records if r.status == "success")
+    errors = sum(1 for r in report.records if r.status == "error")
+    missing = sum(1 for r in report.records if r.status == "missing")
+
+    plans: Dict[str, Dict[str, Any]] = {}
+    for record in report.records:
+        plan_entry = plans.setdefault(
+            record.plan,
+            {
+                "handler": record.handler,
+                "host": record.host,
+                "files": [],
+            },
+        )
+        plan_entry["files"].append(_serialise_record(record))
+
+    payload = {
+        "timestamp": int(report.finished_at),
+        "runtime_s": report.duration_s,
+        "summary": {
+            "configs": report.config_count,
+            "files_total": total,
+            "files_success": success,
+            "files_missing": missing,
+            "files_error": errors,
+        },
+        "plans": plans,
+        "messages": report.messages,
+    }
+
+    return payload
+
+
+def print_agent_section(report: BridgeRunReport) -> None:
+    payload = build_agent_payload(report)
+    sys.stdout.write(f"<<<{AGENT_SECTION}>>>\n")
+    sys.stdout.write(json.dumps(payload, separators=(",", ":")))
+    sys.stdout.write("\n")
 
 
 def load_config(path: Optional[str] = None) -> List[Config]:
@@ -325,9 +696,9 @@ def load_config(path: Optional[str] = None) -> List[Config]:
         if not h or not isinstance(h, str):
             raise ValueError(f"Path entry at index {i} missing valid 'handler'")
 
-        plan = entry.get("plan")
-        if plan is not None and not isinstance(plan, str):
-            raise ValueError(f"Path entry at index {i} has non-string 'plan'")
+        plan_name = entry.get("plan_name")
+        if plan_name is not None and not isinstance(plan_name, str):
+            raise ValueError(f"Path entry at index {i} has non-string 'plan_name'")
 
         max_age_value = entry.get("max_age")
         if max_age_value is None:
@@ -345,40 +716,32 @@ def load_config(path: Optional[str] = None) -> List[Config]:
         else:
             raise ValueError(f"Path entry at index {i} must have object metadata if provided")
 
+        piggyback_host = entry.get("piggyback_host")
+        if piggyback_host is not None:
+            if not isinstance(piggyback_host, str):
+                raise ValueError(
+                    f"Path entry at index {i} must have string 'piggyback_host' when provided"
+                )
+            piggyback_host = piggyback_host.strip()
+            if not piggyback_host:
+                raise ValueError(
+                    f"Path entry at index {i} has empty 'piggyback_host' value"
+                )
+
         result.append(
-            Config(path=p, handler=h, plan=plan, max_age=max_age_value, metadata=metadata)
+            Config(
+                path=p,
+                handler=h,
+                plan_name=plan_name,
+                piggyback_host=piggyback_host,
+                max_age=max_age_value,
+                metadata=metadata,
+            )
         )
 
     return result
 
 
-def _demo_main(cfg_path: Optional[str] = None) -> int:
-    """Small demo runner used when invoking this file directly.
-
-    Prints parsed config entries to stdout. Returns exit code 0 on success.
-    """
-    try:
-        configs = load_config(cfg_path)
-    except Exception as e:  # keep narrow in production code
-        print(f"Error loading config: {e}")
-        return 2
-
-    print(f"Loaded {len(configs)} path(s):")
-    for c in configs:
-        print(
-            " - path={path!r}, handler={handler!r}, plan={plan!r}, max_age={max_age}".format(
-                path=c.path, handler=c.handler, plan=c.plan, max_age=c.max_age
-            )
-        )
-
-    return 0
-
-
-if __name__ == "__main__":
-    import sys
-
-    cfg = sys.argv[1] if len(sys.argv) > 1 else None
-    raise SystemExit(_demo_main(cfg))
 
 
 def discover_files(
@@ -441,3 +804,27 @@ def stat_file(path: str) -> Dict[str, Any]:
         info["error"] = str(e)
 
     return info
+
+def _main(cfg_path: Optional[str] = None) -> int:
+    try:
+        report = run_bridge(cfg_path)
+    except Exception as exc:  # noqa: BLE001 - errors elevate to non-zero exit
+        print(f"Error running robotmk bridge: {exc}", file=sys.stderr)
+        return 2
+
+    print_agent_section(report)
+    return 0
+
+
+if __name__ == "__main__":
+    cfg = sys.argv[1] if len(sys.argv) > 1 else None
+    plan = sys.argv[2] if len(sys.argv) > 2 else None
+    if plan:
+        # Here we monkey-patck the load_config function to filter by plan name
+        _orig_load_config = load_config
+
+        def load_config(path: Optional[str] = None) -> List[Config]:
+            configs = _orig_load_config(path)
+            return [c for c in configs if c.plan_name == plan]
+    raise SystemExit(_main(cfg))
+

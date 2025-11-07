@@ -75,6 +75,10 @@ if [ -z "${GITHUB_WORKSPACE-}" ]; then
     echo "Create NOW an automation user with administrator rights / store the secret in clear text. Then press ENTER to continue."
     read -p "Press ENTER to continue..."
     bash $WORKSPACE/.devcontainer/create_dummyhost_${CMK_VERSION_MM}.sh
+    if [ $? -ne 0 ]; then
+        echo "ERROR: Creating the dummyhost failed."
+        exit 1
+    fi
     echo "✅ Dummyhost created, WATO rules set."
     echo "■ Baking the agent"
     echo "Baking agent for $HOSTNAME ... "
@@ -87,7 +91,9 @@ if [ -z "${GITHUB_WORKSPACE-}" ]; then
     if [ -z "$(pidof systemd)"] ; then
         echo "  ...no systemd detected. Robotmk Scheduler won't start automatically."
         echo "  Start the Scheduler manally as root with this command:"
-        echo "  nohup /usr/lib/check_mk_agent/robotmk/robotmk_scheduler --log-path /var/log/robotmk_scheduler.log -v /etc/check_mk/robotmk.json &"
+        echo "    start_robotmk_scheduler"
+        echo "  To stop the scheduler:"
+        echo "    stop_robotmk_scheduler"
     fi
 
     read -p "Press ENTER to continue..."

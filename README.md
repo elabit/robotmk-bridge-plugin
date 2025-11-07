@@ -6,7 +6,7 @@
 
 ## About
 
-Robotmk-Bridge is an agent plugin designed as a universal interface between any testing tool, Robotmk, and ultimately your Checkmk monitoring system.
+Robotmk-Bridge is a agent plugin designed as a universal interface between any testing tool, Robotmk, and ultimately your Checkmk monitoring system.
 
 It can be configured completely from Checkmk (Bakery rule) by setting paths from where the plugin should read test results.
 
@@ -15,6 +15,14 @@ Custom handlers (Python modules) take care of converting test results from arbit
 The handler framework is based on the [robotframework-oxygen](https://github.com/eficode/robotframework-oxygen) library - currently used in this early POC phase. Later there will be a separate, forked package called [robotframework-bridge](https://github.com/elabit/robotmk-bridge).
 
 For Robotmk, the result looks exactly as if the tests were executed by Robot Framework itself — enabling seamless integration of any test source into Checkmk Synthetic Monitoring.
+
+## Why Robotmk-Bridge? 
+
+Until now, a mature integration of test results in Checkmk was limited exclusively to Robot Framework, as Robotmk was originally built for the integration of Robot Framework results (hence the name).
+
+However, we have seen that many customers are envious of this integration but cannot change their test framework. 
+
+That is why ELABIT developed the bridge, to provide a kind of compatibility layer that allows any testing tool to be integrated. 
 
 ## Development
 

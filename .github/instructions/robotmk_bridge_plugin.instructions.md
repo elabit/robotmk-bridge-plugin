@@ -32,26 +32,31 @@ This document describes the core features, acceptance criteria and recommended i
    - A wrong handler name leads to an error. 
    - our plugin receives the Robot Framework XML (as string)
    - Fail fast with meaningful error messages if handler missing or raises.
-4. Constuct JSON wrapper output (Robotmk JSON)
-   - Create JSON using same structure as sample_data/globetrack_simple.json. Fill missing metadata with reasonable defaults.
+4. Construct JSON wrapper output (Robotmk JSON)
+   - For each converted file, create JSON using same structure as in `sample_data/globetrack_simple.json`. Fill missing metadata with reasonable defaults.
+   - Write it to the results dir. ThisTo determine this folder: in the Agent config dir (MK_CONFDIR) in `robotmk.json` (If this variable is not set, assume `/etc/check_mk/robotmk.json`, on Windows `C:\ProgramData\checkmk\agent\config\robotmk.json"`.), there is key "runtime_directory".  Below of that there is a folder "results/plans". Below of that, place the JSON results. The plan name is taken from the config per path (or default).
 
 Not yet refined: 
 
-5. Agent health section and lightweight metrics
+5. Support the Enum values for "outcome" (See Code "Ref: 0001")
+6. Support float for "runtime" (See Code "Ref: 0002")
+7. Support reading interval, timeout, n_attempts_max from metadata (See Code "Ref: 0003")
+8. Agent health section and lightweight metrics
    - Emit an agent plugin section summarizing processed files, successful conversions, last run times and failures for the server-side check.
-6. Robust logging and error reporting
+9. Robust logging and error reporting
    - Log at various levels, include stack traces for failures and produce structured error objects in health output.
-7. Tests: unit and integration
+10. Tests: unit and integration
    - Unit tests for config parse, dispatch, and wrapping. Integration test using `rf_tests/simple/output.xml`.
-8. Packaging & Bakery rule integration
+11. Packaging & Bakery rule integration
    - Provide a bakery rule example and `pkginfo/` metadata to make installation easy.
+
 
 ## Implementation order (recommended)
 
 1. Implement config loader and validation to read `/etc/check_mk/robotmk-bridge-plugin.json`, ensuring required keys, numeric `max_age`, and sensible defaults (plan name, metadata).
 2. Build file discovery layer that resolves paths/globs, filters by `max_age`, checks file size thresholds, and yields concrete files with rich error states.
 3. Integrate oxygen handlers: instantiate the correct handler per entry, feed file contents, capture Robot Framework XML/log output, and surface handler-level errors.
-4. Construct Robotmk JSON file, embedding RF XML/HTML in the same way as in `sample_data/globetrack_simple.json`, (metadata, timing data etc.), and write it to the path where the Scheduler also stores them. This is defined in the Agent config dir (MK_CONFDIR) in `robotmk.json` in key "runtime_directory" (folder "results" below"). If file is not found, produce a proper error message
+4. Construct the Robotmk JSON result files and store them. 
 5. Emit bridge agent section summarizing each processed file, success/failure details, conversion durations, and cumulative metrics for the server-side check.
 6. Add structured logging and error handling (warnings vs. fatal), making sure failures propagate to agent section and optional debug logs.
 7. Cover functionality with unit tests (config, discovery, JSON builder, handler dispatch) plus an integration test against `rf_tests/simple` fixtures.

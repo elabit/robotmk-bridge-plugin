@@ -6,3 +6,7 @@ function bake_and_install_agent_localhost() {
     install_agent_localhost
     su - cmk -c "cmk -IIv && cmk -R"
 }
+
+alias start_robotmk_scheduler='nohup /usr/lib/check_mk_agent/robotmk/robotmk_scheduler --log-path /var/log/robotmk_scheduler.log -v /etc/check_mk/robotmk.json &'
+alias stop_robotmk_scheduler='pkill -f robotmk_scheduler'
+alias fix_rmk_permissions='chmod -R a+rw /var/lib/check_mk_agent/robotmk/scheduler/ /etc/check_mk/robotmk.json /var/log/'
