@@ -162,7 +162,7 @@ build_mkp() {
 
 	latest=$(latest_mkp "$pkgdir")
 	mkdir -p "$pkg_dest"
-	PKG_PATH="$pkg_dest/${PROJECT_NAME}.${pkg_version}-cmk${cmk_mm}.mkp"
+	PKG_PATH="$pkg_dest/${PROJECT_NAME}_${pkg_version}_cmk${cmk_mm}.mkp"
 	mv "$latest" "$PKG_PATH"
 	log "  - PKG_PATH: $PKG_PATH"
 }
