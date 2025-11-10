@@ -1,6 +1,14 @@
 # Changelog
 
 
+## [0.3.1](https://github.com/elabit/robotmk-bridge-plugin/compare/v0.3.0...v0.3.1) (2025-11-10)
+
+
+### 🐛 Bug Fixes
+
+* release type published ([f994bdc](https://github.com/elabit/robotmk-bridge-plugin/commit/f994bdc7b42d3ff7df2a126d5ad38a68bee2f621))
+* release type published ([5cb3d98](https://github.com/elabit/robotmk-bridge-plugin/commit/5cb3d98f96ce4cb88880687ce560f00590b56c25))
+
 ## [0.3.0](https://github.com/elabit/robotmk-bridge-plugin/compare/v0.2.0...v0.3.0) (2025-11-10)
 
 
