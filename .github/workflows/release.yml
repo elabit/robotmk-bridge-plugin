@@ -20,6 +20,6 @@ jobs:
         with:
           # https://github.com/googleapis/release-please-action?tab=readme-ov-file#action-inputs
           token: ${{ secrets.GITHUB_TOKEN }}
-          release-type: simple
+          
           config-file: release-please-config.json
-          #manifest-file: .release-please-manifest.json          
+          manifest-file: .release-please-manifest.json          
