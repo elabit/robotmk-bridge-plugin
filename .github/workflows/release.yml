@@ -19,7 +19,7 @@ jobs:
       - uses: googleapis/release-please-action@v4
         with:
           # https://github.com/googleapis/release-please-action?tab=readme-ov-file#action-inputs
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.RELEASE_PLEASE_TOKEN }}
           
           config-file: release-please-config.json
           #manifest-file: .release-please-manifest.json          
