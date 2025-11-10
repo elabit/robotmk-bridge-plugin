@@ -65,27 +65,22 @@ git config --global --add safe.directory $WORKSPACE
 
 if [ -n "$(awk '/^## Unreleased/ {print $2; exit}' "$WORKSPACE/CHANGELOG.md")" ]; then
     echo "ERROR: Changelog contains Unreleased version. Please enter the version number manually."
-    read -p "Enter the version number: " RMK_VERSION
+    read -p "Enter the version number: " PKG_VERSION
 else
     echo "Reading the first version from the CHANGELOG.md..."
-    export RMK_VERSION=${RMK_VERSION:-$(awk '/^## [0-9]+\.[0-9]+/ {print $2; exit}' "$WORKSPACE/CHANGELOG.md")}
+    export PKG_VERSION=${PKG_VERSION:-$(awk '/^## [0-9]+\.[0-9]+/ {print $2; exit}' "$WORKSPACE/CHANGELOG.md")}
 fi
 
-echo "RMK_VERSION: $RMK_VERSION"
+echo "PKG_VERSION: $PKG_VERSION"
 
 
-# both check and agent plugin need the same version number. String is to be replaced with the version number
-# ROBOTMK_VERSION = 'x.x.x'
-echo "Setting the version number $RMK_VERSION in the check and agent plugin..."
-sed -i "s/ROBOTMK_VERSION =.*/ROBOTMK_VERSION = '$RMK_VERSION'/" $WORKSPACE/checks/robotmk.py
-sed -i "s/ROBOTMK_VERSION =.*/ROBOTMK_VERSION = '$RMK_VERSION'/" $WORKSPACE/agents_plugins/robotmk.py
 
 echo "---------------------------------------------"
-PACKAGEFILE_TEMPLATE=$WORKSPACE/pkginfo/robotmk_cmk$CMK_MM.json
+PACKAGEFILE_TEMPLATE=$WORKSPACE/pkginfo/cmk$CMK_MM.json
 echo "▹ Generating package infofile using the $PACKAGEFILE template"
 
 
-jq --arg version "$RMK_VERSION" \
+jq --arg version "$PKG_VERSION" \
    --arg version_packaged "$OMD_VER" \
    --arg version_min_required "${CMK_MM}.0p1" \
    --arg version_usable_until "${CMK_MM}.200" \
@@ -102,14 +97,14 @@ echo "$PACKAGEFILE:"
 cat $PACKAGEFILE
 echo "---------------------------------------------"
 
-echo "▹ Building the MKP '$NAME' v$RMK_VERSION for CMK $CMK_MM ..."
+echo "▹ Building the MKP '$NAME' v$PKG_VERSION for CMK $CMK_MM ..."
 # set -x
 mkp -v package $PACKAGEFILE
 
 
 FILE=$(ls -rt1 $PKGDIR/*.mkp | tail -1)
 # robotmk-<ver>.mkp => rename to include cmk major.minor
-NEWFILENAME=$NAME.$RMK_VERSION-cmk$CMK_MM.mkp
+NEWFILENAME=$NAME.$PKG_VERSION-cmk$CMK_MM.mkp
 mkdir -p $PKG_DEST_DIR
 mv $FILE $PKG_DEST_DIR/$NEWFILENAME
 PKG_PATH=$PKG_DEST_DIR/$NEWFILENAME
