@@ -14,7 +14,8 @@ jobs:
       image: checkmk/check-mk-raw:2.4.0-daily
     steps:
       - name: Install tools
-        run: apt update && apt-get -y install sudo jq tree hub
+      # TODO: remove vim
+        run: apt update && apt-get -y install sudo jq tree hub vim
       - name: Create Checkmk Site
         run: /docker-entrypoint.sh /bin/true
       - name: Repo Checkout 
