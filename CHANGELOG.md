@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [0.4.2](https://github.com/elabit/robotmk-bridge-plugin/compare/v0.4.1...v0.4.2) (2025-11-10)
+
+
+### 🐛 Bug Fixes
+
+* Removed the CMK2.5 MKP build ([#39](https://github.com/elabit/robotmk-bridge-plugin/issues/39)) ([#40](https://github.com/elabit/robotmk-bridge-plugin/issues/40)) ([c35e1f8](https://github.com/elabit/robotmk-bridge-plugin/commit/c35e1f8811d04a470fd2170324be8e693e712b69))
+
 ## [0.4.1](https://github.com/elabit/robotmk-bridge-plugin/compare/v0.4.0...v0.4.1) (2025-11-10)
 
 
