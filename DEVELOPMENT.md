@@ -262,6 +262,31 @@ docker cp $CONTAINER:/cmk-mkp .
 
 ## How to release
 
+
+### Release-Please
+
+https://github.com/googleapis/release-please-action
+https://elixirschool.com/blog/managing-releases-with-release-please
+
+
+config: https://github.com/googleapis/release-please/blob/main/docs/manifest-releaser.md
+
+
+
+How release-please derives the version: 
+
+```
+fix(bridge): correct xml escaping => patch
+feat(gatling): aggregate requests per scenario => minor
+chore(ci): speed up mkp packaging => major
+```
+
+https://www.conventionalcommits.org/en/v1.0.0/
+
+
+
+---
+
 `release.sh` is a helper tool which eases (un)releasing a lot. Sometimes a alpha/beta release should to be withdrawn. With the help of this script and the github CLI tool (authentication required),
 
 ### Release
@@ -323,10 +348,10 @@ Shortcuts ("Ca" = Ctrl + a):
 
 ### Bash conveniences
 
-| user | alias source              | from                         | linked by                                |
-| ---- | ------------------------- | ---------------------------- | ---------------------------------------- |
-| cmk  | `$OMD_ROOT/.bash_aliases` | `scripts/.site_bash_aliases` | `.devcontainer/scripts/linkfiles.sh`     |
-| root | `/root/.bash_aliases`     | `scripts/.root_bash_aliases` | `.devcontainer/Dockerfile`               |
+| user | alias source              | from                         | linked by                            |
+| ---- | ------------------------- | ---------------------------- | ------------------------------------ |
+| cmk  | `$OMD_ROOT/.bash_aliases` | `scripts/.site_bash_aliases` | `.devcontainer/scripts/linkfiles.sh` |
+| root | `/root/.bash_aliases`     | `scripts/.root_bash_aliases` | `.devcontainer/Dockerfile`           |
 
 ### VS Code Conveniences
 
