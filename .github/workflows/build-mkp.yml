@@ -1,0 +1,43 @@
+name: build-mkp
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+  workflow_dispatch:  
+
+permissions:
+  contents: write
+
+jobs:
+  build-mkp:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+
+      - name: Extract version
+        id: v
+        run: echo "version=${GITHUB_REF_NAME#v}" >> $GITHUB_OUTPUT
+
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3     
+
+      - name: Build MKP
+        run: |
+          chmod +x scripts/build_mkp.sh
+          ./scripts/build_mkp.sh "${{ steps.v.outputs.version }}"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mkp
+          path: dist/*.mkp
+
+      - name: Attach MKP to Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*.mkp
+          tag_name: ${{ github.ref_name }}
