@@ -1,14 +1,16 @@
+name: Create Release PR
+
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
+  workflow_dispatch:
+
 
 permissions:
   contents: write
   issues: write
   pull-requests: write
 
-name: mkp-release
 
 jobs:
   release-please:
