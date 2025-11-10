@@ -1,0 +1,24 @@
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
+name: mkp-release
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: googleapis/release-please-action@v4
+        with:
+          # https://github.com/googleapis/release-please-action?tab=readme-ov-file#action-inputs
+          token: ${{ secrets.GITHUB_TOKEN }}
+          # A repository with a version.txt and a CHANGELOG.md
+          release-type: simple          
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json          
