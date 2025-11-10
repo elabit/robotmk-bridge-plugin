@@ -1,125 +1,187 @@
 #!/bin/bash
-set -e
-# SPDX-FileCopyrightText: © 2022 ELABIT GmbH <mail@elabit.de>
-# SPDX-License-Identifier: GPL-3.0-or-later
-# This file is part of the Robotmk project (https://www.robotmk.org)
 
-# This file creates a CMK MKP file.
-# It leverages the "mkp" command from CMK, which reads a package description file (JSON)
+#set -Eeuo pipefail
 
-# After the MKP has been built, the script checks if it runs within a Github
-# Workflow. If so, it sets the artifact name as output variable.
+main() {
+	if [[ $# -ne 1 ]]; then
+		usage
+		exit 1
+	fi
 
-if [ -z "$WORKSPACE" ]; then
-    if [ -n "$GITHUB_WORKSPACE" ]; then
-        WORKSPACE="$GITHUB_WORKSPACE"
-    else
-        echo "ERROR: WORKSPACE environment variable not set and GITHUB_WORKSPACE not available. Exiting."
-        exit 1
-    fi
-fi
+	local pkg_version=$1
 
-# print the current workspace
-echo "Workspace folder: $WORKSPACE"
-ls -la "$WORKSPACE"
+	ensure_workspace	
+	load_site_profile
+    load_project_name
+	load_cmk_version_util
 
-if [ -f /omd/sites/cmk/.profile ]; then
-    echo "Loading .profile..."
+	OMD_VER=$(omd version | awk '{print $NF}')
+	export OMD_VER
+
+	prepare_git
+	generate_package_file "$pkg_version" "$CMK_VERSION_MM"
+	build_mkp "$pkg_version" "$CMK_VERSION_MM"
+	set_github_outputs
+	log "END OF build.sh"
+}
+
+err() {
+	printf 'ERROR: %s\n' "$*" >&2
+}
+
+log() {
+	printf '%s\n' "$*"
+}
+
+usage() {
+	err "Usage: $0 <PKG_VERSION>"
+}
+
+trap 'err "Unexpected error at line $LINENO"; exit 1' ERR
+
+PROJECT_NAME=""
+PACKAGE_FILE=""
+PKG_PATH=""
+OMD_VER=""
+
+ensure_workspace() {
+	if [[ -n "${WORKSPACE:-}" ]]; then
+		return
+	fi
+
+	if [[ -n "${GITHUB_WORKSPACE:-}" ]]; then
+		WORKSPACE="$GITHUB_WORKSPACE"
+		export WORKSPACE
+		return
+	fi
+
+	err "WORKSPACE environment variable not set and GITHUB_WORKSPACE not available."
+	exit 1
+}
+
+report_workspace() {
+	log "Workspace folder: $WORKSPACE"
+	ls -la "$WORKSPACE"
+}
+
+load_site_profile() {
+	local profile_path="/omd/sites/cmk/.profile"
+	if [[ ! -f "$profile_path" ]]; then
+		err "Site profile not found at $profile_path."
+		exit 1
+	fi
+
+	log "Loading site profile $profile_path"
+	set -a
+	# shellcheck disable=SC1090
+	source "$profile_path" || true
+	set +a
+
+	if [[ -z "${OMD_SITE:-}" ]]; then
+		err "OMD_SITE variable not set after sourcing profile."
+		exit 1
+	fi
+}
+
+load_cmk_version_util() {
+	# shellcheck disable=SC1090
+	source "${WORKSPACE}/.devcontainer/cmk_version.sh"
+	if [[ -z "${CMK_VERSION_MM:-}" ]]; then
+		err "CMK_VERSION_MM not exported by cmk_version.sh"
+		exit 1
+	fi
+    echo "  - CMK_VERSION_MM=${CMK_VERSION_MM}"
+}
+
+
+load_project_name() {
+    # project.env contains some generic useful variables
     set -a
-    . /omd/sites/cmk/.profile
+    source $WORKSPACE/project.env
     set +a
-else 
-    echo "ERROR: .profile not found in /omd/sites/cmk. Exiting."
-    exit 1
-fi
+    echo "  - PROJECT_NAME=${PROJECT_NAME}"
+}
 
-if [ -z $OMD_SITE ]; then
-    echo "ERROR: You do not seem to be on a OMD site (variable OMD_SITE not set). Exiting."
-    exit 1
-fi
+prepare_git() {
+	git config --global --add safe.directory "$WORKSPACE"
+}
 
-# Source CMK version detection utilities
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "${SCRIPT_DIR}/cmk_version.sh"
+generate_package_file() {
+	local pkg_version=$1
+	local cmk_mm=$2
+	local template
 
-set -u
-# Use the CMK_VERSION_MM from the shared utility
-CMK_MM="$CMK_VERSION_MM"
-# Get full OMD version for packaging
-OMD_VER=$(omd version | awk '{print $NF}')
-NAME="robotmk"
-PACKAGEFILE=$OMD_ROOT/var/check_mk/packages/$NAME
-PKGDIR=$OMD_ROOT/var/check_mk/packages_local
-PKG_DEST_DIR=$WORKSPACE/build
+	template="$WORKSPACE/pkginfo/cmk${cmk_mm}.json"
+	PACKAGE_FILE="$OMD_ROOT/var/check_mk/packages/${PROJECT_NAME}"
+
+	if [[ ! -f "$template" ]]; then
+		err "Template $template not found."
+		exit 1
+	fi
+
+	log "  - Package template: $template"
+	jq \
+		--arg version "$pkg_version" \
+		--arg version_packaged "$OMD_VER" \
+		--arg version_min_required "${cmk_mm}.0p1" \
+		--arg version_usable_until "${cmk_mm}.200" \
+		'
+		.version = $version
+		| .["version.packaged"] = $version_packaged
+		| .["version.min_required"] = $version_min_required
+		| .["version.usable_until"] = $version_usable_until
+		' \
+		"$template" >"$PACKAGE_FILE"
+
+	log "  - Package file: $PACKAGE_FILE"
+}
+
+latest_mkp() {
+	local pkgdir=$1
+	local entries
+
+	mapfile -t entries < <(find "$pkgdir" -maxdepth 1 -type f -name '*.mkp' -printf '%T@ %p\n' | sort -n)
+	if [[ ${#entries[@]} -eq 0 ]]; then
+		err "No MKP files found in $pkgdir"
+		exit 1
+	fi
+
+	printf '%s' "${entries[-1]##* }"
+}
+
+build_mkp() {
+	local pkg_version=$1
+	local cmk_mm=$2
+	local pkgdir pkg_dest latest
+
+	pkgdir="$OMD_ROOT/var/check_mk/packages_local"
+	pkg_dest="$WORKSPACE/build"
+
+	log "Building MKP ${PROJECT_NAME} v${pkg_version} for CMK ${cmk_mm}"
+	mkp -v package "$PACKAGE_FILE"
+
+	latest=$(latest_mkp "$pkgdir")
+	mkdir -p "$pkg_dest"
+	PKG_PATH="$pkg_dest/${PROJECT_NAME}.${pkg_version}-cmk${cmk_mm}.mkp"
+	mv "$latest" "$PKG_PATH"
+	log "  - PKG_PATH: $PKG_PATH"
+}
+
+set_github_outputs() {
+	if [[ -n "${GITHUB_WORKSPACE:-}" && -n "${GITHUB_OUTPUT:-}" ]]; then
+		log "Publishing GitHub Actions outputs"
+		printf 'pkgfile=%s\n' "$PKG_PATH" >>"$GITHUB_OUTPUT"
+		printf 'artifactname=%s\n' "$(basename "$PKG_PATH")" >>"$GITHUB_OUTPUT"
+	else
+		log "No GitHub Actions environment detected"
+	fi
+}
+
+folder_of() {
+  DIR="${1%/*}"
+  (cd "$DIR" && echo "$(pwd -P)")
+}
 
 
-# Ownership can look dubious for git, fix this.
-git config --global --add safe.directory $WORKSPACE
+main "$@"
 
-# If there is "## Unreleased" then assume a manual build, prompt the user to enter the version. 
-# otherwise, take the version form the first H2 header in the CHANGELOG.md, format is: 
-# ## 1.4.4 - 2024-03-26
-# or 
-# ## 1.4.4
-# and extract the version number.
-
-if [ -n "$(awk '/^## Unreleased/ {print $2; exit}' "$WORKSPACE/CHANGELOG.md")" ]; then
-    echo "ERROR: Changelog contains Unreleased version. Please enter the version number manually."
-    read -p "Enter the version number: " PKG_VERSION
-else
-    echo "Reading the first version from the CHANGELOG.md..."
-    export PKG_VERSION=${PKG_VERSION:-$(awk '/^## [0-9]+\.[0-9]+/ {print $2; exit}' "$WORKSPACE/CHANGELOG.md")}
-fi
-
-echo "PKG_VERSION: $PKG_VERSION"
-
-
-
-echo "---------------------------------------------"
-PACKAGEFILE_TEMPLATE=$WORKSPACE/pkginfo/cmk$CMK_MM.json
-echo "▹ Generating package infofile using the $PACKAGEFILE template"
-
-
-jq --arg version "$PKG_VERSION" \
-   --arg version_packaged "$OMD_VER" \
-   --arg version_min_required "${CMK_MM}.0p1" \
-   --arg version_usable_until "${CMK_MM}.200" \
-   '
-   .version = $version
-   | .["version.packaged"] = $version_packaged
-   | .["version.min_required"] = $version_min_required
-   | .["version.usable_until"] = $version_usable_until
-   ' \
-   "$PACKAGEFILE_TEMPLATE" > "$PACKAGEFILE"
-
-echo "---------------------------------------------"
-echo "$PACKAGEFILE:"
-cat $PACKAGEFILE
-echo "---------------------------------------------"
-
-echo "▹ Building the MKP '$NAME' v$PKG_VERSION for CMK $CMK_MM ..."
-# set -x
-mkp -v package $PACKAGEFILE
-
-
-FILE=$(ls -rt1 $PKGDIR/*.mkp | tail -1)
-# robotmk-<ver>.mkp => rename to include cmk major.minor
-NEWFILENAME=$NAME.$PKG_VERSION-cmk$CMK_MM.mkp
-mkdir -p $PKG_DEST_DIR
-mv $FILE $PKG_DEST_DIR/$NEWFILENAME
-PKG_PATH=$PKG_DEST_DIR/$NEWFILENAME
-echo "📦   $PKG_PATH"
-echo "---------------------------------------------"
-
-echo ""
-echo "Checking for Github Workflow..."
-if [ -n "${GITHUB_WORKSPACE-}" ]; then
-    echo "🐙 ...Github Workflow exists."
-    echo "▹ Set Outputs for GitHub Workflow steps"
-    echo "pkgfile=$PKG_PATH" >> $GITHUB_OUTPUT
-    echo "artifactname=$NEWFILENAME" >> $GITHUB_OUTPUT
-else
-    echo "...no GitHub Workflow detected (local execution)."
-fi
-echo "END OF build.sh"
-echo "---------------------------------------------"

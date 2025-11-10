@@ -92,7 +92,7 @@ function symlink_project_files {
 
         # stable paths across 2.2-2.4
         # Agent plugins
-        create_symlink agents_plugins $CMK_DIR_AGENT_PLUGINS
+        create_symlink agent_plugins $CMK_DIR_AGENT_PLUGINS
 
         # BAKERY
         create_symlink bakery $CMK_DIR_BAKERY
@@ -134,7 +134,7 @@ function symlink_common_files {
 
 
 function rmpath {
-    echo "clearing $1"
+    # echo "clearing $1"
     rm -rf $1
 }
 
@@ -145,8 +145,8 @@ function linkpath {
     echo "linking $TARGET -> $LINKNAME"
     # check if target file or dir exists
     if [ ! -e $TARGET ]; then
-        echo "ERROR: $TARGET does not exist!"
-        exit 1
+        echo "NOTE: $TARGET won't be linked - does not exist!"
+        return
     fi
 
     # make sure that the link's parent dir exists
@@ -179,7 +179,7 @@ function create_symlink {
     
     rmpath $LINKNAME
     linkpath $TARGET $LINKNAME
-    echo "clearing $LINKNAME/__pycache__"
+    # echo "clearing $LINKNAME/__pycache__"
     rm -rf $LINKNAME/__pycache__ || true
 }
 
