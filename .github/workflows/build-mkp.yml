@@ -7,7 +7,7 @@ permissions:
   contents: write
 
 jobs:
-  build-mkp-cmk2.3:
+  build-mkp-cmk23:
     name: Build MKP for CMK2.3
     runs-on: ubuntu-latest
     container:
@@ -41,7 +41,7 @@ jobs:
           files: ${{ steps.cmkpkg.outputs.pkgfile }}
           tag_name: ${{ github.ref_name }}
 
-  build-mkp-cmk2.4:
+  build-mkp-cmk23:
     name: Build MKP for CMK2.4
     runs-on: ubuntu-latest
     container:
@@ -75,7 +75,7 @@ jobs:
           files: ${{ steps.cmkpkg.outputs.pkgfile }}
           tag_name: ${{ github.ref_name }}
 
-  build-mkp-cmk2.5:
+  build-mkp-cmk25:
     name: Build MKP for CMK2.5
     runs-on: ubuntu-latest
     container:
