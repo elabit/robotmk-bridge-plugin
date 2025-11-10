@@ -1,0 +1,28 @@
+{
+    "release-type": "simple",
+    "changelog-sections": [
+        {
+            "type": "feat",
+            "section": "Features"
+        },
+        {
+            "type": "fix",
+            "section": "Bug Fixes"
+        },
+        {
+            "type": "perf",
+            "section": "Performance Improvements"
+        },
+        {
+            "type": "deps",
+            "section": "Dependencies"
+        },
+        {
+            "type": "chore",
+            "section": "Miscellaneous",
+            "hidden": true
+        }
+    ],
+    "pull-request-title-pattern": "chore: release ${version}",
+    "pull-request-header": ":robot: New automatic Release *beep* *boop*"
+}
