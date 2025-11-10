@@ -1,6 +1,14 @@
 # Changelog
 
 
+## [0.3.6](https://github.com/elabit/robotmk-bridge-plugin/compare/v0.3.5...v0.3.6) (2025-11-10)
+
+
+### 🐛 Bug Fixes
+
+* nooana ([b1e2092](https://github.com/elabit/robotmk-bridge-plugin/commit/b1e209234d1150785b666298c45cdae2468cb01e))
+* nooana ([3aa468b](https://github.com/elabit/robotmk-bridge-plugin/commit/3aa468b5377d406eb2174395d0a8848fdde5b4e3))
+
 ## [0.3.5](https://github.com/elabit/robotmk-bridge-plugin/compare/v0.3.4...v0.3.5) (2025-11-10)
 
 
