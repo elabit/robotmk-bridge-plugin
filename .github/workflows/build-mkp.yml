@@ -41,7 +41,7 @@ jobs:
           files: ${{ steps.cmkpkg.outputs.pkgfile }}
           tag_name: ${{ github.ref_name }}
 
-  build-mkp-cmk23:
+  build-mkp-cmk24:
     name: Build MKP for CMK2.4
     runs-on: ubuntu-latest
     container:
