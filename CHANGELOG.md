@@ -1,6 +1,14 @@
 # Changelog
 
 
+## [0.3.2](https://github.com/elabit/robotmk-bridge-plugin/compare/v0.3.1...v0.3.2) (2025-11-10)
+
+
+### 🐛 Bug Fixes
+
+* nocheiner ([0593685](https://github.com/elabit/robotmk-bridge-plugin/commit/059368540d4c946e5a0fa77e3341d687af363fa9))
+* nocheiner ([cbdc27c](https://github.com/elabit/robotmk-bridge-plugin/commit/cbdc27cba40ba09f26432306b2e13dc29882672b))
+
 ## [0.3.1](https://github.com/elabit/robotmk-bridge-plugin/compare/v0.3.0...v0.3.1) (2025-11-10)
 
 
