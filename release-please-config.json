@@ -37,7 +37,5 @@
     },
     "pull-request-title-pattern": "chore: release ${version}",
     "pull-request-header": ":robot: Release time! *beep* *boop* :robot:",
-    "pull-request-footer": "---\n\nThis PR was generated automatically by Release Please. 🤖",
-    "prerelease": true,
-    "prerelease-type": "beta"
+    "pull-request-footer": "---\n\nThis PR was generated automatically by Release Please. 🤖"
 }
