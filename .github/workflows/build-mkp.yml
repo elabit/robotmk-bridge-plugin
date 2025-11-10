@@ -8,34 +8,37 @@ permissions:
 
 jobs:
   build-mkp:
+    name: Build MKP for CMK2.4
     runs-on: ubuntu-latest
+    container:
+      image: checkmk/check-mk-raw:2.4.0-daily
     steps:
-      - uses: actions/checkout@v4
+      - name: Install tools
+        run: apt update && apt-get -y install sudo jq tree hub
+      - name: Create Checkmk Site
+        run: /docker-entrypoint.sh /bin/true
+      - name: Repo Checkout 
+        uses: actions/checkout@v4
         with: { fetch-depth: 0 }
-
+      - name: Update GITHUB_PATH
+        run: echo "/omd/sites/cmk/bin" >> $GITHUB_PATH
       - name: Extract version
-        id: v
+        id: version
         run: echo "version=${GITHUB_REF_NAME#v}" >> $GITHUB_OUTPUT
 
-      - uses: actions/setup-python@v5
-        with: { python-version: "3.12" }
-
-# tmate
+      # tmate
       - name: Setup tmate session
         uses: mxschmitt/action-tmate@v3     
-
+      - name: Link repository files into container
+        run: .devcontainer/linkfiles.sh full
       - name: Build MKP
+        id: cmkpkg
         run: |
-          chmod +x scripts/build_mkp.sh
-          ./scripts/build_mkp.sh "${{ steps.v.outputs.version }}"
-
-      - uses: actions/upload-artifact@v4
-        with:
-          name: mkp
-          path: dist/*.mkp
+          chmod +x .devcontainer/build.sh 
+          .devcontainer/build.sh "${{ steps.version.outputs.version }}"
 
       - name: Attach MKP to Release
         uses: softprops/action-gh-release@v2
         with:
-          files: dist/*.mkp
+          files: ${{ steps.cmkpkg.outputs.pkgfile }}
           tag_name: ${{ github.ref_name }}
