@@ -1,9 +1,11 @@
 name: build-mkp
 
 on:
-  push:
-    tags:
-      - "v*.*.*"
+  # push:
+  #   tags:
+  #     - "v*.*.*"
+  release:
+    types: [published]      
   workflow_dispatch:  
 
 permissions:
