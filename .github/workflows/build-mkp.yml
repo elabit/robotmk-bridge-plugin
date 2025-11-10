@@ -1,18 +1,19 @@
-name: build-mkp
+name: MKPBuilder
 
 on:
-  # push:
-  #   tags:
-  #     - "v*.*.*"
-  release:
-    types: [published, released]      
-  workflow_dispatch:  
+  workflow_run:
+    workflows: [ "ReleasePlease" ]  
+    types: [ completed ]
+  workflow_dispatch: {}
+
 
 permissions:
   contents: write
 
 jobs:
   build-mkp:
+    if: >
+      github.event.workflow_run.conclusion == 'success'    
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

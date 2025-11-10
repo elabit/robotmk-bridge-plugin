@@ -1,4 +1,4 @@
-name: Create Release PR
+name: ReleasePlease
 
 on:
   push:
@@ -17,9 +17,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: googleapis/release-please-action@v4
-        with:
-          # https://github.com/googleapis/release-please-action?tab=readme-ov-file#action-inputs
-          token: ${{ secrets.RELEASE_PLEASE_TOKEN }}
-          
+        with:          
           config-file: release-please-config.json
           #manifest-file: .release-please-manifest.json          
