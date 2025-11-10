@@ -1,6 +1,14 @@
 # Changelog
 
 
+## [0.3.5](https://github.com/elabit/robotmk-bridge-plugin/compare/v0.3.4...v0.3.5) (2025-11-10)
+
+
+### 🐛 Bug Fixes
+
+* sakra ([304e5d0](https://github.com/elabit/robotmk-bridge-plugin/commit/304e5d06cb0b97249c81245b464e65c43c7c6246))
+* sakra ([7919374](https://github.com/elabit/robotmk-bridge-plugin/commit/79193743e251c54d8de9d4a5685c5e56885425e8))
+
 ## [0.3.4](https://github.com/elabit/robotmk-bridge-plugin/compare/v0.3.3...v0.3.4) (2025-11-10)
 
 
