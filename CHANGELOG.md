@@ -1,6 +1,18 @@
 # Changelog
 
 
+## [0.3.7](https://github.com/elabit/robotmk-bridge-plugin/compare/v0.3.6...v0.3.7) (2025-11-10)
+
+
+### 🐛 Bug Fixes
+
+* again ([346261c](https://github.com/elabit/robotmk-bridge-plugin/commit/346261cdd396389fd9946f5f75cddbbb45348f4a))
+* again ([0bdbf55](https://github.com/elabit/robotmk-bridge-plugin/commit/0bdbf554994165c41e5d893430709e5329f7c688))
+* neues token ([0708de2](https://github.com/elabit/robotmk-bridge-plugin/commit/0708de24b5fa84cdfba91b514c1a5a4cfa9e2dd6))
+* neues token ([22fc039](https://github.com/elabit/robotmk-bridge-plugin/commit/22fc039aba25ace0c08e7c7ba2ea519930b33644))
+* ohne token ([6e6909c](https://github.com/elabit/robotmk-bridge-plugin/commit/6e6909c7da6b688cdd30e29d1bda311afd3533bd))
+* ohne token ([95d7987](https://github.com/elabit/robotmk-bridge-plugin/commit/95d7987f44e8c41763425d9c61f439cd0fa00237))
+
 ## [0.3.6](https://github.com/elabit/robotmk-bridge-plugin/compare/v0.3.5...v0.3.6) (2025-11-10)
 
 
