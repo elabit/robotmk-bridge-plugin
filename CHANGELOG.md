@@ -1,6 +1,19 @@
 # Changelog
 
 
+## [0.4.3](https://github.com/elabit/robotmk-bridge-plugin/compare/v0.4.2...v0.4.3) (2025-11-12)
+
+
+### 📦 Dependency Updates
+
+* Added extension recommendations ([6d22e17](https://github.com/elabit/robotmk-bridge-plugin/commit/6d22e1769e30c5d6f100371d98bc640faff5585c))
+
+
+### 📚 Documentation
+
+* DEVELOPMENT documentation updated ([e6bee79](https://github.com/elabit/robotmk-bridge-plugin/commit/e6bee79797ca8f4120fd5692eea797401fc9b29c))
+* README ([#44](https://github.com/elabit/robotmk-bridge-plugin/issues/44)) ([4e17b89](https://github.com/elabit/robotmk-bridge-plugin/commit/4e17b89787ec1243ba7cf8912686e66a0c414e8b))
+
 ## [0.4.2](https://github.com/elabit/robotmk-bridge-plugin/compare/v0.4.1...v0.4.2) (2025-11-10)
 
 
