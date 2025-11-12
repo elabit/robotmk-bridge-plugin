@@ -1,28 +1,25 @@
-# Checkmk extension for [Robotmk](https://robotmk.org/)
+# Robotmk-Bridge-Plugin
 
-<!-- ![build](https://github.com/jiuka/checkmk_vector/workflows/build/badge.svg)
-![flake8](https://github.com/jiuka/checkmk_vector/workflows/Lint/badge.svg)
-![pytest](https://github.com/jiuka/checkmk_vector/workflows/pytest/badge.svg) -->
+A Checkmk Check Plugin for [Robotmk](https://robotmk.org/) to bring results from **any test tool** into [Checkmk](https://checkmk.com) monitoring with the help of [Robotmk](https://robotmk.org).
 
-## About
 
-Robotmk-Bridge is a agent plugin designed as a universal interface between any testing tool, Robotmk, and ultimately your Checkmk monitoring system.
 
-It can be configured completely from Checkmk (Bakery rule) by setting paths from where the plugin should read test results.
+![](img/architecture.png)
 
-Custom handlers (Python modules) take care of converting test results from arbitrary formats into the Robot Framework XML format.
 
-The handler framework is based on the [robotframework-oxygen](https://github.com/eficode/robotframework-oxygen) library - currently used in this early POC phase. Later there will be a separate, forked package called [robotframework-bridge](https://github.com/elabit/robotmk-bridge).
 
-For Robotmk, the result looks exactly as if the tests were executed by Robot Framework itself — enabling seamless integration of any test source into Checkmk Synthetic Monitoring.
+- Configurable entirely from Checkmk via the Bakery rule, defining the paths that supply test results.
+- Uses Python handler modules to translate arbitrary result formats into Robot Framework XML.
+- Builds on a dedicated Python package [robotframework-bridge](https://github.com/elabit/robotmk-bridge) for an exensible handler based conversion of results.
+- Produces Robotmk JSON outputs similar to native Robot Framework runs, enabling seamless Checkmk Synthetic Monitoring integration for any test source.
 
-## Why Robotmk-Bridge? 
+## Why Robotmk-Bridge?
 
 Until now, a mature integration of test results in Checkmk was limited exclusively to Robot Framework, as Robotmk was originally built for the integration of Robot Framework results (hence the name).
 
-However, we have seen that many customers are envious of this integration but cannot change their test framework. 
+However, we have seen that many customers are envious of this integration but cannot change their test framework.
 
-That is why ELABIT developed the bridge, to provide a kind of compatibility layer that allows any testing tool to be integrated. 
+That is why ELABIT developed the bridge, to provide a kind of compatibility layer that allows any testing tool to be integrated.
 
 ## Development
 
@@ -33,9 +30,9 @@ This maps your workspace into a checkmk docker container giving you access to th
 
 The following directories in this repo are getting mapped into the Checkmk site.
 
-* `agents`, `checkman`, `checks`, `doc`, `inventory`, `notifications`, `pnp-templates`, `web` are mapped into `local/share/check_mk/`
-* `agent_based` is mapped to `local/lib/check_mk/base/plugins/agent_based`
-* `nagios_plugins` is mapped to `local/lib/nagios/plugins`
+- `agents`, `checkman`, `checks`, `doc`, `inventory`, `notifications`, `pnp-templates`, `web` are mapped into `local/share/check_mk/`
+- `agent_based` is mapped to `local/lib/check_mk/base/plugins/agent_based`
+- `nagios_plugins` is mapped to `local/lib/nagios/plugins`
 
 ## Continuous integration
 

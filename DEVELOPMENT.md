@@ -89,6 +89,7 @@ Resources:
 
 - https://elixirschool.com/blog/managing-releases-with-release-please
 - https://github.com/googleapis/release-please/blob/main/docs/manifest-releaser.md
+- https://medium.com/@nicolaslelievre/automating-dbt-package-versioning-with-release-please-97ebe0ce9809
 
 Notes: 
 
