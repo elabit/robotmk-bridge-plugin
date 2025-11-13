@@ -22,7 +22,7 @@ from robot.api import ResultWriter
 
 
 DEFAULT_CONFIG_PATH = "/etc/check_mk/robotmk-bridge-plugin.json"
-AGENT_SECTION = "robotmk_bridge"
+CMK_AGENT_SECTION = "robotmk_bridge"
 
 
 @dataclass
@@ -651,7 +651,7 @@ def build_agent_payload(report: BridgeRunReport) -> Dict[str, Any]:
 
 def print_agent_section(report: BridgeRunReport) -> None:
     payload = build_agent_payload(report)
-    sys.stdout.write(f"<<<{AGENT_SECTION}>>>\n")
+    sys.stdout.write(f"<<<{CMK_AGENT_SECTION}>>>\n")
     sys.stdout.write(json.dumps(payload, separators=(",", ":")))
     sys.stdout.write("\n")
 

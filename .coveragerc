@@ -1,0 +1,25 @@
+[run]
+# Nur dieses Verzeichnis messen (kein Test-Code etc.)
+source =
+    agent_plugins
+
+branch = True
+
+# Falls du dein Plugin dynamisch lädst (was du tust),
+# ist das hier wichtig, damit Coverage die Datei sauber erkennt:
+relative_files = True
+
+[report]
+# Tests und virtuelle Umgebungen nicht im Report anzeigen
+omit =
+    tests/*
+    */site-packages/*
+    .venv/*
+    venv/*
+
+# Lücken im Code anzeigen
+show_missing = True
+precision = 1
+
+[html]
+directory = htmlcov
