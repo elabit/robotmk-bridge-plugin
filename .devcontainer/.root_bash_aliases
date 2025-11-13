@@ -9,4 +9,7 @@ function bake_and_install_agent_localhost() {
 
 alias start_robotmk_scheduler='nohup /usr/lib/check_mk_agent/robotmk/robotmk_scheduler --log-path /var/log/robotmk_scheduler.log -v /etc/check_mk/robotmk.json &'
 alias stop_robotmk_scheduler='pkill -f robotmk_scheduler'
-alias fix_rmk_permissions='chmod -R a+rw /var/lib/check_mk_agent/robotmk/scheduler/ /etc/check_mk/robotmk.json /var/log/'
+alias fix_rmk_permissions='chmod -R a+rw /var/lib/check_mk_agent/robotmk/scheduler/ /etc/check_mk/robotmk.json /var/log/ /usr/lib/check_mk_agent/'
+alias link_rmkbridge_cfg='ln -fs /workspaces/robotmk-bridge-plugin/tests/resources/cfg/robotmk-bridge-plugin.json /etc/check_mk/robotmk-bridge-plugin.json'
+alias link_rmkbridge_cfg='ln -fs /workspaces/robotmk-bridge-plugin/agent_plugins/robotmk_bridge_plugin.py /usr/lib/check_mk_agent/plugins/robotmk_bridge_plugin.py'
+alias setup_rmkbridge_files='fix_rmk_permissions && link_rmkbridge_cfg && link_rmkbridge_cfg'
