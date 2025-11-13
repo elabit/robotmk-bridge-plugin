@@ -110,5 +110,8 @@ if [ -z "${GITHUB_WORKSPACE-}" ]; then
     echo "■ Generating VS Code launch file ..."
     bash $WORKSPACE/.devcontainer/launch_gen.sh
 
+    echo "■ Execute this as root to link the bridge plugin and its configuration:"
+    echo "   setup_rmkbridge_files"
+
 fi
 echo "✅ postCreateCommand.sh finished."
