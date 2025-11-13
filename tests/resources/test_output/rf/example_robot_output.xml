@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <robot generator="Robot 3.2.1 (Python 3.7.7 on darwin)" generated="20200506 17:39:27.933" rpa="false">
-<suite id="s1" name="Atest" source="/Users/tkairi/Coding/oxygen/tests/atest">
-<suite id="s1-s1" name="Test" source="/Users/tkairi/Coding/oxygen/tests/atest/test.robot">
+<suite id="s1" name="Atest" source="/Users/tkairi/Coding/rmkbridge/tests/atest">
+<suite id="s1-s1" name="Test" source="/Users/tkairi/Coding/rmkbridge/tests/atest/test.robot">
 <test id="s1-s1-t1" name="My First Test">
 <kw name="Log" library="BuiltIn">
 <doc>Logs the given message with the given level.</doc>
@@ -19,7 +19,7 @@
 <msg timestamp="20200506 17:39:28.029" level="INFO">Junit Setup Here 2</msg>
 <status status="PASS" starttime="20200506 17:39:28.029" endtime="20200506 17:39:28.029"></status>
 </kw>
-<kw name="Run Junit" library="oxygen.OxygenLibrary">
+<kw name="Run Junit" library="rmkbridge.OxygenLibrary">
 <doc>Run JUnit tool specified with ``command``.</doc>
 <arguments>
 <arg>${RESOURCES}/junit.xml</arg>
@@ -28,7 +28,7 @@
 </arguments>
 <msg timestamp="20200506 17:39:28.041" level="INFO">JUNIT_TEST_STRING
 </msg>
-<msg timestamp="20200506 17:39:28.041" level="INFO">Result file: /Users/tkairi/Coding/oxygen/tests/atest/../resources/junit.xml</msg>
+<msg timestamp="20200506 17:39:28.041" level="INFO">Result file: /Users/tkairi/Coding/rmkbridge/tests/atest/../resources/junit.xml</msg>
 <status status="PASS" starttime="20200506 17:39:28.029" endtime="20200506 17:39:28.041"></status>
 </kw>
 <kw name="Log" library="BuiltIn">
@@ -69,7 +69,7 @@
 <msg timestamp="20200506 17:39:30.046" level="INFO">Junit Setup Here 2</msg>
 <status status="PASS" starttime="20200506 17:39:30.046" endtime="20200506 17:39:30.046"></status>
 </kw>
-<kw name="Run Junit" library="oxygen.OxygenLibrary">
+<kw name="Run Junit" library="rmkbridge.OxygenLibrary">
 <doc>Run JUnit tool specified with ``command``.</doc>
 <arguments>
 <arg>${RESOURCES}/big.xml</arg>
@@ -78,7 +78,7 @@
 </arguments>
 <msg timestamp="20200506 17:39:30.059" level="INFO">JUNIT_TEST_STRING_BIG
 </msg>
-<msg timestamp="20200506 17:39:30.059" level="INFO">Result file: /Users/tkairi/Coding/oxygen/tests/atest/../resources/big.xml</msg>
+<msg timestamp="20200506 17:39:30.059" level="INFO">Result file: /Users/tkairi/Coding/rmkbridge/tests/atest/../resources/big.xml</msg>
 <status status="PASS" starttime="20200506 17:39:30.047" endtime="20200506 17:39:30.060"></status>
 </kw>
 <kw name="Log" library="BuiltIn">
@@ -119,7 +119,7 @@
 <msg timestamp="20200506 17:39:30.074" level="INFO">Gatling Setup Here 2</msg>
 <status status="PASS" starttime="20200506 17:39:30.073" endtime="20200506 17:39:30.075"></status>
 </kw>
-<kw name="Run Gatling" library="oxygen.OxygenLibrary">
+<kw name="Run Gatling" library="rmkbridge.OxygenLibrary">
 <doc>Run Gatling tool specified with ``command``.</doc>
 <arguments>
 <arg>${RESOURCES}/gatling-example-simulation.log</arg>
@@ -128,7 +128,7 @@
 </arguments>
 <msg timestamp="20200506 17:39:30.091" level="INFO">GATLING TEST STRING
 </msg>
-<msg timestamp="20200506 17:39:30.092" level="INFO">Result file: /Users/tkairi/Coding/oxygen/tests/atest/../resources/gatling-example-simulation.log</msg>
+<msg timestamp="20200506 17:39:30.092" level="INFO">Result file: /Users/tkairi/Coding/rmkbridge/tests/atest/../resources/gatling-example-simulation.log</msg>
 <status status="PASS" starttime="20200506 17:39:30.076" endtime="20200506 17:39:30.092"></status>
 </kw>
 <kw name="Log" library="BuiltIn">
@@ -161,7 +161,7 @@
 <msg timestamp="20200506 17:39:30.099" level="INFO">ZAP Setup Here 2</msg>
 <status status="PASS" starttime="20200506 17:39:30.098" endtime="20200506 17:39:30.099"></status>
 </kw>
-<kw name="Run Zap" library="oxygen.OxygenLibrary">
+<kw name="Run Zap" library="rmkbridge.OxygenLibrary">
 <doc>Run Zed Attack Proxy tool specified with ``command``.</doc>
 <arguments>
 <arg>${RESOURCES}/zap/zap.xml.lol</arg>
@@ -170,7 +170,7 @@
 </arguments>
 <msg timestamp="20200506 17:39:30.112" level="INFO">ZAP TEST STRING 2
 </msg>
-<msg timestamp="20200506 17:39:30.112" level="INFO">Result file: /Users/tkairi/Coding/oxygen/tests/atest/../resources/zap/zap.xml.lol</msg>
+<msg timestamp="20200506 17:39:30.112" level="INFO">Result file: /Users/tkairi/Coding/rmkbridge/tests/atest/../resources/zap/zap.xml.lol</msg>
 <status status="PASS" starttime="20200506 17:39:30.100" endtime="20200506 17:39:30.113"></status>
 </kw>
 <kw name="Log" library="BuiltIn">
@@ -211,7 +211,7 @@
 <msg timestamp="20200506 17:39:30.121" level="INFO">ZAP Setup Here 2</msg>
 <status status="PASS" starttime="20200506 17:39:30.121" endtime="20200506 17:39:30.121"></status>
 </kw>
-<kw name="Run Zap" library="oxygen.OxygenLibrary">
+<kw name="Run Zap" library="rmkbridge.OxygenLibrary">
 <doc>Run Zed Attack Proxy tool specified with ``command``.</doc>
 <arguments>
 <arg>${RESOURCES}/zap/zap_pp.json</arg>
@@ -220,7 +220,7 @@
 </arguments>
 <msg timestamp="20200506 17:39:30.134" level="INFO">ZAP TEST STRING 3
 </msg>
-<msg timestamp="20200506 17:39:30.134" level="INFO">Result file: /Users/tkairi/Coding/oxygen/tests/atest/../resources/zap/zap_pp.json</msg>
+<msg timestamp="20200506 17:39:30.134" level="INFO">Result file: /Users/tkairi/Coding/rmkbridge/tests/atest/../resources/zap/zap_pp.json</msg>
 <status status="PASS" starttime="20200506 17:39:30.122" endtime="20200506 17:39:30.135"></status>
 </kw>
 <kw name="Log" library="BuiltIn">
@@ -275,7 +275,7 @@
 <msg timestamp="20200506 17:39:28.029" level="INFO">My Dummy Handler Setup Here 2</msg>
 <status status="PASS" starttime="20200506 17:39:28.029" endtime="20200506 17:39:28.029"></status>
 </kw>
-<kw name="Run My Dummy Handler" library="oxygen.OxygenLibrary">
+<kw name="Run My Dummy Handler" library="rmkbridge.OxygenLibrary">
 <doc>Run My Dummy Handler tool specified with ``command``.</doc>
 <arguments>
 <arg>${RESOURCES}/my_dummy_handler.xml</arg>
@@ -284,7 +284,7 @@
 </arguments>
 <msg timestamp="20200506 17:39:28.041" level="INFO">MY_DUMMY_HANDLER_TEST_STRING
 </msg>
-<msg timestamp="20200506 17:39:28.041" level="INFO">Result file: /Users/tkairi/Coding/oxygen/tests/atest/../resources/my_dummy_handler.xml</msg>
+<msg timestamp="20200506 17:39:28.041" level="INFO">Result file: /Users/tkairi/Coding/rmkbridge/tests/atest/../resources/my_dummy_handler.xml</msg>
 <status status="PASS" starttime="20200506 17:39:28.029" endtime="20200506 17:39:28.041"></status>
 </kw>
 <kw name="Log" library="BuiltIn">

@@ -80,7 +80,31 @@ function main() {
         mv "$TMP_FILE" "$TARGET_FILE"
     fi
     
+    # Merge main requirements into the devcontainer requirements file,
+    # keeping everything up to the line that starts with "# --" and
+    # replacing everything after that line with the main requirements.
+    MAIN_REQ="$SCRIPTDIR/../requirements.txt"
+    DEV_REQ="$SCRIPTDIR/requirements.txt"
 
+    if [ ! -f "$MAIN_REQ" ]; then
+        echo "Warning: main requirements file not found: $MAIN_REQ" >&2
+    else
+        TMPFILE="$(mktemp)"
+        # If DEV_REQ contains the marker line, keep up to and including it,
+        # otherwise keep the whole file and append a marker.
+        if grep -q '^# --' "$DEV_REQ"; then
+            sed -n '1,/^# --/p' "$DEV_REQ" > "$TMPFILE"
+        else
+            cat "$DEV_REQ" > "$TMPFILE"
+            printf '\n# --\n' >> "$TMPFILE"
+        fi
+
+        # Append a blank line and the contents of the main requirements file
+        printf '\n' >> "$TMPFILE"
+        cat "$MAIN_REQ" >> "$TMPFILE"
+
+        mv "$TMPFILE" "$DEV_REQ"
+    fi
 
 }
 

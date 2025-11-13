@@ -11,7 +11,7 @@
 Test passed :D</msg>
 <status status="PASS" starttime="20251105 15:23:03.439" endtime="20251105 15:23:03.439"/>
 </kw>
-<tag>oxygen-junit-unknown-execution-time</tag>
+<tag>rmkbridge-junit-unknown-execution-time</tag>
 <status status="PASS" starttime="20251105 15:23:03.439" endtime="20251105 15:23:03.440">Test passed :D</status>
 </test>
 <test id="s1-s1-s1-t2" name="caseb">
@@ -22,7 +22,7 @@ Test passed :D</msg>
 Test passed :D</msg>
 <status status="PASS" starttime="20251105 15:23:03.440" endtime="20251105 15:23:03.440"/>
 </kw>
-<tag>oxygen-junit-unknown-execution-time</tag>
+<tag>rmkbridge-junit-unknown-execution-time</tag>
 <status status="PASS" starttime="20251105 15:23:03.440" endtime="20251105 15:23:03.440">Test passed :D</status>
 </test>
 <status status="PASS" starttime="20251105 15:23:03.438" endtime="20251105 15:23:03.441"/>
@@ -35,7 +35,7 @@ Test passed :D</msg>
 Test passed :D</msg>
 <status status="PASS" starttime="20251105 15:23:03.441" endtime="20251105 15:23:03.442"/>
 </kw>
-<tag>oxygen-junit-unknown-execution-time</tag>
+<tag>rmkbridge-junit-unknown-execution-time</tag>
 <status status="PASS" starttime="20251105 15:23:03.441" endtime="20251105 15:23:03.442">Test passed :D</status>
 </test>
 <test id="s1-s1-t2" name="case2">
@@ -45,7 +45,7 @@ Test passed :D</msg>
 <msg timestamp="20251105 15:23:03.442" level="FAIL">ERROR: Example error message (the_error_type)</msg>
 <status status="FAIL" starttime="20251105 15:23:03.442" endtime="20251105 15:23:03.442"/>
 </kw>
-<tag>oxygen-junit-unknown-execution-time</tag>
+<tag>rmkbridge-junit-unknown-execution-time</tag>
 <status status="FAIL" starttime="20251105 15:23:03.442" endtime="20251105 15:23:03.442">ERROR: Example error message (the_error_type)</status>
 </test>
 <test id="s1-s1-t3" name="case3">
@@ -55,7 +55,7 @@ Test passed :D</msg>
 <msg timestamp="20251105 15:23:03.443" level="FAIL">FAIL: Example failure message (the_failure_type)</msg>
 <status status="FAIL" starttime="20251105 15:23:03.443" endtime="20251105 15:23:03.443"/>
 </kw>
-<tag>oxygen-junit-unknown-execution-time</tag>
+<tag>rmkbridge-junit-unknown-execution-time</tag>
 <status status="FAIL" starttime="20251105 15:23:03.443" endtime="20251105 15:23:03.443">FAIL: Example failure message (the_failure_type)</status>
 </test>
 <status status="FAIL" starttime="20251105 15:23:03.437" endtime="20251105 15:23:03.444"/>
@@ -67,7 +67,7 @@ Test passed :D</msg>
 <stat pass="3" fail="2" skip="0">All Tests</stat>
 </total>
 <tag>
-<stat pass="3" fail="2" skip="0">oxygen-junit-unknown-execution-time</stat>
+<stat pass="3" fail="2" skip="0">rmkbridge-junit-unknown-execution-time</stat>
 </tag>
 <suite>
 <stat pass="3" fail="2" skip="0" id="s1" name="JUnit Execution">JUnit Execution</stat>
