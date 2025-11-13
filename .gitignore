@@ -2,3 +2,5 @@
 .coverage
 __pycache__
 debug.log
+htmlcov
+rf_tests/**/output

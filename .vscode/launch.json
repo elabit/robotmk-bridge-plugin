@@ -92,6 +92,16 @@
                 "/workspaces/robotmk-bridge-plugin/tests/resources/cfg/junit-single-testsuite.xml",
                 "JunitTest"
             ]
+        },
+        {
+        "name": "Python: Debug Tests",
+        "type": "debugpy",
+        "request": "launch",
+        "program": "${file}",
+        "purpose": ["debug-test"],
+        "console": "integratedTerminal",
+        "justMyCode": false,
+        "env": {"PYTEST_ADDOPTS": "--no-cov"}
         }
     ]
 }
