@@ -169,7 +169,7 @@
 </test>
 <status status="PASS" starttime="20200508 11:54:16.226" endtime="20200508 11:54:16.236"></status>
 </suite>
-<suite id="s1-s7" name="utest.oxygen.test_oxygen_listener.OxygenListenerBasicTests">
+<suite id="s1-s7" name="utest.rmkbridge.test_rmkbridge_listener.OxygenListenerBasicTests">
 <test id="s1-s7-t1" name="test_end_test_when_library_was_not_used">
 <tags>
 <tag>OXYGEN_JUNIT_UNKNOWN_EXECUTION_TIME</tag>
@@ -190,7 +190,7 @@
 </test>
 <status status="PASS" starttime="20200508 11:54:16.237" endtime="20200508 11:54:16.241"></status>
 </suite>
-<suite id="s1-s8" name="utest.oxygen.test_oxygen_visitor.TestOxygen">
+<suite id="s1-s8" name="utest.rmkbridge.test_rmkbridge_visitor.TestOxygen">
 <test id="s1-s8-t1" name="test_multiple_errors_are_reported">
 <tags>
 <tag>OXYGEN_JUNIT_UNKNOWN_EXECUTION_TIME</tag>
@@ -205,7 +205,7 @@
 </test>
 <status status="PASS" starttime="20200508 11:54:16.241" endtime="20200508 11:54:16.244"></status>
 </suite>
-<suite id="s1-s9" name="utest.oxygen.test_oxygenlibrary.TestOxygenLibrary">
+<suite id="s1-s9" name="utest.rmkbridge.test_rmkbridgelibrary.TestOxygenLibrary">
 <test id="s1-s9-t1" name="test_arguments">
 <tags>
 <tag>OXYGEN_JUNIT_UNKNOWN_EXECUTION_TIME</tag>
@@ -469,7 +469,7 @@
 </test>
 <status status="PASS" starttime="20200508 11:54:16.303" endtime="20200508 11:54:16.305"></status>
 </suite>
-<suite id="s1-s19" name="utest.oxygen.test_oxygen_cli.TestOxygenCLI">
+<suite id="s1-s19" name="utest.rmkbridge.test_rmkbridge_cli.TestOxygenCLI">
 <test id="s1-s19-t1" name="test_cli_with_no_args">
 <tags>
 <tag>OXYGEN_JUNIT_UNKNOWN_EXECUTION_TIME</tag>
@@ -508,9 +508,9 @@
 <stat pass="1" fail="0" id="s1-s4" name="utest.base_handler.test_set_suite_tags.TestSetSuiteTags">JUnit Execution.utest.base_handler.test_set_suite_tags.TestSetSuiteTags</stat>
 <stat pass="9" fail="0" id="s1-s5" name="utest.gatling.test_basic_functionality.JUnitBasicTests">JUnit Execution.utest.gatling.test_basic_functionality.JUnitBasicTests</stat>
 <stat pass="11" fail="0" id="s1-s6" name="utest.junit.test_basic_functionality.JUnitBasicTests">JUnit Execution.utest.junit.test_basic_functionality.JUnitBasicTests</stat>
-<stat pass="3" fail="0" id="s1-s7" name="utest.oxygen.test_oxygen_listener.OxygenListenerBasicTests">JUnit Execution.utest.oxygen.test_oxygen_listener.OxygenListenerBasicTests</stat>
-<stat pass="2" fail="0" id="s1-s8" name="utest.oxygen.test_oxygen_visitor.TestOxygen">JUnit Execution.utest.oxygen.test_oxygen_visitor.TestOxygen</stat>
-<stat pass="6" fail="0" id="s1-s9" name="utest.oxygen.test_oxygenlibrary.TestOxygenLibrary">JUnit Execution.utest.oxygen.test_oxygenlibrary.TestOxygenLibrary</stat>
+<stat pass="3" fail="0" id="s1-s7" name="utest.rmkbridge.test_rmkbridge_listener.OxygenListenerBasicTests">JUnit Execution.utest.rmkbridge.test_rmkbridge_listener.OxygenListenerBasicTests</stat>
+<stat pass="2" fail="0" id="s1-s8" name="utest.rmkbridge.test_rmkbridge_visitor.TestOxygen">JUnit Execution.utest.rmkbridge.test_rmkbridge_visitor.TestOxygen</stat>
+<stat pass="6" fail="0" id="s1-s9" name="utest.rmkbridge.test_rmkbridgelibrary.TestOxygenLibrary">JUnit Execution.utest.rmkbridge.test_rmkbridgelibrary.TestOxygenLibrary</stat>
 <stat pass="2" fail="0" id="s1-s10" name="utest.robot_interface.test_robot_interface_basic_usage.RobotInterfaceBasicTests">JUnit Execution.utest.robot_interface.test_robot_interface_basic_usage.RobotInterfaceBasicTests</stat>
 <stat pass="2" fail="0" id="s1-s11" name="utest.robot_interface.test_time_conversions.TestMsToTimestamp">JUnit Execution.utest.robot_interface.test_time_conversions.TestMsToTimestamp</stat>
 <stat pass="2" fail="0" id="s1-s12" name="utest.robot_interface.test_time_conversions.TestTimestampToMs">JUnit Execution.utest.robot_interface.test_time_conversions.TestTimestampToMs</stat>
@@ -520,7 +520,7 @@
 <stat pass="6" fail="0" id="s1-s16" name="utest.zap.test_parse_zap_instance.TestParseZapInstance">JUnit Execution.utest.zap.test_parse_zap_instance.TestParseZapInstance</stat>
 <stat pass="2" fail="0" id="s1-s17" name="utest.zap.test_parse_zap_site_dict.TestParseZapSiteDict">JUnit Execution.utest.zap.test_parse_zap_site_dict.TestParseZapSiteDict</stat>
 <stat pass="1" fail="0" id="s1-s18" name="utest.zap.test_xml_to_dict.TestXmlToDict">JUnit Execution.utest.zap.test_xml_to_dict.TestXmlToDict</stat>
-<stat pass="0" fail="3" id="s1-s19" name="utest.oxygen.test_oxygen_cli.TestOxygenCLI">JUnit Execution.utest.oxygen.test_oxygen_cli.TestOxygenCLI</stat>
+<stat pass="0" fail="3" id="s1-s19" name="utest.rmkbridge.test_rmkbridge_cli.TestOxygenCLI">JUnit Execution.utest.rmkbridge.test_rmkbridge_cli.TestOxygenCLI</stat>
 </suite>
 </statistics>
 <errors>

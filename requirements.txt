@@ -1,5 +1,3 @@
-mergedeep 
 robotframework<7
-python-dateutil
 black
-robotframework-oxygen
+robotframework-robotmk-bridge==0.1.1

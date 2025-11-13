@@ -28,7 +28,7 @@ This document describes the core features, acceptance criteria and recommended i
    - only accept files which do not have a mtime older than now - max_age (specified in the config)
 3. Implement conversion
    - We leverage the oxygen package (already insalled) for the conversion. 
-   - Ech result file gets read and converted using oxygen's "parse_results" from the handler. For that to work, the handelr name in the config must match the handler available to oxygen. 
+   - Ech result file gets read and converted using oxygen's "parse_results" from the handler. For that to work, the handelr name in the config must match the handler available to rmkbridge. 
    - A wrong handler name leads to an error. 
    - our plugin receives the Robot Framework XML (as string)
    - Fail fast with meaningful error messages if handler missing or raises.

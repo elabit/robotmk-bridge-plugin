@@ -65,12 +65,12 @@ def test_resolve_handler_accepts_prefixless_name():
     """Verify that resolve_handler accepts names without an explicit namespace prefix.
     Calling plugin.resolve_handler with a bare handler name (e.g. "junit") should
     apply the default namespace and return a resolved handler object whose
-    handler_key is the fully-qualified name ("oxygen.junit") and whose handler
+    handler_key is the fully-qualified name ("rmkbridge.junit") and whose handler
     contains the expected invocation keyword ("run_junit"). This confirms the
     resolution logic correctly normalizes prefixless handler names.
     """
     resolved = plugin.resolve_handler("junit")
-    assert resolved.handler_key == "oxygen.junit"
+    assert resolved.handler_key == "rmkbridge.junit"
     assert resolved.handler.keyword == "run_junit"
 
 
@@ -105,14 +105,14 @@ def test_convert_with_handler_returns_robot_artifacts(junit_config):
     Verify that convert_with_handler produces the expected Robot artifacts for a JUnit input.
 
     The test calls plugin.convert_with_handler with a junit_config fixture and a JUnit file path and asserts:
-    - The handler identifies itself as the JUnit handler ("oxygen.junit") and exposes the expected keyword ("run_junit").
+    - The handler identifies itself as the JUnit handler ("rmkbridge.junit") and exposes the expected keyword ("run_junit").
     - The produced Robot output XML contains the "JUnit Execution" marker.
     - A non-empty HTML log is produced and contains an HTML root element.
 
     This ensures the conversion pipeline recognizes JUnit inputs and emits Robot-compatible outputs (robot_output_xml and log_html).
     """
     result = plugin.convert_with_handler(junit_config, JUNIT_FILE)
-    assert result.handler_key == "oxygen.junit"
+    assert result.handler_key == "rmkbridge.junit"
     assert result.handler_keyword == "run_junit"
     assert "JUnit Execution" in result.robot_output_xml
     assert result.log_html is not None

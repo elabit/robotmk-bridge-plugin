@@ -15,9 +15,9 @@ from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional, Sequence, Tuple
 import glob
 
-from oxygen.oxygen import OxygenCore
-from oxygen.robot_interface import RobotInterface
-from oxygen.utils import validate_with_deprecation_warning
+from rmkbridge.rmkbridge import RobotmkBridgeCore
+from rmkbridge.robot_interface import RobotInterface
+from rmkbridge.utils import validate_with_deprecation_warning
 from robot.api import ResultWriter
 
 
@@ -63,7 +63,7 @@ class BridgeRunReport:
 
 @dataclass
 class ResolvedHandler:
-    """Stores the resolved Oxygen handler instance and metadata."""
+    """Stores the resolved Robotmk Bridge handler instance and metadata."""
 
     handler_key: str
     handler: Any
@@ -71,7 +71,7 @@ class ResolvedHandler:
 
 @dataclass
 class HandlerConversionResult:
-    """Captures artifacts produced by an Oxygen handler conversion."""
+    """Captures artifacts produced by an Robotmk Bridge handler conversion."""
 
     config: Config
     source_path: str
@@ -99,34 +99,34 @@ class HandlerExecutionError(HandlerError):
     """Raised when handler execution fails."""
 
 
-_OXYGENCORE: Optional[OxygenCore] = None
+_RMKBRIDGECORE: Optional[RobotmkBridgeCore] = None
 
 
-def _get_oxygenCORE() -> OxygenCore:
-    """Return a cached OxygenCore instance."""
+def _get_rmkbridgeCORE() -> RobotmkBridgeCore:
+    """Return a cached RobotmkBridgeCore instance."""
 
-    global _OXYGENCORE
-    if _OXYGENCORE is None:
+    global _RMKBRIDGECORE
+    if _RMKBRIDGECORE is None:
         try:
-            _OXYGENCORE = OxygenCore()
+            _RMKBRIDGECORE = RobotmkBridgeCore()
         except Exception as exc:  # noqa: BLE001 - propagate as domain error
-            raise HandlerResolutionError(f"Failed to initialise Oxygen.OxygenCore: {exc}") from exc
-    return _OXYGENCORE
+            raise HandlerResolutionError(f"Failed to initialise Oxygen.RobotmkBridgeCore: {exc}") from exc
+    return _RMKBRIDGECORE
 
 
 def _iter_handler_keys(handler_name: str) -> Iterable[str]:
     """Yield plausible handler keys for the given configuration name."""
 
     names: List[str] = [handler_name]
-    if not handler_name.startswith("oxygen."):
-        names.append(f"oxygen.{handler_name}")
+    if not handler_name.startswith("rmkbridge."):
+        names.append(f"rmkbridge.{handler_name}")
     return names
 
 
 def resolve_handler(handler_name: str) -> ResolvedHandler:
-    """Resolve a configured handler name to an Oxygen handler instance."""
+    """Resolve a configured handler name to an Robotmk Bridge handler instance."""
 
-    core = _get_oxygenCORE()
+    core = _get_rmkbridgeCORE()
     handlers = core.handlers
 
     for candidate in _iter_handler_keys(handler_name):
@@ -280,7 +280,7 @@ def _render_robot_artifacts(parsed_results: Dict[str, Any]) -> Tuple[str, Option
 
 
 def convert_with_handler(config: Config, source_path: str) -> HandlerConversionResult:
-    """Convert a test result file using the configured Oxygen handler."""
+    """Convert a test result file using the configured Robotmk Bridge handler."""
 
     resolved = resolve_handler(config.handler)
     handler = resolved.handler
