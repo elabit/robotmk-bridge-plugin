@@ -1,0 +1,16 @@
+{
+    "paths": [
+        {
+            "path": "/workspaces/robotmk-bridge-plugin/tests/resources/test_output/junit/junit-single-testsuite.xml",
+            "handler": "junit",
+            "plan_name": "JunitSingleTest",
+            "max_age": 36000000000000
+        },
+        {
+            "path": "/workspaces/robotmk-bridge-plugin/tests/resources/test_output/gatling/gatling-example-simulation.log",
+            "handler": "gatling",
+            "plan_name": "GatlingTest",
+            "max_age": 36000000000000
+        }
+    ]
+}

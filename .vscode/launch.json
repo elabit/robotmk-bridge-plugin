@@ -2,7 +2,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "CMK2.4 bakery (bd9de59ec191)",
+            "name": "CMK2.4 bakery (6822e90e8108)",
             "type": "python",
             "request": "launch",
             "program": "/omd/sites/cmk/bin/cmk",
@@ -10,14 +10,14 @@
                 "-A",
                 "-v",
                 "-f",
-                "bd9de59ec191"
+                "6822e90e8108"
             ],
             "console": "integratedTerminal",
             "python": "/omd/sites/cmk/bin/python3",
             "justMyCode": false
         },
         {
-            "name": "CMK2.4 Inventory (bd9de59ec191)",
+            "name": "CMK2.4 Inventory (6822e90e8108)",
             "type": "python",
             "request": "launch",
             "program": "/omd/sites/cmk/bin/cmk",
@@ -25,14 +25,14 @@
                 "-v",
                 "-II",
                 "--debug",
-                "bd9de59ec191"
+                "6822e90e8108"
             ],
             "console": "integratedTerminal",
             "python": "/omd/sites/cmk/bin/python3",
             "justMyCode": false
         },
         {
-            "name": "CMK2.4 check (bd9de59ec191)",
+            "name": "CMK2.4 check (6822e90e8108)",
             "type": "python",
             "request": "launch",
             "program": "/omd/sites/cmk/bin/cmk",
@@ -40,7 +40,7 @@
                 "-v",
                 "-n",
                 "-p",
-                "bd9de59ec191"
+                "6822e90e8108"
             ],
             "console": "integratedTerminal",
             "python": "/omd/sites/cmk/bin/python3",
@@ -59,7 +59,7 @@
             "name": "robotmk_bridge_plugin",
             "type": "python",
             "request": "launch",
-            "program": "${file}",
+            "program": "",
             "console": "integratedTerminal",
             "python": "/usr/bin/python3",
             "justMyCode": false,
@@ -71,7 +71,7 @@
             "name": "robotmk_bridge_plugin (Gatling)",
             "type": "python",
             "request": "launch",
-            "program": "${file}",
+            "program": "",
             "console": "integratedTerminal",
             "python": "/usr/bin/python3",
             "justMyCode": false,
@@ -84,7 +84,7 @@
             "name": "robotmk_bridge_plugin (Junit)",
             "type": "python",
             "request": "launch",
-            "program": "${file}",
+            "program": "",
             "console": "integratedTerminal",
             "python": "/usr/bin/python3",
             "justMyCode": false,
@@ -97,7 +97,7 @@
         "name": "Python: Debug Tests",
         "type": "debugpy",
         "request": "launch",
-        "program": "${file}",
+        "program": "",
         "purpose": ["debug-test"],
         "console": "integratedTerminal",
         "justMyCode": false,

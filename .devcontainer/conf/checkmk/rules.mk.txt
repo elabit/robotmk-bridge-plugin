@@ -4,10 +4,3 @@ agent_config.setdefault('linux_robotmk', [])
 agent_config['linux_robotmk'] = [
 {'id': 'ad1a3bd8-2c9b-48ba-8db4-9c1c678e25c4', 'value': {'deployment': ('deploy', {'suites_base_dir': '/usr/lib/check_mk_agent/robots', 'plan_groups': [{'execution_interval': 60.0, 'plans': [('manual_robot', {'application': 'SimpleApp', 'path_to_test_suite': 'simple/simplesuite.robot', 'execution_config': {'timeout_per_attempt': 60.0, 'rf_re_executions': ('no_re_executions', None)}, 'rcc': {'robot_yaml': 'simple/robot.yaml', 'build_timeout': 600.0, 'dependency_handling': ('internet_download', None)}, 'working_directory_cleanup': ('max_age', 1209600.0)})]}], 'rcc_profile_config': ('default', None), 'robocorp_home_base': '/opt/robotmk/rcc_home/'}), 'cmk-match-type': 'dict'}, 'condition': {}, 'options': {'disabled': False}},
 ] + agent_config['linux_robotmk']
-
-
-#globals().setdefault('ignored_services', [])
-
-#ignored_services = [
-#{'id': '97f888b9-e1b8-4c94-9fa1-3be3d903dbd3', 'value': True, 'condition': {'service_description': [{'$regex': 'Interface.*'}, {'$regex': 'Mount.*'}, {'$regex': 'OMD.*'}, {'$regex': 'Process cmk.*'}, {'$regex': 'TCP.*'}, {'$regex': 'Uptime.*'}, {'$regex': 'Postfix.*'}]}, 'options': {'disabled': False}},
-#] + ignored_services

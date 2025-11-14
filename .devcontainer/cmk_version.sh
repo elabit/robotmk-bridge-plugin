@@ -6,6 +6,17 @@
 # This script can be sourced by other scripts to access CMK version information
 # and target path variables based on the detected CMK version.
 
+
+# Source CMK version detection and target resolution utilities
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "${SCRIPT_DIR}/../project.env"
+
+if [ -z "$PROJECT_NAME" ]; then
+    echo "ERROR: PROJECT_NAME is not set in project.env"
+    exit 1  
+fi
+
+
 # Determine CMK major.minor version (e.g., 2.2, 2.3, 2.4)
 # Prefer environment CMK_VERSION if provided; else detect from omd
 function detect_cmk_version() {
@@ -37,12 +48,12 @@ function resolve_cmk_targets() {
     
     case "$CMK_VERSION_MM" in
         2.4)
-            export CMK_DIR_CHECKS="local/lib/python3/cmk_addons/plugins/robotmk/agent_based"
-            export CMK_DIR_GRAPHING="local/lib/python3/cmk_addons/plugins/robotmk/graphing"
-            export CMK_DIR_CHECKMAN="local/lib/python3/cmk_addons/plugins/robotmk/checkman"            
+            export CMK_DIR_CHECKS="local/lib/python3/cmk_addons/plugins/${PROJECT_NAME}/agent_based"
+            export CMK_DIR_GRAPHING="local/lib/python3/cmk_addons/plugins/${PROJECT_NAME}/graphing"
+            export CMK_DIR_CHECKMAN="local/lib/python3/cmk_addons/plugins/${PROJECT_NAME}/checkman"            
             ;;
         2.3)
-            export CMK_DIR_CHECKS="local/lib/python3/cmk_addons/plugins/robotmk/agent_based"
+            export CMK_DIR_CHECKS="local/lib/python3/cmk_addons/plugins/${PROJECT_NAME}/agent_based"
             export CMK_DIR_GRAPHING="local/share/check_mk/web/plugins/metrics"
             export CMK_DIR_CHECKMAN="local/share/check_mk/checkman"
             ;;
