@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [0.4.5](https://github.com/elabit/robotmk-bridge-plugin/compare/v0.4.4...v0.4.5) (2025-11-14)
+
+
+### 🐛 Bug Fixes
+
+* Uses final.mk for ignored services, improved postinstall script ([#51](https://github.com/elabit/robotmk-bridge-plugin/issues/51)) ([be3f77c](https://github.com/elabit/robotmk-bridge-plugin/commit/be3f77c53acad7049de8a9007bca89fa59a5fb82))
+
 ## [0.4.4](https://github.com/elabit/robotmk-bridge-plugin/compare/v0.4.3...v0.4.4) (2025-11-14)
 
 
