@@ -23,6 +23,9 @@ API_URL="$PROTO://$CMK_HOST:$PORT/$SITE_NAME/check_mk/api/1.0"
 USERNAME="automation"
 PASSWORD=$(cat $SECRETFILE)
 
+CMK_ETC_DIR=/omd/sites/cmk/etc/check_mk
+CMK_RULES_DIR=$WORKSPACE/.devcontainer/conf/checkmk
+
 echo "Automation password: $PASSWORD"
 echo "+ Creating a dummy host via API... "
 
@@ -37,19 +40,19 @@ curl \
 
 echo "▹ WORKSPACE: $WORKSPACE"
 
-if ! $(grep -q ADDEDBYSCRIPT /omd/sites/cmk/etc/check_mk/conf.d/wato/rules.mk); then
-    echo "+ Adding rules.mk, replacing HOSTNAME with $HOST via envsubst ... "
+if ! $(grep -q ADDEDBYSCRIPT $CMK_ETC_DIR/conf.d/wato/rules.mk); then
+    echo "+ Adding rules to $CMK_ETC_DIR/conf.d/wato/rules.mk, replacing HOSTNAME with $HOST via envsubst ... "
     
-    CFG=$(envsubst < $WORKSPACE/.devcontainer/rules.mk.txt)
+    CFG=$(envsubst < $CMK_RULES_DIR/rules.mk.txt)
 
-    echo "$CFG" >> /omd/sites/cmk/etc/check_mk/conf.d/wato/rules.mk  
+    echo "$CFG" >> $CMK_ETC_DIR/conf.d/wato/rules.mk  
 else 
     echo
-    echo "+ rules are already applied in etc/check_mk/conf.d/wato/rules.mk ... "
+    echo "+ rules are already applied in $CMK_ETC_DIR/conf.d/wato/rules.mk ... "
 fi
 
 
-
-
+echo "+ Adding ignore rules to $CMK_ETC_DIR/final.mk ... "
+cat $CMK_RULES_DIR/final.mk.txt > $CMK_ETC_DIR/final.mk
 
 # cmk -R

@@ -17,6 +17,12 @@ L_LIB_PY3_CMK_ADDONS="local/lib/python3/cmk_addons"
 # Source CMK version detection and target resolution utilities
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "${SCRIPT_DIR}/cmk_version.sh"
+source "${SCRIPT_DIR}/../project.env"
+
+if [ -z "$PROJECT_NAME" ]; then
+    echo "ERROR: PROJECT_NAME is not set in project.env"
+    exit 1  
+fi
 
 if [ -f /omd/sites/cmk/.profile ]; then
     set -a
