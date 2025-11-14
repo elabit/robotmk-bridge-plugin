@@ -42,8 +42,8 @@ else
 fi
 
 # ARG1 must be either "cmkonly" or "full"
-if [ "$ARG1" != "cmkonly" ] && [ "$ARG1" != "full" ]; then
-    echo "ERROR: Argument must be either 'cmkonly' or 'full'."
+if [ "$ARG1" != "show-env" ] && [ "$ARG1" != "cmkonly" ] && [ "$ARG1" != "full" ]; then
+    echo "ERROR: Argument must be either 'show-env', 'cmkonly' or 'full'."
     exit 1
 fi
 
@@ -79,6 +79,9 @@ function print_cmk_variables {
     echo "CMK_DIR_BAKERY: $OMD_ROOT/$CMK_DIR_BAKERY"
     echo "CMK_DIR_WATO: $OMD_ROOT/$CMK_DIR_WATO"
     echo "CMK_DIR_IMAGES: $OMD_ROOT/$CMK_DIR_IMAGES"
+    if [ "$ARG1" == "show-env" ]; then 
+        exit 0
+    fi
 }
 
 function symlink_project_files {
