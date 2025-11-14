@@ -81,7 +81,7 @@ def test_check_robotmk_bridge_yields_expected_metrics():
 
     metrics_by_name = {m.name: m.value for m in metric_objs}
 
-    assert metrics_by_name["runtime"] == pytest.approx(0.5)
+    assert metrics_by_name["runtime_conversion"] == pytest.approx(0.5)
     assert metrics_by_name["files_total"] == 4
     assert metrics_by_name["files_success"] == 4
     assert metrics_by_name["files_missing"] == 0
