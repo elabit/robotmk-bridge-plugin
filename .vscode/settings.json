@@ -4,6 +4,7 @@
     "python.testing.pytestArgs": [
         "-vv",
         "--cov=agent_plugins",
+        "--cov=checks",
         "--cov-report=term-missing",
         "./tests" 
     ],

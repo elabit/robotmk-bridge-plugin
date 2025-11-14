@@ -5,7 +5,7 @@ import time
 
 
 
-BASE_DIR = os.path.join(os.path.dirname(__file__), "resources", "test_output")
+BASE_DIR = os.path.join(os.path.dirname(__file__), "..", "resources", "test_output")
 JUNIT_FILE = os.path.join(BASE_DIR, "junit", "junit-single-testsuite.xml")
 
 def _load_plugin_module():
@@ -13,7 +13,7 @@ def _load_plugin_module():
 
     The filename contains a hyphen so we import by spec from file.
     """
-    path = os.path.join(os.path.dirname(__file__), "..", "agent_plugins", "robotmk_bridge_plugin.py")
+    path = os.path.join(os.path.dirname(__file__), "../..", "agent_plugins", "robotmk_bridge_plugin.py")
     path = os.path.normpath(path)
     spec = importlib.util.spec_from_file_location("robotmk_bridge_plugin", path)
     module = importlib.util.module_from_spec(spec)

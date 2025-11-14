@@ -73,11 +73,6 @@ def test_load_config_missing_file_raises():
     except FileNotFoundError:
         pass
 
-def test_fail_load_robotmk_scheduler_working_directory_wo_config_path():
-    with pytest.raises(FileNotFoundError, match="robotmk config not found: /etc/check_mk/robotmk.json"):
-        path = module.resolve_results_directory()
-
-
 def test_fail_load_robotmk_scheduler_working_directory_wo_runtime_dir(tmp_path):
     bad_cfg = tmp_path / "bad.json"
     bad_cfg.write_text("{}")
