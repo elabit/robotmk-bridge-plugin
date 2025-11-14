@@ -7,6 +7,9 @@
     "files": {
         "agents": [
             "plugins/robotmk_bridge_plugin.py"
+        ],
+        "cmk_addons_plugins": [
+            "robotmk-bridge-plugin/agent_based/robotmk_bridge_plugin.py"
         ]
     },
     "version.packaged": "2.4.0",
