@@ -4,3 +4,7 @@ __pycache__
 debug.log
 htmlcov
 rf_tests/**/output
+_bmad
+_bmad-output
+.agents
+docs

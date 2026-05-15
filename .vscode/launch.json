@@ -2,7 +2,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "CMK2.4 bakery (6822e90e8108)",
+            "name": "CMK2.5 bakery (6b896e8629db)",
             "type": "python",
             "request": "launch",
             "program": "/omd/sites/cmk/bin/cmk",
@@ -10,14 +10,14 @@
                 "-A",
                 "-v",
                 "-f",
-                "6822e90e8108"
+                "6b896e8629db"
             ],
             "console": "integratedTerminal",
             "python": "/omd/sites/cmk/bin/python3",
             "justMyCode": false
         },
         {
-            "name": "CMK2.4 Inventory (6822e90e8108)",
+            "name": "CMK2.5 Inventory (6b896e8629db)",
             "type": "python",
             "request": "launch",
             "program": "/omd/sites/cmk/bin/cmk",
@@ -25,14 +25,14 @@
                 "-v",
                 "-II",
                 "--debug",
-                "6822e90e8108"
+                "6b896e8629db"
             ],
             "console": "integratedTerminal",
             "python": "/omd/sites/cmk/bin/python3",
             "justMyCode": false
         },
         {
-            "name": "CMK2.4 check (6822e90e8108)",
+            "name": "CMK2.5 check (6b896e8629db)",
             "type": "python",
             "request": "launch",
             "program": "/omd/sites/cmk/bin/cmk",
@@ -40,7 +40,7 @@
                 "-v",
                 "-n",
                 "-p",
-                "6822e90e8108"
+                "6b896e8629db"
             ],
             "console": "integratedTerminal",
             "python": "/omd/sites/cmk/bin/python3",

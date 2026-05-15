@@ -4,11 +4,10 @@
 
 
 # This script gets called from postcreateCommand.sh directly after the devcontainer
-# has been started. Its job is to make the project files available to the CMK site.
+# has been started. Its job is to make the Robotmk project files available to the CMK site.
 
-# The script can be run in two modes: 
-# ./linkfiles.sh cmkonly => link only the CMK relevant files (bash aliases etc)
-# ./linkfiles.sh full => link the files as well as additional files
+
+VERBOSE=0
 
 L_SHARE_CMK="local/share/check_mk"
 L_LIB_CMK_BASE="local/lib/check_mk/base"
@@ -22,6 +21,8 @@ source "${SCRIPT_DIR}/../project.env"
 if [ -z "$PROJECT_NAME" ]; then
     echo "ERROR: PROJECT_NAME is not set in project.env"
     exit 1  
+else 
+    echo "*** Project name: $PROJECT_NAME ***"
 fi
 
 if [ -f /omd/sites/cmk/.profile ]; then
@@ -33,25 +34,10 @@ else
     exit 1
 fi
 
-# check for Argument
-if [ -z "$1" ]; then
-    echo "ERROR: Argument must be either 'cmkonly' or 'full'."
-    exit 1
-else
-    ARG1="$1"
-fi
-
-# ARG1 must be either "cmkonly" or "full"
-if [ "$ARG1" != "show-env" ] && [ "$ARG1" != "cmkonly" ] && [ "$ARG1" != "full" ]; then
-    echo "ERROR: Argument must be either 'show-env', 'cmkonly' or 'full'."
-    exit 1
-fi
-
 function main {
     print_workspace
     print_cmk_variables
-    symlink_project_files
-    symlink_common_files
+    sync_files
     echo "linkfiles.sh finished."
     echo "===================="
 }
@@ -77,119 +63,90 @@ function print_cmk_variables {
     echo "CMK_DIR_CHECKMAN: $OMD_ROOT/$CMK_DIR_CHECKMAN"
     echo "CMK_DIR_AGENT_PLUGINS: $OMD_ROOT/$CMK_DIR_AGENT_PLUGINS"
     echo "CMK_DIR_BAKERY: $OMD_ROOT/$CMK_DIR_BAKERY"
-    echo "CMK_DIR_WATO: $OMD_ROOT/$CMK_DIR_WATO"
     echo "CMK_DIR_IMAGES: $OMD_ROOT/$CMK_DIR_IMAGES"
-    if [ "$ARG1" == "show-env" ]; then 
-        exit 0
-    fi
+    echo "CMK_DIR_WATO: $OMD_ROOT/$CMK_DIR_WATO"
+    echo "CMK_FILE_WATO_BAKERY: $OMD_ROOT/$CMK_FILE_WATO_BAKERY"
+
 }
 
-function symlink_project_files {
-    if [ "$ARG1" == "full" ]; then
-        echo "===================="
-        echo "Linking Project files"
-        echo "===================="
-
-        # CHECK PLUGIN 
-        create_symlink checks $CMK_DIR_CHECKS
-
-        # Metrics
-        create_symlink web_plugins/metrics $CMK_DIR_GRAPHING
-
-        # checkman
-        create_symlink checkman $CMK_DIR_CHECKMAN
-
-        # stable paths across 2.2-2.4
-        # Agent plugins
-        create_symlink agent_plugins $CMK_DIR_AGENT_PLUGINS
-
-        # BAKERY
-        create_symlink bakery $CMK_DIR_BAKERY
-
-        # WATO Rules
-        create_symlink web_plugins/wato $CMK_DIR_WATO
-
-        # Images & icons
-        create_symlink images $CMK_DIR_IMAGES
-        
-        
-        rm -rf local/lib/python3/cmk_addons/plugins/agent_based/__pycache__ || true
-        rm -rf local/lib/check_mk/base/plugins/agent_based/__pycache__ || true
-        rm -rf local/lib/check_mk/base/cee/plugins/bakery/__pycache__ || true
-
-    fi
-}
-
-function symlink_common_files {
+function sync_files {
     echo "===================="
-    echo "Linking CMK common files"
+    echo "Syncing files"
     echo "===================="
 
-    # Bash aliases
-    create_symlink .devcontainer/.site_bash_aliases $OMD_ROOT/.bash_aliases
+    # Get all sync targets and process them
+    while IFS='|' read -r src dst type; do
+        if [ -n "$src" ] && [ -n "$dst" ] && [ -n "$type" ]; then               
+            sync_path "$src" "$dst" "$type"
+        fi
+    done < <(get_sync_targets)
     
-
-
-    # # RF test suites
-    create_symlink rf_tests /usr/lib/check_mk_agent/robots
-    # Folder where agent output can be sourced with rule
-    # "Datasource Programs > Individual program call instead of agent access"
-    # (folder gets created in postCreateCommand.sh)
-    #create_symlink agent_output var/check_mk/agent_output
-
+    # Clean up Python cache files
+    find "$OMD_ROOT/local" -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true
 }
 
 # ===============================================================
+# Sync functions using rsync instead of symlinks
+# ===============================================================
 
-
-function rmpath {
-    # echo "clearing $1"
-    rm -rf $1
-}
-
-
-function linkpath {
-    TARGET=$WORKSPACE/$1
-    LINKNAME=$2
-    echo "linking $TARGET -> $LINKNAME"
-    # check if target file or dir exists
-    if [ ! -e $TARGET ]; then
-        echo "NOTE: $TARGET won't be linked - does not exist!"
-        return
-    fi
-
-    # make sure that the link's parent dir exists
-    mkdir -p $(dirname $LINKNAME)
-    ln -sf $TARGET $LINKNAME
-    # if target is a dir, show tree
-    if [ -d $TARGET ]; then
-        echo "Directory:"
-        tree $LINKNAME
-    else
-        echo "File:"
-        ls -la $LINKNAME
-    fi
-    #chmod 666 $TARGET/*
-}
-
-# Do not only symlink, but also generate needed directories.
-function create_symlink {
+function sync_path {
+    local SRC="$1"
+    local DST="$2"
+    local TYPE="$3"
+    
     echo "--------------------------------"
-    echo "## $1"
-    echo ""
-    TARGET=$1
-    if [ ${2:0:1} == "/" ]; then
-        # absolute link
-        LINKNAME=$2
+    echo "## {WORKSPACE}/$SRC → $DST"
+    
+    local SOURCE_PATH="$WORKSPACE/$SRC"
+    local TARGET_PATH
+    
+    # Handle absolute vs relative paths
+    if [[ "$DST" == /* ]]; then
+        TARGET_PATH="$DST"
     else
-        # relative link in OMD_ROOT
-        LINKNAME=$OMD_ROOT/$2
+        TARGET_PATH="$OMD_ROOT/$DST"
     fi
     
-    rmpath $LINKNAME
-    linkpath $TARGET $LINKNAME
-    # echo "clearing $LINKNAME/__pycache__"
-    rm -rf $LINKNAME/__pycache__ || true
+    # Verify source exists
+    if [ ! -e "$SOURCE_PATH" ]; then
+        echo "ERROR: Source $SOURCE_PATH does not exist!"
+        exit 1
+    fi
+    
+    # Create parent directory for target
+    mkdir -p "$(dirname "$TARGET_PATH")" 2>/dev/null || true
+    
+    # Sync based on type
+    if [ "$TYPE" == "FOLDER" ]; then
+        # For folders: use rsync with --delete to mirror exactly
+        #echo "-> rsync folder (mirror mode)"
+        mkdir -p "$TARGET_PATH"
+        
+        rsync -a --delete --exclude='__pycache__' --exclude='*.pyc' \
+              "${SOURCE_PATH}/" "${TARGET_PATH}/"
+        if [ $VERBOSE -eq 1 ]; then
+            tree -L 2 "$TARGET_PATH" 2>/dev/null || ls -la "$TARGET_PATH"
+        fi
+    elif [ "$TYPE" == "FILE" ]; then        
+        rsync -a "${SOURCE_PATH}" "${TARGET_PATH}"
+        
+        if [ $VERBOSE -eq 1 ]; then
+            ls -la "$TARGET_PATH"
+        fi
+        echo "-> Done (file)"
+    else
+        echo "ERROR: Unknown sync type: $TYPE"
+        return 1
+    fi
+    # determine how many files were synced 
+    local FILE_COUNT=$(find "$SOURCE_PATH" -type f | wc -l)
+    echo "-> Synced $FILE_COUNT files."    
+}
+
+function log_verbose {
+    if [ $VERBOSE -eq 1 ]; then
+        echo "$1"
+    fi
 }
 
 main "$@"
