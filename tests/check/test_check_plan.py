@@ -19,8 +19,10 @@ import pytest
 )
 def test_check_robotmk_bridge_plan(item, status, state, section_payload_parsed):
     section_payload_parsed['plans'][item]['files'][0]['status'] = status
+    # Pass empty params dict (uses defaults)
+    params = {}
     # (we get back a generator)
-    results = list(module.check_robotmk_bridge_plan(item, section_payload_parsed))
+    results = list(module.check_robotmk_bridge_plan(item, params, section_payload_parsed))
 
     # --- Assertions ---
     # 1. First element must be a Result

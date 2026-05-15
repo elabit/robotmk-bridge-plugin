@@ -39,7 +39,13 @@ def test_convert_with_handler_returns_robot_artifacts(junit_config):
 
 
 def test_convert_with_handler_unknown_handler_raises():
-    cfg = module.Config(path="/tmp/does-not-matter", handler="nope", max_age=1, metadata={})
+    cfg = module.Config(
+        plan_name="test",
+        path="/tmp/does-not-matter",
+        handler="nope",
+        source_mode="single_file",
+        metadata={}
+    )
     with pytest.raises(module.HandlerResolutionError):
         module.convert_with_handler(cfg, cfg.path)
 
@@ -57,12 +63,14 @@ def test_resolve_results_directory_reads_robotmk_config(tmp_path, monkeypatch):
 
 
 def test_fail_process_config_entry_without_candidates(monkeypatch: pytest.MonkeyPatch, tmp_path, junit_config):
-    monkeypatch.setattr(module, "discover_files", lambda *args, **kwargs: [])
+    # Monkeypatch discover_source_files (not discover_files) to return empty list
+    monkeypatch.setattr(module, "discover_source_files", lambda *args, **kwargs: [])
     records = module.process_config_entry(
         junit_config,
         reference_time=123456,
         results_dir=str(tmp_path),
     )    
+    assert len(records) == 1
     assert records[0].message == "no files matched pattern"
     assert records[0].status == "missing"
 
@@ -83,18 +91,21 @@ def test_process_config_entry_creates_result_file(tmp_path, junit_config):
     stored_path = Path(record.result_path)
     assert stored_path.exists()
     stored = json.loads(stored_path.read_text(encoding="utf-8"))
-    assert json.loads(stored["content"])["timestamp"] == 123456
+    # The timestamp in content uses file mtime, not reference_time
+    content = json.loads(stored["content"])
+    file_mtime = os.path.getmtime(junit_config.path)
+    assert content["timestamp"] == int(file_mtime)
 
 
 def test_run_bridge_processes_config_and_writes_results(tmp_path, junit_config):
     config_file = tmp_path / "robotmk-bridge-module.json"
+    # Use legacy paths format (still supported for backward compat)
     config_payload = {
         "paths": [
             {
                 "path": junit_config.path,
                 "handler": junit_config.handler,
                 "plan_name": junit_config.plan_name,
-                "max_age": junit_config.max_age
             }
         ]
     }
@@ -112,5 +123,8 @@ def test_run_bridge_processes_config_and_writes_results(tmp_path, junit_config):
     assert record.status == "success"
     assert record.result_path is not None
     stored = json.loads(Path(record.result_path).read_text(encoding="utf-8"))
-    assert json.loads(stored["content"])["timestamp"] == 987654321
+    # The timestamp in content uses file mtime, not reference_time
+    content = json.loads(stored["content"])
+    file_mtime = os.path.getmtime(junit_config.path)
+    assert content["timestamp"] == int(file_mtime)
 

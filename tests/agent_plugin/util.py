@@ -9,11 +9,11 @@ BASE_DIR = os.path.join(os.path.dirname(__file__), "..", "resources", "test_outp
 JUNIT_FILE = os.path.join(BASE_DIR, "junit", "junit-single-testsuite.xml")
 
 def _load_plugin_module():
-    """Dynamically import agent_plugins/robotmk-bridge-plugin.py as a module.
+    """Dynamically import agents_plugins/robotmk_bridge_plugin.py as a module.
 
-    The filename contains a hyphen so we import by spec from file.
+    The directory name agents_plugins contains a hyphen-like 's' to match CMK convention.
     """
-    path = os.path.join(os.path.dirname(__file__), "../..", "agent_plugins", "robotmk_bridge_plugin.py")
+    path = os.path.join(os.path.dirname(__file__), "../..", "agents_plugins", "robotmk_bridge_plugin.py")
     path = os.path.normpath(path)
     spec = importlib.util.spec_from_file_location("robotmk_bridge_plugin", path)
     module = importlib.util.module_from_spec(spec)
@@ -33,7 +33,7 @@ def junit_config():
         plan_name="JunitSingleTest",
         path=JUNIT_FILE,
         handler="junit",
-        max_age=3600000,
+        source_mode="single_file",
         metadata={},
     )
 
@@ -46,10 +46,11 @@ def conversion_result(junit_config):
 @pytest.fixture
 def conversion_result_piggyback(junit_config):
     piggyback_cfg = module.Config(
+        plan_name=junit_config.plan_name,
         path=junit_config.path,
         handler=junit_config.handler,
         piggyback_host="ci-backend",
-        max_age=junit_config.max_age,
+        source_mode=junit_config.source_mode,
         metadata=dict(junit_config.metadata),
     )
     return module.convert_with_handler(piggyback_cfg, JUNIT_FILE)

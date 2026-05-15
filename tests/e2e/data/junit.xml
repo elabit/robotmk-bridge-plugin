@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='utf-8'?>
+<testsuite name="RobotmkBridgeTests" tests="5" time="2.500" timestamp="2026-05-17T18:37:07" failures="0" errors="0" skipped="0">
+  <testcase classname="tests.example.TestSuite1" name="test_example_1" time="0.594">
+    <system-out>Test 1 executed successfully with no warnings</system-out>
+  </testcase>
+  <testcase classname="tests.example.TestSuite1" name="test_example_2" time="0.415" />
+  <testcase classname="tests.example.TestSuite1" name="test_example_3" time="0.597">
+    <system-out>Test 3 executed successfully with no warnings</system-out>
+  </testcase>
+  <testcase classname="tests.example.TestSuite2" name="test_example_4" time="0.353" />
+  <testcase classname="tests.example.TestSuite2" name="test_example_5" time="0.357">
+    <system-out>Test 5 executed successfully with no warnings</system-out>
+  </testcase>
+</testsuite>

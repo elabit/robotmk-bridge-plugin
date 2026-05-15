@@ -6,7 +6,18 @@
     "title": "Robotmk Bridge Plugin",
     "files": {
         "agents": [
-            "plugins/robotmk_bridge_plugin.py"
+            "plugins/robotmk_bridge_plugin.py",
+            "plugins/robotmk_bridge_plugin.sh",
+            "plugins/robotmk_bridge_plugin.ps1"
+        ],
+        "lib": [
+            "python3/cmk/base/cee/plugins/bakery/robotmk-bridge-plugin.py"
+        ],
+        "cmk_addons_plugins": [
+            "robotmk-bridge-plugin/agent_based/robotmk_bridge_plugin.py",
+            "robotmk-bridge-plugin/rulesets/robotmk-bridge-plugin_bakery-params.py",
+            "robotmk-bridge-plugin/rulesets/robotmk-bridge-plugin_check-params.py",
+            "robotmk-bridge-plugin/rulesets/robotmk-bridge-plugin_discovery-params.py"
         ]
     },
     "version.packaged": "2.5.0",

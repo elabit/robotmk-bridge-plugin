@@ -1,6 +1,15 @@
 #!/usr/bin/env python3
-
-from cmk.agent_based.v2 import AgentSection, CheckPlugin, Service, Result, State, Metric, IgnoreResultsError
+#
+from cmk.agent_based.v2 import (
+    AgentSection,
+    CheckPlugin,
+    Service,
+    Result,
+    State,
+    Metric,
+    IgnoreResultsError,
+    check_levels,
+)
 from cmk.ccc.exceptions import MKGeneralException
 from typing import Any, Dict, List, Optional
 from datetime import datetime, timezone
@@ -9,10 +18,17 @@ import json
 
 def parse_robotmk_bridge(string_table):
     try:
-        json_data = string_table[0][0]
+        # Concatenate all lines to handle multi-line JSON output
+        json_data = "".join(" ".join(row) for row in string_table)
         data = json.loads(json_data)
     except json.JSONDecodeError as e:
         raise MKGeneralException(f"Invalid JSON payload: {e}")
+    
+    # Check if this is an error section from wrapper or import failure
+    if isinstance(data, dict) and data.get("status") == "error":
+        # Return error data in a special format that check can recognize
+        return {"error": data}
+    
     return data
 
 # ----------------------------------------------------------------------
@@ -24,6 +40,22 @@ def discover_robotmk_bridge(section: Dict[str, Any]):
         yield Service()
 
 def check_robotmk_bridge(section: Dict[str, Any]):
+    # Check if this is an error from wrapper or import failure
+    if "error" in section:
+        error_data = section["error"]
+        error_type = error_data.get("error_type", "unknown")
+        message = error_data.get("message", "Unknown error")
+        
+        if error_type == "wrapper":
+            msg = f"Wrapper error: {message}"
+        elif error_type == "import":
+            msg = f"Import error: {message}"
+        else:
+            msg = f"Error: {message}"
+        
+        yield Result(state=State.CRIT, summary=msg)
+        return
+    
     plans = section.get("plans", {}) or {}
     summary = section.get("summary", {})
     runtime_s = float(section.get("runtime_s", 0.0))
@@ -74,11 +106,15 @@ check_plugin_robotmk_bridge = CheckPlugin(
 
 def discover_robotmk_bridge_plan(section: Dict[str, Any]):
     """Create one service per plan."""
+    # Don't discover plans if there's a global error
+    if "error" in section:
+        return
+    
     plans = section.get("plans", {}) or {}
     for plan_name in plans.keys():
         yield Service(item=plan_name)
 
-def check_robotmk_bridge_plan(item, section: Dict[str, Any]):
+def check_robotmk_bridge_plan(item, params, section: Dict[str, Any]):
     """Check a single plan (item = plan name)."""
     plans = section.get("plans", {}) or {}
     plan_data = plans.get(item)
@@ -104,11 +140,21 @@ def check_robotmk_bridge_plan(item, section: Dict[str, Any]):
     # Aggregate runtime over all files for that plan
     runtime_s = sum(float(f.get("runtime_s") or 0.0) for f in files)
 
+    # Get missing files status from params (default: WARN)
+    missing_status_str = params.get("missing_files_status", "warn")
+    missing_status_map = {
+        "ok": State.OK,
+        "warn": State.WARN,
+        "crit": State.CRIT,
+        "unknown": State.UNKNOWN,
+    }
+    missing_status = missing_status_map.get(missing_status_str, State.WARN)
+
     # Determine state
     if files_error > 0:
         state = State.CRIT
     elif files_missing > 0:
-        state = State.WARN
+        state = missing_status
     else:
         state = State.OK
 
@@ -156,8 +202,21 @@ def check_robotmk_bridge_plan(item, section: Dict[str, Any]):
 
     yield Result(state=state, summary=summary, details=details)
 
-    # Metrics per plan
-    yield Metric("plan_runtime_conversion", runtime_s)
+    # Check conversion time against levels, if configured
+    conversion_time_levels = params.get("conversion_time_levels")
+    if conversion_time_levels:
+        yield from check_levels(
+            runtime_s,
+            levels_upper=conversion_time_levels,
+            metric_name="plan_runtime_conversion",
+            label="Conversion time",
+            render_func=lambda v: f"{v:.3f}s",
+        )
+    else:
+        # No levels configured, just yield the metric
+        yield Metric("plan_runtime_conversion", runtime_s)
+
+    # Other metrics per plan
     yield Metric("plan_files_total", files_total)
     yield Metric("plan_files_success", files_success)
     yield Metric("plan_files_missing", files_missing)
@@ -169,6 +228,10 @@ check_plugin_robotmk_bridge_plan = CheckPlugin(
     service_name = "RMKBridge Plan %s",
     discovery_function = discover_robotmk_bridge_plan,
     check_function = check_robotmk_bridge_plan,
+    check_ruleset_name="robotmk_bridge_plugin_plan",
+    check_default_parameters={
+        "missing_files_status": "warn",
+    },
 )
 
 # ----------------------------------------------------------------------

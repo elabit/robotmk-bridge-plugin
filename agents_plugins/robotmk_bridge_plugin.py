@@ -15,10 +15,24 @@ from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional, Sequence, Tuple
 import glob
 
-from rmkbridge.rmkbridge import RobotmkBridgeCore
-from rmkbridge.robot_interface import RobotInterface
-from rmkbridge.utils import validate_with_deprecation_warning
-from robot.api import ResultWriter
+# Check for required packages and emit error section if missing
+try:
+    from rmkbridge.rmkbridge import RobotmkBridgeCore
+    from rmkbridge.robot_interface import RobotInterface
+    from rmkbridge.utils import validate_with_deprecation_warning
+except ImportError as e:
+    print("<<<robotmk_bridge>>>")
+    error_msg = f"Required package 'robotframework-robotmk-bridge' not installed: {e}"
+    print(json.dumps({"status": "error", "error_type": "import", "message": error_msg}))
+    sys.exit(1)
+
+try:
+    from robot.api import ResultWriter
+except ImportError as e:
+    print("<<<robotmk_bridge>>>")
+    error_msg = f"Required package 'robotframework' not installed: {e}"
+    print(json.dumps({"status": "error", "error_type": "import", "message": error_msg}))
+    sys.exit(1)
 
 
 DEFAULT_CONFIG_PATH = "/etc/check_mk/robotmk-bridge-plugin.json"
@@ -31,7 +45,7 @@ class Config:
     handler: str
     plan_name: Optional[str] = None
     piggyback_host: Optional[str] = None
-    max_age: Optional[int] = None
+    source_mode: str = "single_file"  # "single_file" | "directory_all" | "directory_newest"
     metadata: Dict[str, Any] = field(default_factory=dict)
 
 
@@ -318,8 +332,10 @@ def _encode_log_html(log_html: Optional[str]) -> str:
 def _assemble_metadata(conversion: HandlerConversionResult) -> Dict[str, Any]:
     metadata = dict(conversion.config.metadata)
     metadata.setdefault("application", "robotmk-bridge")
-    metadata.setdefault("suite_name", Path(conversion.source_path).stem)
-    metadata.setdefault("variant", conversion.handler_keyword)
+    # suite_name is always the plan name (not the source file stem) per PRD spec
+    metadata["suite_name"] = conversion.config.plan_name or "unknown"
+    # variant is always empty for Bridge results
+    metadata["variant"] = ""
     return metadata
 
 
@@ -364,28 +380,24 @@ def build_robotmk_result(
     )
     host_name = host if host is not None else (config_host or "Source")
 
-    # TODO: robotmk parser expects one of the enum values
-    # Ref: 0001
-    # ('AllTestsPassed','TestFailures','RobotFailure','EnvironmentFailure','TimedOut').
-    # Using "AllTests Passed" as a temporary placeholder — adjust to canonical enum later.
-
-    # Also duration is curently only allows as int - convert to float later. 
-    # Ref: 0002
+    # All fields in the content dict follow the Robotmk JSON Schema spec (PRD §5.3).
+    # Fields marked below as "faked" have placeholder values that cannot be derived
+    # from the source test result.
     content = {
         "plan_id": plan_name,
         "timestamp": int(now),
         "attempts": [
             {
-                "index": 1,
-                "outcome": "AllTestsPassed",
-                "runtime": int(conversion.duration_s) + 1,
+                "index": 1,  # Faked: always 1 (Bridge never retries)
+                "outcome": "AllTestsPassed",  # Faked: actual pass/fail is in RF XML
+                "runtime": 1,  # Faked: plan execution time as seen by Robotmk
             }
         ],
         "rebot": {
             "Ok": {
                 "xml": conversion.robot_output_xml,
                 "html_base64": html_base64,
-                "timestamp": int(now),
+                "timestamp": int(now),  # File mtime (same as top-level timestamp)
             }
         },
         "config": _build_result_config(metadata),
@@ -489,11 +501,7 @@ def process_config_entry(
     """Convert and store Robotmk results for a single configuration entry."""
 
     processed: List[Path] = []
-    candidates = discover_files(
-        config.path,
-        max_age=config.max_age,
-        reference_time=reference_time,
-    )
+    candidates = discover_source_files(config)
 
     timestamp_value = reference_time if reference_time is not None else time.time()
     timestamp_int = int(timestamp_value)
@@ -523,7 +531,12 @@ def process_config_entry(
         try:
             conversion = convert_with_handler(config, source)
             runtime_s = conversion.duration_s
-            payload = build_robotmk_result(conversion, timestamp=timestamp_value)
+            # Use source file mtime as the Robotmk result timestamp (per PRD spec)
+            try:
+                file_mtime = os.path.getmtime(source)
+            except OSError:
+                file_mtime = timestamp_value
+            payload = build_robotmk_result(conversion, timestamp=file_mtime)
             host_value = payload.get("host", host_value)
             stored = write_robotmk_result(
                 plan_name=config.plan_name,
@@ -652,20 +665,25 @@ def build_agent_payload(report: BridgeRunReport) -> Dict[str, Any]:
 def print_agent_section(report: BridgeRunReport) -> None:
     payload = build_agent_payload(report)
     sys.stdout.write(f"<<<{CMK_AGENT_SECTION}>>>\n")
-    sys.stdout.write(json.dumps(payload, separators=(",", ":")))
+    # Output JSON with indentation to avoid line length limits
+    json_str = json.dumps(payload, separators=(",", ":"), indent=2)
+    sys.stdout.write(json_str)
     sys.stdout.write("\n")
 
 
 def load_config(path: Optional[str] = None) -> List[Config]:
     """Load and validate the bakery/agent config JSON.
 
-    The function attempts to read `path` if provided, otherwise falls back
-    to `DEFAULT_CONFIG_PATH`. The expected format is a JSON object with a
-    top-level "paths" array. Each entry must at least provide `path`,
-    `handler`, and `max_age` keys.
+    Supports two formats:
+    - New (bakery-produced): JSON object with a top-level "plans" array.
+    - Legacy: JSON object with a top-level "paths" array.
 
-    Returns a list of PathConfig instances.
-    Raises FileNotFoundError or ValueError for invalid content.
+    New format per-entry fields: plan_name (required), handler (required),
+    source_mode (optional, default "single_file"), path (required),
+    metadata (optional dict), piggyback_host (optional str).
+
+    Returns a list of Config instances.
+    Raises FileNotFoundError or ValueError for missing/invalid content.
     """
     config_path = path or DEFAULT_CONFIG_PATH
 
@@ -678,9 +696,64 @@ def load_config(path: Optional[str] = None) -> List[Config]:
     if not isinstance(raw, dict):
         raise ValueError("Config file must be a JSON object")
 
-    paths = raw.get("paths")
-    if paths is None:
-        raise ValueError("Config missing required 'paths' array")
+    # Support new 'plans' format (bakery-produced) and legacy 'paths' format
+    if "plans" in raw:
+        return _load_plans_config(raw["plans"])
+    if "paths" in raw:
+        return _load_legacy_paths_config(raw["paths"])
+    raise ValueError("Config must have either a 'plans' or 'paths' array")
+
+
+def _load_plans_config(plans: Any) -> List[Config]:
+    """Parse the new 'plans' config format produced by the Bakery rule."""
+    if not isinstance(plans, list):
+        raise ValueError("Config 'plans' must be a list")
+
+    result: List[Config] = []
+    for i, entry in enumerate(plans):
+        if not isinstance(entry, dict):
+            raise ValueError(f"Plan entry at index {i} must be an object")
+
+        plan_name = entry.get("plan_name")
+        handler = entry.get("handler")
+        path = entry.get("path")
+
+        if not plan_name or not isinstance(plan_name, str):
+            raise ValueError(f"Plan entry at index {i} missing valid 'plan_name'")
+        if not handler or not isinstance(handler, str):
+            raise ValueError(f"Plan entry at index {i} missing valid 'handler'")
+        if not path or not isinstance(path, str):
+            raise ValueError(f"Plan entry at index {i} missing valid 'path'")
+
+        source_mode = entry.get("source_mode", "single_file")
+        if source_mode not in ("single_file", "directory_all", "directory_newest"):
+            raise ValueError(
+                f"Plan entry at index {i} has invalid 'source_mode': {source_mode!r}. "
+                "Must be one of: single_file, directory_all, directory_newest"
+            )
+
+        metadata_raw = entry.get("metadata", {})
+        if not isinstance(metadata_raw, dict):
+            raise ValueError(f"Plan entry at index {i} 'metadata' must be an object")
+
+        piggyback_host = entry.get("piggyback_host")
+
+        result.append(
+            Config(
+                path=path,
+                handler=handler,
+                plan_name=plan_name,
+                piggyback_host=piggyback_host,
+                source_mode=source_mode,
+                metadata=dict(metadata_raw),
+            )
+        )
+
+    return result
+
+
+def _load_legacy_paths_config(paths: Any) -> List[Config]:
+    """Parse the legacy 'paths' config format (backward compatibility)."""
     if not isinstance(paths, list):
         raise ValueError("Config 'paths' must be a list")
 
@@ -697,36 +770,10 @@ def load_config(path: Optional[str] = None) -> List[Config]:
             raise ValueError(f"Path entry at index {i} missing valid 'handler'")
 
         plan_name = entry.get("plan_name")
-        if plan_name is not None and not isinstance(plan_name, str):
-            raise ValueError(f"Path entry at index {i} has non-string 'plan_name'")
-
-        max_age_value = entry.get("max_age")
-        if max_age_value is None:
-            raise ValueError(f"Path entry at index {i} missing required 'max_age'")
-        if not isinstance(max_age_value, int):
-            raise ValueError(f"Path entry at index {i} must provide integer 'max_age'")
-        if max_age_value < 0:
-            raise ValueError(f"Path entry at index {i} has negative 'max_age'")
-
-        metadata_raw = entry.get("metadata")
-        if metadata_raw is None:
-            metadata = {}
-        elif isinstance(metadata_raw, dict):
-            metadata = dict(metadata_raw)
-        else:
-            raise ValueError(f"Path entry at index {i} must have object metadata if provided")
-
+        metadata_raw = entry.get("metadata", {})
+        if not isinstance(metadata_raw, dict):
+            metadata_raw = {}
         piggyback_host = entry.get("piggyback_host")
-        if piggyback_host is not None:
-            if not isinstance(piggyback_host, str):
-                raise ValueError(
-                    f"Path entry at index {i} must have string 'piggyback_host' when provided"
-                )
-            piggyback_host = piggyback_host.strip()
-            if not piggyback_host:
-                raise ValueError(
-                    f"Path entry at index {i} has empty 'piggyback_host' value"
-                )
 
         result.append(
             Config(
@@ -734,14 +781,47 @@ def load_config(path: Optional[str] = None) -> List[Config]:
                 handler=h,
                 plan_name=plan_name,
                 piggyback_host=piggyback_host,
-                max_age=max_age_value,
-                metadata=metadata,
+                source_mode="single_file",
+                metadata=dict(metadata_raw),
             )
         )
 
     return result
 
 
+
+
+def discover_source_files(config: "Config") -> List[str]:
+    """Resolve the list of result files to process based on source_mode.
+
+    - single_file:       Use config.path directly if it exists.
+    - directory_all:     Return all regular files in config.path directory.
+    - directory_newest:  Return the single newest file in config.path directory.
+    """
+    mode = config.source_mode
+    base = config.path
+
+    if mode == "single_file":
+        return [base] if os.path.isfile(base) else []
+
+    if not os.path.isdir(base):
+        return []
+
+    candidates = sorted(
+        os.path.join(base, f)
+        for f in os.listdir(base)
+        if os.path.isfile(os.path.join(base, f))
+    )
+
+    if mode == "directory_all":
+        return candidates
+
+    if mode == "directory_newest":
+        if not candidates:
+            return []
+        return [max(candidates, key=os.path.getmtime)]
+
+    return []
 
 
 def discover_files(

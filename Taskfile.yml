@@ -1,0 +1,250 @@
+version: '3'
+
+# Taskfile for robotmk-bridge-plugin
+# Install: https://taskfile.dev/installation/
+# Usage: task <task-name>
+
+vars:
+  PYTHON: python3
+  TEST_DATA_DIR: tests/e2e/data
+  BUILD_DIR: build
+  CMK_SITE: /omd/sites/cmk
+
+tasks:
+  # ========================================================================
+  # Test Data Generator Tasks
+  # ========================================================================
+
+  gen-data:
+    desc: Generate all handler test data files (default passed status)
+    cmds:
+      - '{{.PYTHON}} -m tests.data_generator --output-dir {{.TEST_DATA_DIR}}'
+
+  gen-data-failed:
+    desc: Generate test data with failed status
+    cmds:
+      - '{{.PYTHON}} -m tests.data_generator --output-dir {{.TEST_DATA_DIR}} --status failed'
+
+  gen-data-mixed:
+    desc: Generate test data with mixed status
+    cmds:
+      - '{{.PYTHON}} -m tests.data_generator --output-dir {{.TEST_DATA_DIR}} --status mixed'
+
+  gen-data-custom:
+    desc: 'Generate test data with custom options (use: task gen-data-custom -- --status failed --handlers junit)'
+    cmds:
+      - '{{.PYTHON}} -m tests.data_generator {{.CLI_ARGS}}'
+
+  gen-data-clean:
+    desc: Clean generated test data files
+    cmds:
+      - rm -rf {{.TEST_DATA_DIR}}/*.xml {{.TEST_DATA_DIR}}/*.log
+
+  gen-handlers-list:
+    desc: List all supported handlers
+    cmds:
+      - '{{.PYTHON}} -m tests.data_generator --list'
+
+  gen-data-continuous:
+    desc: 'Continuous mode: regenerate test data every 5 seconds (Ctrl+C to stop)'
+    cmds:
+      - '{{.PYTHON}} -m tests.data_generator --continuous --interval 5 --output-dir {{.TEST_DATA_DIR}}'
+
+  gen-data-continuous-fast:
+    desc: 'Continuous mode: regenerate test data every 2 seconds (Ctrl+C to stop)'
+    cmds:
+      - '{{.PYTHON}} -m tests.data_generator -c -i 2 --output-dir {{.TEST_DATA_DIR}}'
+
+  # ========================================================================
+  # Testing Tasks
+  # ========================================================================
+
+  test:
+    desc: Run all tests
+    cmds:
+      - '{{.PYTHON}} -m pytest tests/ -v'
+
+  test-unit:
+    desc: Run unit tests only
+    cmds:
+      - '{{.PYTHON}} -m pytest tests/agent_plugin/ tests/check/ tests/test_unit_fixtures.py -v'
+
+  test-e2e:
+    desc: Run e2e tests only
+    cmds:
+      - '{{.PYTHON}} -m pytest tests/e2e/ -v'
+
+  test-watch:
+    desc: Run tests in watch mode (requires pytest-watch)
+    cmds:
+      - '{{.PYTHON}} -m pytest_watch tests/ -- -v'
+
+  test-cov:
+    desc: Run tests with coverage report
+    cmds:
+      - '{{.PYTHON}} -m pytest tests/ --cov=agents_plugins --cov=checks --cov-report=html --cov-report=term'
+
+  test-cov-view:
+    desc: Open coverage report in browser
+    deps: [test-cov]
+    cmds:
+      - xdg-open htmlcov/index.html || open htmlcov/index.html || echo "Coverage report at htmlcov/index.html"
+
+  test-specific:
+    desc: 'Run specific test file (use: task test-specific -- tests/check/test_check.py)'
+    cmds:
+      - '{{.PYTHON}} -m pytest {{.CLI_ARGS}} -v'
+
+  # ========================================================================
+  # Code Quality Tasks
+  # ========================================================================
+
+  lint:
+    desc: Run linter (flake8)
+    cmds:
+      - '{{.PYTHON}} -m flake8 agents_plugins/ checks/ web_plugins/ tests/'
+
+  format:
+    desc: Format code with black
+    cmds:
+      - '{{.PYTHON}} -m black agents_plugins/ checks/ web_plugins/ bakery/ tests/'
+
+  format-check:
+    desc: Check if code is formatted (CI mode)
+    cmds:
+      - '{{.PYTHON}} -m black --check agents_plugins/ checks/ web_plugins/ bakery/ tests/'
+
+  validate-docs:
+    desc: Validate documentation version pinning
+    cmds:
+      - chmod +x scripts/validate_version_pinning.sh
+      - ./scripts/validate_version_pinning.sh
+
+  validate:
+    desc: Run all validation checks (lint + format check + tests + docs)
+    cmds:
+      - task: format-check
+      - task: lint
+      - task: validate-docs
+      - task: test
+
+  # ========================================================================
+  # Build Tasks
+  # ========================================================================
+
+  build:
+    desc: Build the MKP package
+    cmds:
+      - mkdir -p {{.BUILD_DIR}}
+      - echo "Building MKP package..."
+      # Add actual build command here when implemented
+
+  build-clean:
+    desc: Clean build artifacts
+    cmds:
+      - rm -rf {{.BUILD_DIR}}/*
+      - rm -rf *.egg-info
+      - find . -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null || true
+      - find . -type f -name "*.pyc" -delete
+
+  # ========================================================================
+  # Development/Deployment Tasks
+  # ========================================================================
+
+  sync-to-cmk:
+    desc: Sync workspace files to CMK site
+    cmds:
+      - .devcontainer/linkfiles.sh
+
+  sync-from-cmk:
+    desc: Sync CMK site files back to workspace
+    cmds:
+      - .devcontainer/watch_sync.sh
+
+  cmk-restart:
+    desc: Restart CMK site
+    cmds:
+      - omd restart
+
+  cmk-status:
+    desc: Show CMK site status
+    cmds:
+      - omd status
+
+  cmk-errors:
+    desc: Check for errors in CMK plugins
+    cmds:
+      - echo "=== Agent Plugin Errors ==="
+      - '{{.PYTHON}} -m py_compile agents_plugins/robotmk_bridge_plugin.py || true'
+      - echo ""
+      - echo "=== Check Plugin Errors ==="
+      - '{{.PYTHON}} -m py_compile checks/robotmk_bridge_plugin.py || true'
+
+  # ========================================================================
+  # Setup Tasks
+  # ========================================================================
+
+  setup:
+    desc: Set up development environment
+    cmds:
+      - '{{.PYTHON}} -m pip install -r requirements.txt'
+      - '{{.PYTHON}} -m pip install -r .devcontainer/requirements.txt'
+
+  setup-verify:
+    desc: Verify development environment setup
+    cmds:
+      - echo "Python version:"
+      - '{{.PYTHON}} --version'
+      - echo ""
+      - echo "Installed packages:"
+      - '{{.PYTHON}} -m pip list | grep -E "(pytest|black|flake8|robotframework|PyYAML)"'
+      - echo ""
+      - echo "Supported handlers:"
+      - task: gen-handlers-list
+
+  # ========================================================================
+  # Documentation Tasks
+  # ========================================================================
+
+  docs-schema:
+    desc: Validate Robotmk JSON schema
+    cmds:
+      - '{{.PYTHON}} -c "import json; json.load(open(\"docs/robotmk-json-schema.json\"))" && echo "Schema is valid JSON"'
+
+  docs-handlers:
+    desc: Show handlers.yaml contents
+    cmds:
+      - cat handlers.yaml
+
+  # ========================================================================
+  # Utility Tasks
+  # ========================================================================
+
+  clean:
+    desc: Clean all generated files (test data, build, cache)
+    cmds:
+      - task: gen-data-clean
+      - task: build-clean
+      - rm -rf .pytest_cache htmlcov .coverage
+
+  info:
+    desc: Show project information
+    cmds:
+      - echo "=== Robotmk Bridge Plugin ==="
+      - echo "Python:" $({{.PYTHON}} --version)
+      - echo "Test data dir:" {{.TEST_DATA_DIR}}
+      - echo "Build dir:" {{.BUILD_DIR}}
+      - echo "CMK site:" {{.CMK_SITE}}
+      - echo ""
+      - echo "Supported handlers:"
+      - task: gen-handlers-list
+
+  help:
+    desc: Show all available tasks
+    cmds:
+      - task --list
+
+# Default task when running 'task' without arguments
+default:
+  cmds:
+    - task: help
