@@ -99,6 +99,13 @@ function sync_from_cmk {
 
 
 function start_watching {
+    # Resolve CMK version and all CMK_DIR_* path variables before anything else.
+    # Without this call, get_sync_targets() returns empty lines and cmk_watches stays empty.
+    if ! resolve_cmk_targets; then
+        log_msg "ERROR: resolve_cmk_targets failed — cannot determine CMK paths. Exiting."
+        exit 1
+    fi
+
     log_msg "Starting file watcher for Robotmk development sync"
     log_msg "CMK Version: $CMK_VERSION_MM"
     log_msg "Workspace: $WORKSPACE"
@@ -121,6 +128,11 @@ function start_watching {
             fi
         fi
     done < <(get_sync_targets)
+
+    if [ ${#cmk_watches[@]} -eq 0 ]; then
+        log_msg "ERROR: No CMK paths to watch — all resolved paths are missing or get_sync_targets returned nothing. Exiting."
+        exit 1
+    fi
     
     log_msg "Watching ${#cmk_watches[@]} paths for changes..."
     
