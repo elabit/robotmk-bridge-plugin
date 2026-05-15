@@ -99,6 +99,7 @@ function main() {
             printf '\n# --\n' >> "$TMPFILE"
         fi
 
+        echo "Merging main requirements from $MAIN_REQ into $DEV_REQ (keeping custom entries above the marker line)."
         # Append a blank line and the contents of the main requirements file
         printf '\n' >> "$TMPFILE"
         cat "$MAIN_REQ" >> "$TMPFILE"

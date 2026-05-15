@@ -1,9 +1,9 @@
 {
-	"name": "robotmk-bridge-plugin-devc-cmk2.4",
+	"name": "robotmk-bridge-plugin-devc-cmk2.5",
 	"build": {
 		"dockerfile": "Dockerfile",
 		"args": {
-			"VARIANT": "2.4.0p12"
+			"VARIANT": "2.5.0-2026.03.05"
 		}
 	},
 	"containerEnv": {
@@ -32,7 +32,7 @@
 		"OMD_SITE": "cmk",
 		"CMK_SITE_ID": "cmk",
 		"WORKSPACE": "${containerWorkspaceFolder}",
-		"CMK_VERSION_MM": "2.4"
+		"CMK_VERSION_MM": "2.5"
 	},
 	"mounts": [
 		"source=/etc/timezone,target=/etc/timezone,type=bind,readonly"

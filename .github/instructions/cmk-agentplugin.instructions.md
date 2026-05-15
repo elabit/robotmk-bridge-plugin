@@ -1,5 +1,6 @@
 ---
-applyTo: "agents_plugins/robotmk_bridge_plugin.py"
+applyTo: "agents_plugins/robotmk_bridge_plugin.py, /omd/sites/cmk/local/lib/python3/cmk_addons/plugins/robotmk-bridge-plugin/agent_based/robotmk_bridge_plugin.py"
+
 ---
 # Coding standards for Checkmk Agent Plugins in Python
 
