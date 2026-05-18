@@ -897,6 +897,18 @@ def _main(cfg_path: Optional[str] = None) -> int:
 
 
 if __name__ == "__main__":
+    # Exit if not called via the wrapper script.
+    # The Checkmk bakery makes all plugin files executable, which would cause
+    # both the wrapper and this script to run. We only want to run when invoked
+    # by the wrapper, which sets this environment variable.
+    if not os.environ.get("ROBOTMK_BRIDGE_WRAPPER"):
+        wrapper_name = "robotmk_bridge_plugin.ps1" if os.name == "nt" else "robotmk_bridge_plugin.sh"
+        print(
+            f"robotmk_bridge_plugin.py called directly without wrapper. "
+            f"Use {wrapper_name} instead.",
+            file=sys.stderr,
+        )
+        sys.exit(0)
     cfg = sys.argv[1] if len(sys.argv) > 1 else None
     plan = sys.argv[2] if len(sys.argv) > 2 else None
     if plan:

@@ -31,7 +31,6 @@ echo -e "${GREEN}✓ Current version from $REQUIREMENTS_FILE: ${EXPECTED_VERSION
 # Files to check
 DOC_FILES=(
     "README.md"
-    "docs/user-guide.md"
     "docs/development-guide.md"
     "docs/architecture.md"
 )

@@ -25,5 +25,7 @@ if [ ! -f "${PYTHON_SCRIPT}" ]; then
     exit 1
 fi
 
-# All checks passed — execute Python script and pass through stdout
+# All checks passed — set marker env var and execute Python script
+# This env var tells the Python script it's being called via the wrapper
+export ROBOTMK_BRIDGE_WRAPPER=1
 exec python3 "${PYTHON_SCRIPT}"
