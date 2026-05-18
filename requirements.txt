@@ -1,4 +1,4 @@
-robotframework<7
-black
+robotframework==6.1.1
+black==26.5.0
 robotframework-robotmk-bridge==0.1.1
-PyYAML>=6.0
+PyYAML==6.0.3

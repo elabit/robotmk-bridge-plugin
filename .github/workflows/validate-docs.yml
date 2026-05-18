@@ -9,6 +9,7 @@ on:
       - 'requirements.txt'
       - '.github/workflows/validate-docs.yml'
       - 'scripts/validate_version_pinning.sh'
+      - 'scripts/validate_requirements_pinning.sh'
   pull_request:
     branches: [ main ]
     paths:
@@ -17,9 +18,32 @@ on:
       - 'requirements.txt'
       - '.github/workflows/validate-docs.yml'
       - 'scripts/validate_version_pinning.sh'
+      - 'scripts/validate_requirements_pinning.sh'
   workflow_dispatch: # Allow manual trigger
 
 jobs:
+  validate-requirements-pinning:
+    name: Validate Requirements.txt Exact Pinning
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Make validation script executable
+        run: chmod +x scripts/validate_requirements_pinning.sh
+      
+      - name: Run requirements.txt pinning validation
+        run: ./scripts/validate_requirements_pinning.sh
+      
+      - name: Upload requirements.txt as artifact (on failure)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: requirements-validation-failure
+          path: requirements.txt
+          retention-days: 7
+
   validate-version-pinning:
     name: Validate Version Pinning in Documentation
     runs-on: ubuntu-latest
