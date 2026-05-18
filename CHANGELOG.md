@@ -1,6 +1,16 @@
 # Changelog
 
 
+## [0.4.6](https://github.com/elabit/robotmk-bridge-plugin/compare/v0.4.5...v0.4.6) (2026-05-18)
+
+
+### 🐛 Bug Fixes
+
+* Agent install script ([aea040e](https://github.com/elabit/robotmk-bridge-plugin/commit/aea040eca3dcb5441210cd439670d145a05d1aaa))
+* linkfiles new argument "show-env" ([#54](https://github.com/elabit/robotmk-bridge-plugin/issues/54)) ([f1d4856](https://github.com/elabit/robotmk-bridge-plugin/commit/f1d48561484983aeade2f4e91848793fe0f70b92))
+* Package file for CMK2.4 (check plugin) ([#56](https://github.com/elabit/robotmk-bridge-plugin/issues/56)) ([08d8524](https://github.com/elabit/robotmk-bridge-plugin/commit/08d852473cd69fe35e2a417740d81ed733b200f8))
+* Refactor ignored_services with common_patterns ([#57](https://github.com/elabit/robotmk-bridge-plugin/issues/57)) ([2dff4d6](https://github.com/elabit/robotmk-bridge-plugin/commit/2dff4d652ad155c7505cb6a52edfabe1fb8395d3))
+
 ## [0.4.5](https://github.com/elabit/robotmk-bridge-plugin/compare/v0.4.4...v0.4.5) (2025-11-14)
 
 
