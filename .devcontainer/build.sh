@@ -21,7 +21,7 @@ fi
 
 # print the current workspace
 echo "Workspace folder: $WORKSPACE"
-ls -la "$WORKSPACE"
+#ls -la "$WORKSPACE"
 
 if [ -f /omd/sites/cmk/.profile ]; then
     echo "Loading .profile..."
@@ -57,21 +57,25 @@ PKG_DEST_DIR=$WORKSPACE/build
 git config --global --add safe.directory $WORKSPACE
 
 # If there is "## Unreleased" then assume a manual build, prompt the user to enter the version. 
-# otherwise, take the version form the first H2 header in the CHANGELOG.md, format is: 
-# ## 1.4.4 - 2024-03-26
-# or 
-# ## 1.4.4
-# and extract the version number.
+# otherwise, take the version from the first H2 header in the CHANGELOG.md.
+# release-please format: ## [0.4.7](link) (date)
+# Extract the version number from within square brackets.
 
 if [ -n "$(awk '/^## Unreleased/ {print $2; exit}' "$WORKSPACE/CHANGELOG.md")" ]; then
     echo "ERROR: Changelog contains Unreleased version. Please enter the version number manually."
-    read -p "Enter the version number: " RMK_VERSION
+    read -p "Enter the version number: " MKP_VERSION
 else
     echo "Reading the first version from the CHANGELOG.md..."
-    export RMK_VERSION=${RMK_VERSION:-$(awk '/^## [0-9]+\.[0-9]+/ {print $2; exit}' "$WORKSPACE/CHANGELOG.md")}
+    export MKP_VERSION=${MKP_VERSION:-$(awk '/^## \[/ {gsub(/\[|\].*/, "", $2); print $2; exit}' "$WORKSPACE/CHANGELOG.md")}
 fi
 
-echo "RMK_VERSION: $RMK_VERSION"
+# Validate that version was successfully extracted
+if [ -z "$MKP_VERSION" ]; then
+    echo "ERROR: Failed to determine MKP version from CHANGELOG.md. Exiting."
+    exit 1
+fi
+
+echo "MKP_VERSION: $MKP_VERSION"
 
 echo "---------------------------------------------"
 PACKAGEFILE_TEMPLATE=$WORKSPACE/pkginfo/cmk$CMK_MM.json
@@ -85,7 +89,7 @@ echo "▹ Generating package infofile using the $PACKAGEFILE template"
 # calculate the next minor version from CMK_MM (e.g. 2.4 => 2.5) and use it as "version.min_required" in the package file, so that the package can only be installed on CMK versions >= 2.5.0p1
 CMK_MM_NEXT_MINOR=$(echo "$CMK_MM" | awk -F. '{print $1"."$2+1}')
 
-jq --arg version "$RMK_VERSION" \
+jq --arg version "$MKP_VERSION" \
    --arg version_packaged "$OMD_VER" \
    --arg version_min_required "${CMK_MM}.0p1" \
    --arg version_usable_until "${CMK_MM_NEXT_MINOR}.0b0" \
@@ -102,14 +106,14 @@ echo "$PACKAGEFILE:"
 cat $PACKAGEFILE
 echo "---------------------------------------------"
 
-echo "▹ Building the MKP '$NAME' v$RMK_VERSION for CMK $CMK_MM ..."
+echo "▹ Building the MKP '$NAME' v$MKP_VERSION for CMK $CMK_MM ..."
 # set -x
 mkp -v package $PACKAGEFILE
 
 
 FILE=$(ls -rt1 $PKGDIR/*.mkp | tail -1)
 # robotmk-bridge-plugin-<ver>.mkp => rename to include cmk major.minor
-NEWFILENAME=$NAME.$RMK_VERSION-cmk$CMK_MM.mkp
+NEWFILENAME=$NAME.$MKP_VERSION-cmk$CMK_MM.mkp
 mkdir -p $PKG_DEST_DIR
 mv $FILE $PKG_DEST_DIR/$NEWFILENAME
 PKG_PATH=$PKG_DEST_DIR/$NEWFILENAME
