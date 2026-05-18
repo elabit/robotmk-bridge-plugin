@@ -4,7 +4,7 @@
 
 [![Checkmk 2.5+](https://img.shields.io/badge/Checkmk-2.5%2B-13CBC4)](https://checkmk.com)
 [![Python 3.7+](https://img.shields.io/badge/Python-3.7%2B-blue)](https://www.python.org/)
-[![License](https://img.shields.io/badge/License-GPLv2-green)](LICENSE)
+[![License](https://img.shields.io/badge/License-GPL--2.0-green)](LICENSE)
 
 The Robotmk Bridge Plugin extends [Checkmk](https://checkmk.com)'s synthetic monitoring to support test results from **any testing framework** — JUnit, Gatling, OWASP ZAP, and more in the future — without requiring migration to Robot Framework.
 

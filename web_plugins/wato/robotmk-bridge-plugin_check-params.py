@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# SPDX-FileCopyrightText: © 2025 ELABIT GmbH <mail@elabit.de>
+# SPDX-License-Identifier: GPL-2.0-only
 """WATO Check Parameters rule for the Robotmk Bridge Plugin."""
 
 from cmk.rulesets.v1 import Help, Title

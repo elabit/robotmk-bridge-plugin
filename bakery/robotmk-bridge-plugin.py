@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: © 2025 ELABIT GmbH <mail@elabit.de>
-# SPDX-License-Identifier: GPL-3.0-or-later
+# SPDX-License-Identifier: GPL-2.0-only
 
 """Bakery plugin for robotmk-bridge-plugin.
 

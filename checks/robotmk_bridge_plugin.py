@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-#
+# SPDX-FileCopyrightText: © 2025 ELABIT GmbH <mail@elabit.de>
+# SPDX-License-Identifier: GPL-2.0-only
+
 from cmk.agent_based.v2 import (
     AgentSection,
     CheckPlugin,
