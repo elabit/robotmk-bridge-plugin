@@ -29,6 +29,8 @@ if (-not (Test-Path $PythonScript)) {
     exit 1
 }
 
-# All checks passed — invoke Python script and pass through stdout
+# All checks passed — set marker env var and invoke Python script
+# This env var tells the Python script it's being called via the wrapper
+$env:ROBOTMK_BRIDGE_WRAPPER = "1"
 & $PythonCmd $PythonScript
 exit $LASTEXITCODE
