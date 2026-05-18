@@ -1,0 +1,46 @@
+name: Validate Documentation
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'docs/**/*.md'
+      - '*.md'
+      - 'requirements.txt'
+      - '.github/workflows/validate-docs.yml'
+      - 'scripts/validate_version_pinning.sh'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'docs/**/*.md'
+      - '*.md'
+      - 'requirements.txt'
+      - '.github/workflows/validate-docs.yml'
+      - 'scripts/validate_version_pinning.sh'
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  validate-version-pinning:
+    name: Validate Version Pinning in Documentation
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Make validation script executable
+        run: chmod +x scripts/validate_version_pinning.sh
+      
+      - name: Run version pinning validation
+        run: ./scripts/validate_version_pinning.sh
+      
+      - name: Upload validation results as artifact (on failure)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: validation-failures
+          path: |
+            README.md
+            docs/*.md
+            requirements.txt
+          retention-days: 7

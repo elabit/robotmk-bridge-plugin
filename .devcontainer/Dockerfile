@@ -17,4 +17,9 @@ RUN /docker-entrypoint.sh /bin/true
 # make the agent dir writeable from the CMK site (to link RF example tests) 
 RUN chgrp -R cmk /usr/lib/check_mk_agent && chmod g+w /usr/lib/check_mk_agent
 
+# Allow cmk user to use sudo
+RUN apt-get update && apt-get install -y sudo \
+    && echo "cmk ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/cmk \
+    && chmod 0440 /etc/sudoers.d/cmk
+
 ENTRYPOINT ["/bin/bash"]

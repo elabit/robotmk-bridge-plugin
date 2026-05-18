@@ -2,6 +2,7 @@
 flake8
 pytest
 pytest-cov
+jsonschema
 
 # dependencies from the main requirements.txt
 # -- added automatically by devcontainer_gen.sh

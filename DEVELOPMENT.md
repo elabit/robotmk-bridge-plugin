@@ -128,3 +128,10 @@ Shortcuts ("Ca" = Ctrl + a):
 | root | `/root/.bash_aliases`     | `scripts/.root_bash_aliases` | `.devcontainer/Dockerfile`           |
 
 
+### Apply changes
+
+After you have changed a Checkmk file (Bakery, Check, etc), certain actions need to be taken to apply the changes: 
+
+- Bakery: 
+  - `omd restart` - To make the rule searchable in the menu
+  - `omd reload apachge` - after content changes

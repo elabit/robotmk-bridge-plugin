@@ -43,22 +43,17 @@ def test_load_config_happy_path(tmp_path):
     assert isinstance(configs, list)
     assert len(configs) == 2
     first = configs[0]
-    # TODO: enable again
-    #assert first.max_age == 3600
+    # max_age from legacy config is ignored (backward compat only)
     assert first.path.endswith("junit-single-testsuite.xml")
     assert first.handler == "junit"
     assert first.plan_name == "JunitSingleTest"
     assert first.piggyback_host is None
-    assert first.max_age == 36000000000000
+    assert first.source_mode == "single_file"  # default
     
     second = configs[1]
-    # TODO: enable again
-    #assert second.max_age == 3600    
     assert second.path.endswith("gatling-example-simulation.log")
     assert second.handler == "gatling"
     assert second.plan_name == "GatlingTest"
-    # TODO: Implement later
-    #assert second.piggyback_host == "bridge-gatling-host"
 
 
 def test_load_config_missing_file_raises():
@@ -110,20 +105,19 @@ def test_load_config_invalid_json_raises(tmp_path):
 
 
 
-def test_load_config_invalid_max_age_raises(tmp_path):
-    cfg_file = tmp_path / "invalid_max_age.json"
+def test_load_config_invalid_source_mode_raises(tmp_path):
+    """Test that invalid source_mode values are rejected (new plans format)."""
+    cfg_file = tmp_path / "invalid_source_mode.json"
     payload = {
-        "paths": [
+        "plans": [
             {
+                "plan_name": "test",
+                "handler": "junit",
+                "source_mode": "invalid_mode",
                 "path": "/tmp/example.xml",
-                "handler": "noop",
-                "max_age": -5,
             }
         ]
     }
     cfg_file.write_text(json.dumps(payload))
-    try:
+    with pytest.raises(ValueError, match="invalid 'source_mode'"):
         module.load_config(str(cfg_file))
-        assert False, "Expected ValueError for negative max_age"
-    except ValueError:
-        pass

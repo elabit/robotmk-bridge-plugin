@@ -47,7 +47,7 @@ set -u
 CMK_MM="$CMK_VERSION_MM"
 # Get full OMD version for packaging
 OMD_VER=$(omd version | awk '{print $NF}')
-NAME="robotmk"
+NAME="robotmk-bridge-plugin"
 PACKAGEFILE=$OMD_ROOT/var/check_mk/packages/$NAME
 PKGDIR=$OMD_ROOT/var/check_mk/packages_local
 PKG_DEST_DIR=$WORKSPACE/build
@@ -73,15 +73,8 @@ fi
 
 echo "RMK_VERSION: $RMK_VERSION"
 
-
-# both check and agent plugin need the same version number. String is to be replaced with the version number
-# ROBOTMK_VERSION = 'x.x.x'
-echo "Setting the version number $RMK_VERSION in the check and agent plugin..."
-sed -i "s/ROBOTMK_VERSION =.*/ROBOTMK_VERSION = '$RMK_VERSION'/" $WORKSPACE/checks/robotmk.py
-sed -i "s/ROBOTMK_VERSION =.*/ROBOTMK_VERSION = '$RMK_VERSION'/" $WORKSPACE/agents_plugins/robotmk.py
-
 echo "---------------------------------------------"
-PACKAGEFILE_TEMPLATE=$WORKSPACE/pkginfo/robotmk_cmk$CMK_MM.json
+PACKAGEFILE_TEMPLATE=$WORKSPACE/pkginfo/cmk$CMK_MM.json
 echo "Using package template: $PACKAGEFILE_TEMPLATE"
 if [ ! -f "$PACKAGEFILE_TEMPLATE" ]; then
     echo "ERROR: Package template $PACKAGEFILE_TEMPLATE not found. Exiting."
@@ -115,7 +108,7 @@ mkp -v package $PACKAGEFILE
 
 
 FILE=$(ls -rt1 $PKGDIR/*.mkp | tail -1)
-# robotmk-<ver>.mkp => rename to include cmk major.minor
+# robotmk-bridge-plugin-<ver>.mkp => rename to include cmk major.minor
 NEWFILENAME=$NAME.$RMK_VERSION-cmk$CMK_MM.mkp
 mkdir -p $PKG_DEST_DIR
 mv $FILE $PKG_DEST_DIR/$NEWFILENAME
