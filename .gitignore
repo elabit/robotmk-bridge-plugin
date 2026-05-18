@@ -7,4 +7,8 @@ rf_tests/**/output
 _bmad
 _bmad-output
 .agents
-docs
+docs/index.md
+docs/project-overview.md
+docs/project-scan-report.json
+docs/robotmk-json-schema.json
+docs/source-tree-analysis.md
