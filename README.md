@@ -2,7 +2,7 @@
 
 > Connect **any test automation tool** to Checkmk monitoring — no test rewrites needed.
 
-[![Checkmk 2.5+](https://img.shields.io/badge/Checkmk-2.4%2B-13CBC4)](https://checkmk.com)
+[![Checkmk 2.5+](https://img.shields.io/badge/Checkmk-2.5%2B-13CBC4)](https://checkmk.com)
 [![Python 3.7+](https://img.shields.io/badge/Python-3.7%2B-blue)](https://www.python.org/)
 [![License](https://img.shields.io/badge/License-GPLv2-green)](LICENSE)
 
@@ -81,7 +81,9 @@ Run the discovery on the host to see the new services created by the plugin. You
 - **RMK <plan> Plan**: Overall status of the result conversion, including runtime metric
 - **RMK <plan> Test**: Dependin on the source type, you will see either a single service with aggregated test results (for single file or newest in directory) or multiple services for each test result file (for all files in directory)
 
-🎉 **Done!** Your test results now appear as Checkmk monitoring services.
+🎉 **Done!** Your 3rd party test results now appear as Checkmk monitoring services - powered by Robotmk:
+
+![alt text](docs/img/discovered.png)
 
 ## Supported Test Tools
 
