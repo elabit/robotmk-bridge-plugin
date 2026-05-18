@@ -4,19 +4,53 @@ on:
   push:
     branches: [ main ]
   workflow_dispatch:
-
+  release:
+    types: [ published ]
 
 permissions:
   contents: write
   issues: write
   pull-requests: write
 
-
 jobs:
   create-release-pr:
     runs-on: ubuntu-latest
+    if: github.event_name != 'release'
     steps:
       - uses: googleapis/release-please-action@v4
         with:          
           config-file: release-please-config.json
-          #manifest-file: .release-please-manifest.json          
+          #manifest-file: .release-please-manifest.json
+
+  build-and-publish:
+    name: Build and Publish MKP
+    runs-on: ubuntu-latest
+    if: github.event_name == 'release'
+    container:
+      image: checkmk/check-mk-ultimate:2.5.0-latest
+    steps:
+      - name: Install tools
+        run: apt update && apt-get -y install sudo jq tree
+
+      - name: Create Checkmk Site
+        run: /docker-entrypoint.sh /bin/true
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Link repository files into container
+        run: .devcontainer/linkfiles.sh
+
+      - name: Update GITHUB_PATH
+        run: echo "/omd/sites/cmk/bin" >> $GITHUB_PATH
+
+      - name: Build MKP
+        run: .devcontainer/build.sh
+        id: cmkpkg
+
+      - name: Upload MKP to Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ${{ steps.cmkpkg.outputs.pkgfile }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}          
