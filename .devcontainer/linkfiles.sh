@@ -121,9 +121,9 @@ function sync_path {
         # For folders: use rsync with --delete to mirror exactly
         #echo "-> rsync folder (mirror mode)"
 
-        # skip if no files to sync (ignore .gitkeep files)
-        if [ -z "$(find "$SOURCE_PATH" -type f ! -name '.gitkeep')" ]; then
-            echo "-> No files to sync in $SOURCE_PATH. Skipping."
+        # skip if no files to sync (ignore .gitkeep files and __pycache__ folders)
+        if [ -z "$(find "$SOURCE_PATH" -type f ! -name '.gitkeep' ! -path '*/__pycache__/*')" ]; then
+            echo "(X) No files to sync in $SOURCE_PATH. Skipping."
             return 0
         fi
         mkdir -p "$TARGET_PATH"
