@@ -1,11 +1,46 @@
-name: ReleasePlease
+name: Release
+
+# ─────────────────────────────────────────────────────────────────────────────
+# OVERVIEW
+# ─────────────────────────────────────────────────────────────────────────────
+# This workflow has two jobs that always run together on every push to main:
+#
+#   1. release-please  — Maintains a "Release PR" that bumps the version and
+#                        updates CHANGELOG.md based on Conventional Commit
+#                        messages.  When the Release PR is merged, this job
+#                        creates the GitHub Release and emits job outputs
+#                        (release_created, tag_name, …).
+#
+#   2. build-and-publish — Runs ONLY when release-please reports that a new
+#                          release was just created (release_created == true).
+#                          Builds one MKP artefact per supported CMK version
+#                          using a matrix and uploads each to the GitHub Release.
+#
+# HOW A RELEASE HAPPENS
+# ─────────────────────────────────────────────────────────────────────────────
+#   1. Develop on a feature branch.
+#   2. Open a PR whose *title* follows Conventional Commits:
+#        fix: correct XML escaping          → patch bump
+#        feat: add Gatling handler          → minor bump
+#        feat!: redesign config format      → major bump
+#   3. Merge the PR to main.
+#      release-please updates/creates the Release PR automatically.
+#   4. When you are ready to ship, merge the Release PR.
+#      release-please creates the GitHub Release + git tag.
+#      build-and-publish triggers immediately and attaches the MKP(s).
+#
+# ADDING A NEW CMK VERSION
+# ─────────────────────────────────────────────────────────────────────────────
+#   1. Add a pkginfo/cmkX.Y.json package template.
+#   2. Add an entry to the matrix below:
+#        - cmk_version_mm: "X.Y"
+#          image: "checkmk/check-mk-cloud:X.Y.0-latest"
+# ─────────────────────────────────────────────────────────────────────────────
 
 on:
   push:
     branches: [ main ]
   workflow_dispatch:
-  release:
-    types: [ published ]
 
 permissions:
   contents: write
@@ -13,44 +48,55 @@ permissions:
   pull-requests: write
 
 jobs:
-  create-release-pr:
+  release-please:
+    name: Release Please
     runs-on: ubuntu-latest
-    if: github.event_name != 'release'
+    outputs:
+      release_created: ${{ steps.release.outputs.release_created }}
+      tag_name: ${{ steps.release.outputs.tag_name }}
     steps:
-      - uses: googleapis/release-please-action@v4
-        with:          
+      - name: Run release-please
+        id: release
+        uses: googleapis/release-please-action@v4
+        with:
           config-file: release-please-config.json
-          #manifest-file: .release-please-manifest.json
 
   build-and-publish:
-    name: Build and Publish MKP
+    name: Build MKP (CMK ${{ matrix.cmk_version_mm }})
+    needs: release-please
+    if: needs.release-please.outputs.release_created == 'true'
     runs-on: ubuntu-latest
-    if: github.event_name == 'release'
+    strategy:
+      matrix:
+        include:
+          - cmk_version_mm: "2.5"
+            image: "checkmk/check-mk-cloud:2.5.0-latest"
     container:
-      image: checkmk/check-mk-ultimate:2.5.0-latest
+      image: ${{ matrix.image }}
     steps:
       - name: Install tools
-        run: apt update && apt-get -y install sudo jq tree
+        run: apt-get update && apt-get -y install sudo jq tree
 
-      - name: Create Checkmk Site
+      - name: Create Checkmk site
         run: /docker-entrypoint.sh /bin/true
 
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Link repository files into container
-        run: .devcontainer/linkfiles.sh
+      - name: Link repository files into site
+        run: .devcontainer/linkfiles.sh full
 
-      - name: Update GITHUB_PATH
+      - name: Add CMK bin to PATH
         run: echo "/omd/sites/cmk/bin" >> $GITHUB_PATH
 
       - name: Build MKP
-        run: .devcontainer/build.sh
         id: cmkpkg
+        run: .devcontainer/build.sh
 
-      - name: Upload MKP to Release
+      - name: Upload MKP to GitHub Release
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ needs.release-please.outputs.tag_name }}
           files: ${{ steps.cmkpkg.outputs.pkgfile }}
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}          
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
