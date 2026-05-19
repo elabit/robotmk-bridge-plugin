@@ -60,6 +60,7 @@ git config --global --add safe.directory $WORKSPACE
 # otherwise, take the version from the first H2 header in the CHANGELOG.md.
 # release-please format: ## [0.4.7](link) (date)
 # Extract the version number from within square brackets.
+#
 
 if [ -n "$(awk '/^## Unreleased/ {print $2; exit}' "$WORKSPACE/CHANGELOG.md")" ]; then
     echo "ERROR: Changelog contains Unreleased version. Please enter the version number manually."
