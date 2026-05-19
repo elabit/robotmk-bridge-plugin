@@ -34,7 +34,7 @@ name: Release
 #   1. Add a pkginfo/cmkX.Y.json package template.
 #   2. Add an entry to the matrix below:
 #        - cmk_version_mm: "X.Y"
-#          image: "checkmk/check-mk-cloud:X.Y.0-latest"
+#          image: "checkmk/check-mk-ultimate:x.x.x-latest"
 # ─────────────────────────────────────────────────────────────────────────────
 
 on:
@@ -70,7 +70,7 @@ jobs:
       matrix:
         include:
           - cmk_version_mm: "2.5"
-            image: "checkmk/check-mk-cloud:2.5.0-latest"
+            image: "checkmk/check-mk-ultimate:2.5.0-latest"
     container:
       image: ${{ matrix.image }}
     steps:
