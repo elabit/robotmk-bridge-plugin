@@ -84,7 +84,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Link repository files into site
-        run: .devcontainer/linkfiles.sh full
+        run: .devcontainer/linkfiles.sh
 
       - name: Add CMK bin to PATH
         run: echo "/omd/sites/cmk/bin" >> $GITHUB_PATH
