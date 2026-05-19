@@ -83,25 +83,67 @@ Also, only then the code completion (classes, functions, ...) works properly, be
 
 ### Commit workflow
 
-This project uses [release please](https://github.com/googleapis/release-please-action) to maintain the Changelog and Releases. 
+This project uses [release-please](https://github.com/googleapis/release-please-action) to automate versioning, changelog maintenance, and GitHub Releases.
 
-Resources: 
+#### How it works
 
-- https://elixirschool.com/blog/managing-releases-with-release-please
-- https://github.com/googleapis/release-please/blob/main/docs/manifest-releaser.md
-- https://medium.com/@nicolaslelievre/automating-dbt-package-versioning-with-release-please-97ebe0ce9809
+Every push to `main` runs the **Release** workflow (`.github/workflows/release.yml`), which consists of two jobs:
 
-Notes: 
+```
+push to main
+  └─ release-please job
+       • Reads all new commits since the last release
+       • Maintains a "Release PR" (updates version + CHANGELOG.md)
+       │
+       └─ build-and-publish job  ← only when the Release PR is merged
+            • Builds one MKP per supported CMK version (matrix)
+            • Uploads each MKP to the GitHub Release as an asset
+```
 
-- Use feature branches
-- Write commit messages which follow the [https://www.conventionalcommits.org/en/v1.0.0/]{Conventional Commit Standard}
-  - `fix(bridge)`: correct xml escaping => patch
-  - `feat(gatling)`: aggregate requests per scenario => minor
-  - `chore(ci)`: speed up mkp packaging => major
-- push to feature branch 
-- create PR, merge to main
-- RP creates Release PR => merge => Release is created
-- Run the MKP workflow (currently not possible to run after the Release workflow) => MKPs are built and added to the release. 
+#### Step-by-step release process
+
+1. **Work on a feature branch** — branch names are free-form, e.g. `fix/65-correct-xml-escaping`
+
+2. **Open a PR with a Conventional Commit title** — the PR title becomes the merge commit message:
+
+   | PR title example | Effect |
+   |---|---|
+   | `fix: correct XML escaping in output handler` | patch bump (0.4.7 → 0.4.8) |
+   | `feat: add Gatling handler` | minor bump (0.4.8 → 0.5.0) |
+   | `feat!: redesign config format` | major bump (0.5.0 → 1.0.0) |
+   | `chore: update dependencies` | no version bump (hidden in changelog) |
+   | `docs: improve README` | no version bump |
+
+   The **PR title is validated automatically** by `.github/workflows/validate-pr.yml` — the PR cannot be merged with an invalid title.
+
+3. **Merge the PR to main** — release-please creates or updates the Release PR.
+
+4. **Merge the Release PR when ready to ship** — release-please creates the GitHub Release + git tag; the build jobs start immediately and attach the `.mkp` files.
+
+#### Valid commit types
+
+| Type | When to use | Changelog section |
+|---|---|---|
+| `feat` | New user-facing capability | 🎉 New Features |
+| `fix` | Bug fix | 🐛 Bug Fixes |
+| `perf` | Performance improvement | ⚡ Performance Improvements |
+| `deps` | Dependency update | 📦 Dependency Updates |
+| `docs` | Documentation only | 📚 Documentation |
+| `chore` | Maintenance, CI, tooling | hidden |
+| `test` | Test-only changes | hidden |
+| `refactor`, `style`, `build`, `ci` | Other | hidden |
+
+Append `!` to any type for a **breaking change** major bump: `feat!: rename config key`
+
+#### Adding a new CMK version
+
+1. Add `pkginfo/cmkX.Y.json` — copy and adapt an existing template.
+2. Add a matrix entry in `.github/workflows/release.yml`:
+   ```yaml
+   - cmk_version_mm: "X.Y"
+     image: "checkmk/check-mk-cloud:X.Y.0-latest"
+   ```
+
 
 
 ## Others

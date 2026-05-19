@@ -1,0 +1,52 @@
+name: Validate PR Title
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Ensures every PR title follows the Conventional Commits specification so
+# that release-please can correctly parse commit messages and determine the
+# next semantic version.
+#
+# Valid examples:
+#   fix: correct XML escaping in output handler
+#   feat(bakery): add piggyback_host configuration option
+#   feat!: rename config key source_path to path   ← breaking change
+#   chore: update dependencies
+#   docs: improve DEVELOPMENT.md release section
+#
+# Valid types: feat, fix, docs, chore, refactor, perf, test, style, ci, build
+# ─────────────────────────────────────────────────────────────────────────────
+
+on:
+  pull_request:
+    types: [ opened, edited, synchronize, reopened ]
+
+permissions:
+  pull-requests: read
+
+jobs:
+  validate-pr-title:
+    name: Validate PR title
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check PR title follows Conventional Commits
+        uses: amannn/action-semantic-pull-request@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          types: |
+            feat
+            fix
+            docs
+            chore
+            refactor
+            perf
+            test
+            style
+            ci
+            build
+          requireScope: false
+          disallowScopes: []
+          subjectPattern: ^[A-Z].+$|^.+$
+          subjectPatternError: |
+            The PR title must start with a valid Conventional Commit type
+            (e.g. "fix: ...", "feat: ...", "chore: ...").
+            See https://www.conventionalcommits.org/ for the full specification.
