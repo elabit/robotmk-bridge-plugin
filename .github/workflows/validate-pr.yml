@@ -44,9 +44,3 @@ jobs:
             ci
             build
           requireScope: false
-          disallowScopes: []
-          subjectPattern: ^[A-Z].+$|^.+$
-          subjectPatternError: |
-            The PR title must start with a valid Conventional Commit type
-            (e.g. "fix: ...", "feat: ...", "chore: ...").
-            See https://www.conventionalcommits.org/ for the full specification.
