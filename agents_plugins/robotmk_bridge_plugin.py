@@ -901,6 +901,7 @@ if __name__ == "__main__":
     # The Checkmk bakery makes all plugin files executable, which would cause
     # both the wrapper and this script to run. We only want to run when invoked
     # by the wrapper, which sets this environment variable.
+    # 
     if not os.environ.get("ROBOTMK_BRIDGE_WRAPPER"):
         wrapper_name = "robotmk_bridge_plugin.ps1" if os.name == "nt" else "robotmk_bridge_plugin.sh"
         print(
