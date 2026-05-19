@@ -120,6 +120,12 @@ function sync_path {
     if [ "$TYPE" == "FOLDER" ]; then
         # For folders: use rsync with --delete to mirror exactly
         #echo "-> rsync folder (mirror mode)"
+
+        # skip if no files to sync
+        if [ -z "$(find "$SOURCE_PATH" -type f)" ]; then
+            echo "-> No files to sync in $SOURCE_PATH. Skipping."
+            return 0
+        fi
         mkdir -p "$TARGET_PATH"
         
         rsync -a --delete --exclude='__pycache__' --exclude='*.pyc' \
