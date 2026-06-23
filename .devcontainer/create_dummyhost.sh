@@ -11,12 +11,6 @@ REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 CMK_ETC_DIR=/omd/sites/cmk/etc/check_mk
 CMK_RULES_DIR=$WORKSPACE/.devcontainer/conf/checkmk
 
-SECRETFILE=/opt/omd/sites/cmk/var/check_mk/web/automation/automation.secret
-if [[ ! -r "${SECRETFILE}" ]]; then
-    echo "ERROR: In order to create a dummy host with this script, you must first create an automation user and store the secret in clear text!"
-    exit 1
-fi
-
 # source cmk_version.sh to get CMK_VERSION_MM variable
 source "${SCRIPT_DIR}/cmk_version.sh"
 
@@ -28,8 +22,8 @@ PROTO="http"
 PORT=5000
 API_URL="${PROTO}://${CMK_HOST}:${PORT}/${SITE_NAME}/check_mk/api/1.0"
 
-USERNAME="automation"
-PASSWORD="$(<"${SECRETFILE}")"
+USERNAME="cmkadmin"
+PASSWORD="cmk"
 
 # verify that you are running as user cmk
 if [ "$(id -u)" -ne 1000 ]; then
@@ -41,7 +35,6 @@ echo "Running as user: $(id -un) (UID: $(id -u))"
 echo "cmk command is: $(which cmk)"
 echo "CMK version: $(cmk --version | head -n1)"
 
-echo "Automation password: ${PASSWORD}"
 echo "+ Creating dummy host ${HOST} via API... "
 if ! curl \
     --silent \
