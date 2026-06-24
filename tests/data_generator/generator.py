@@ -110,7 +110,15 @@ def generate_handler_file(
         raise RuntimeError(
             f"Failed to generate test data for handler '{handler_name}': {e}"
         ) from e
-    
+
+    # Ensure generated file is world-readable so other users/processes can read test data
+    try:
+        if output_path.exists():
+            output_path.chmod(0o644)
+    except Exception:
+        # Non-fatal: permission change may not be supported on all platforms
+        pass
+
     return output_path
 
 
@@ -138,6 +146,11 @@ def generate_all_handler_files(
     """
     output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
+    try:
+        # Ensure directory is accessible so files within can be read by other users
+        output_dir.chmod(0o755)
+    except Exception:
+        pass
     
     handlers = load_handlers_registry()
     generated_files = {}

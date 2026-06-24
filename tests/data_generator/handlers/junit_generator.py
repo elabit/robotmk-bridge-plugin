@@ -11,7 +11,7 @@ def generate(
     output_path: Path,
     test_status: str = "passed",
     handler_def: Dict = None,
-    num_tests: int = 5,
+    num_tests: int = 3,
     duration_s: float = 2.5,
     **kwargs
 ) -> None:
