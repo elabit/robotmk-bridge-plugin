@@ -50,14 +50,17 @@
             "name": "rmkb-Agentplugin",
             "type": "python",
             "request": "launch",
-            "program": "/usr/lib/check_mk_agent/plugins/robotmk_bridge_plugin.py",
+            "program": "/opt/checkmk/agent/default/package/plugins/robotmk_bridge_plugin.py",
             "console": "integratedTerminal",
             "python": "/usr/bin/python3",
             "justMyCode": false,
             "args": [
-                "/etc/check_mk/robotmk-bridge-plugin.json",
-            ]
-        },        
+                "/opt/checkmk/agent/default/package/config/robotmk-bridge-plugin.json",
+            ], 
+            "env": {
+                "ROBOTMK_BRIDGE_WRAPPER": "true"
+            }
+        },      
         {
             "name": "Python: Current File",
             "type": "python",
