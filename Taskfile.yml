@@ -18,22 +18,22 @@ tasks:
   gen-data:
     desc: Generate all handler test data files (default passed status)
     cmds:
-      - '{{.PYTHON}} -m tests.data_generator --output-dir {{.TEST_DATA_DIR}}'
+      - 'rmkb-testgen --output-dir {{.TEST_DATA_DIR}}'
 
   gen-data-failed:
     desc: Generate test data with failed status
     cmds:
-      - '{{.PYTHON}} -m tests.data_generator --output-dir {{.TEST_DATA_DIR}} --status failed'
+      - 'rmkb-testgen --output-dir {{.TEST_DATA_DIR}} --status failed'
 
   gen-data-mixed:
     desc: Generate test data with mixed status
     cmds:
-      - '{{.PYTHON}} -m tests.data_generator --output-dir {{.TEST_DATA_DIR}} --status mixed'
+      - 'rmkb-testgen --output-dir {{.TEST_DATA_DIR}} --status mixed'
 
   gen-data-custom:
     desc: 'Generate test data with custom options (use: task gen-data-custom -- --status failed --handlers junit)'
     cmds:
-      - '{{.PYTHON}} -m tests.data_generator {{.CLI_ARGS}}'
+      - 'rmkb-testgen {{.CLI_ARGS}}'
 
   gen-data-clean:
     desc: Clean generated test data files
@@ -43,22 +43,22 @@ tasks:
   gen-handlers-list:
     desc: List all supported handlers
     cmds:
-      - '{{.PYTHON}} -m tests.data_generator --list'
+      - 'rmkb-testgen --list'
 
   gen-data-cont:
     desc: 'Continuous mode: regenerate test data every 5 seconds (Ctrl+C to stop)'
     cmds:
-      - '{{.PYTHON}} -m tests.data_generator --continuous --interval 5 --output-dir {{.TEST_DATA_DIR}}'
+      - 'rmkb-testgen --continuous --interval 5 --output-dir {{.TEST_DATA_DIR}}'
 
   gen-data-cont-junit:
     desc: 'Continuous mode: regenerate JUNIT test data every 5 seconds (Ctrl+C to stop)'
     cmds:
-      - '{{.PYTHON}} -m tests.data_generator --handler junit --continuous --interval 5 --output-dir {{.TEST_DATA_DIR}}'
+      - 'rmkb-testgen --handler junit -n junit=3 --continuous --interval 5 --output-dir {{.TEST_DATA_DIR}}'
 
   gen-data-cont-fast:
     desc: 'Continuous mode: regenerate test data every 2 seconds (Ctrl+C to stop)'
     cmds:
-      - '{{.PYTHON}} -m tests.data_generator -c -i 2 --output-dir {{.TEST_DATA_DIR}}'
+      - 'rmkb-testgen -c -i 2 --output-dir {{.TEST_DATA_DIR}}'
 
   # ========================================================================
   # Testing Tasks

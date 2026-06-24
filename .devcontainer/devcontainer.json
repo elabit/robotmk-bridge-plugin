@@ -3,7 +3,7 @@
 	"build": {
 		"dockerfile": "Dockerfile",
 		"args": {
-			"VARIANT": "2.5.0-2026.03.05"
+			"VARIANT": "2.5.0-daily"
 		}
 	},
 	"containerEnv": {
