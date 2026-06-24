@@ -685,7 +685,14 @@ def load_config(path: Optional[str] = None) -> List[Config]:
     Returns a list of Config instances.
     Raises FileNotFoundError or ValueError for missing/invalid content.
     """
-    config_path = path or DEFAULT_CONFIG_PATH
+    if path:
+        config_path = path
+    else:
+        conf_dir = os.environ.get("MK_CONFDIR")
+        if conf_dir:
+            config_path = os.path.join(conf_dir, os.path.basename(DEFAULT_CONFIG_PATH))
+        else:
+            config_path = DEFAULT_CONFIG_PATH
 
     if not os.path.exists(config_path):
         raise FileNotFoundError(f"Config file not found: {config_path}")

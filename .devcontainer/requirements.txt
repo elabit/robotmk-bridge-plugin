@@ -10,4 +10,5 @@ jsonschema
 robotframework<7
 black
 robotframework-robotmk-bridge==0.1.1
+robotmk-bridge-testdatagenerator
 PyYAML>=6.0

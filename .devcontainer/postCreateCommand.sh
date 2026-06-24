@@ -58,9 +58,6 @@ omd restart
 if [ -z "${GITHUB_WORKSPACE-}" ]; then
     echo "Preparing the dev setup (not in a Github Workflow):"
     echo "■ Creating a dummyhost"
-    echo "Open http://localhost:4999/cmk (cmkadmin/cmk) and create NOW an automation user with administrator rights."
-    echo "Store the secret in clear text and press ENTER to continue."
-    read -p "Press ENTER to continue..."
     bash $WORKSPACE/.devcontainer/create_dummyhost.sh "${CMK_VERSION_MM}"
     # if the script fails, it will exit with a non-zero code and the following lines will not be executed.
     if [ $? -ne 0 ]; then

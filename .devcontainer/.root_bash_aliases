@@ -1,5 +1,5 @@
-alias install_agent_vanilla='dpkg -i /opt/omd/sites/cmk/var/check_mk/agents/linux_deb/references/_VANILLA && fix_rmk_permissions'
-alias install_agent_localhost='dpkg -i /opt/omd/sites/cmk/var/check_mk/agents/linux_deb/references/$HOSTNAME && fix_rmk_permissions'
+alias install_agent_vanilla='/workspaces/robotmk-bridge-plugin/.devcontainer/install_cmk_agent.sh vanilla'
+alias install_agent_localhost='/workspaces/robotmk-bridge-plugin/.devcontainer/install_cmk_agent.sh localhost'
 function bake_and_install_agent_localhost() {
     # execute command as cmk user
     su - cmk -c "cmk -Avf $HOSTNAME"
