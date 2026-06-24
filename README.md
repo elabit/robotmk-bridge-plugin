@@ -100,7 +100,6 @@ Checkout [robotmk-bridge](https://github.com/elabit/robotmk-bridge) for writing 
 
 ## Documentation
 
-- **📖 [User Guide](docs/user-guide.md)** — Complete installation, configuration, and troubleshooting guide
 - **🏗️ [Architecture](docs/architecture.md)** — Technical design and component overview
 - **🔧 [Development Guide](docs/development-guide.md)** — Contributing and extending the plugin
 - **⚙️ [Taskfile Guide](docs/taskfile-guide.md)** — Development tasks and workflows

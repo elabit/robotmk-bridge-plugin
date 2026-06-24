@@ -2,7 +2,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "CMK2.5 bakery (1af9c5181e44)",
+            "name": "CMK2.5 bakery (abb0b0dafb4f)",
             "type": "python",
             "request": "launch",
             "program": "/omd/sites/cmk/bin/cmk",
@@ -10,14 +10,14 @@
                 "-A",
                 "-v",
                 "-f",
-                "1af9c5181e44"
+                "abb0b0dafb4f"
             ],
             "console": "integratedTerminal",
             "python": "/omd/sites/cmk/bin/python3",
             "justMyCode": false
         },
         {
-            "name": "CMK2.5 Inventory (1af9c5181e44)",
+            "name": "CMK2.5 Inventory (abb0b0dafb4f)",
             "type": "python",
             "request": "launch",
             "program": "/omd/sites/cmk/bin/cmk",
@@ -25,14 +25,14 @@
                 "-v",
                 "-II",
                 "--debug",
-                "1af9c5181e44"
+                "abb0b0dafb4f"
             ],
             "console": "integratedTerminal",
             "python": "/omd/sites/cmk/bin/python3",
             "justMyCode": false
         },
         {
-            "name": "CMK2.5 check (1af9c5181e44)",
+            "name": "CMK2.5 check (abb0b0dafb4f)",
             "type": "python",
             "request": "launch",
             "program": "/omd/sites/cmk/bin/cmk",
@@ -40,12 +40,27 @@
                 "-v",
                 "-n",
                 "-p",
-                "1af9c5181e44"
+                "abb0b0dafb4f"
             ],
             "console": "integratedTerminal",
             "python": "/omd/sites/cmk/bin/python3",
             "justMyCode": false
         },
+        {
+            "name": "rmkb-Agentplugin",
+            "type": "python",
+            "request": "launch",
+            "program": "/opt/checkmk/agent/default/package/plugins/robotmk_bridge_plugin.py",
+            "console": "integratedTerminal",
+            "python": "/usr/bin/python3",
+            "justMyCode": false,
+            "args": [
+                "/opt/checkmk/agent/default/package/config/robotmk-bridge-plugin.json",
+            ], 
+            "env": {
+                "ROBOTMK_BRIDGE_WRAPPER": "true"
+            }
+        },      
         {
             "name": "Python: Current File",
             "type": "python",
@@ -55,46 +70,6 @@
             "python": "/omd/sites/cmk/bin/python3",
             "justMyCode": false
         },
-        {
-            "name": "rmkb-ZAP",
-            "type": "python",
-            "request": "launch",
-            "program": "/usr/lib/check_mk_agent/plugins/robotmk_bridge_plugin.py",
-            "console": "integratedTerminal",
-            "python": "/usr/bin/python3",
-            "justMyCode": false,
-            "args": [
-                "/etc/check_mk/robotmk-bridge-plugin.json",
-                "MyZAP"
-            ]
-        },
-        {
-            "name": "rmkb-Gatling",
-            "type": "python",
-            "request": "launch",
-            "program": "/usr/lib/check_mk_agent/plugins/robotmk_bridge_plugin.py",
-            "console": "integratedTerminal",
-            "python": "/usr/bin/python3",
-            "justMyCode": false,
-            "args": [
-                "/etc/check_mk/robotmk-bridge-plugin.json",
-                "MyGatling"
-            ]
-        },        
-        {
-            "name": "rmkb-Junit",
-            "type": "python",
-            "request": "launch",
-            "program": "/usr/lib/check_mk_agent/plugins/robotmk_bridge_plugin.py",
-            "console": "integratedTerminal",
-            "python": "/usr/bin/python3",
-            "justMyCode": false,
-            "args": [
-                "/etc/check_mk/robotmk-bridge-plugin.json",
-                "MyJunit"
-            ]
-        },
-
         {
         "name": "Python: Debug Tests",
         "type": "debugpy",

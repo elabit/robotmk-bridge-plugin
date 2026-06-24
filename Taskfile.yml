@@ -45,12 +45,17 @@ tasks:
     cmds:
       - '{{.PYTHON}} -m tests.data_generator --list'
 
-  gen-data-continuous:
+  gen-data-cont:
     desc: 'Continuous mode: regenerate test data every 5 seconds (Ctrl+C to stop)'
     cmds:
       - '{{.PYTHON}} -m tests.data_generator --continuous --interval 5 --output-dir {{.TEST_DATA_DIR}}'
 
-  gen-data-continuous-fast:
+  gen-data-cont-junit:
+    desc: 'Continuous mode: regenerate JUNIT test data every 5 seconds (Ctrl+C to stop)'
+    cmds:
+      - '{{.PYTHON}} -m tests.data_generator --handler junit --continuous --interval 5 --output-dir {{.TEST_DATA_DIR}}'
+
+  gen-data-cont-fast:
     desc: 'Continuous mode: regenerate test data every 2 seconds (Ctrl+C to stop)'
     cmds:
       - '{{.PYTHON}} -m tests.data_generator -c -i 2 --output-dir {{.TEST_DATA_DIR}}'
